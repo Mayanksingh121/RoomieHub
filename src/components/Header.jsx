@@ -12,7 +12,7 @@ const Header = ({ handleLogin }) => {
     <>
       <div className="font-display flex justify-between py-4 w-full shadow-sm">
         <div className="flex w-[80%] items-center gap-5 ml-14">
-          <h1 className="font-medium text-xl">RoomieHub</h1>
+          <h1 className="font-semibold text-xl text-[#f84464]">RoomieHub</h1>
           <div className="flex w-2/3 items-center gap-2 border border-gray-200 rounded-lg">
             <i className="text-[#959595] px-1 fa-solid fa-magnifying-glass"></i>
             <input

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import Login from "./components/Login";
+import Body from "./components/Body";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -11,6 +12,7 @@ function App() {
     <>
       {showLogin && <Login handleLogin={handleShowLogin} />}
       <Header handleLogin={handleShowLogin} />
+      <Body/>
     </>
   );
 }
