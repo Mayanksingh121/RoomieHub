@@ -25,3 +25,13 @@ export const addRoom = async (room) => {
     console.log(error.message);
   }
 };
+
+export const getAllRooms = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/get-all-rooms`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};

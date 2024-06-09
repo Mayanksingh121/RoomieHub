@@ -6,7 +6,7 @@ const RoomCard = ({ room }) => {
       <div>
         <img
           className="h-[50%]"
-          src={`data:image/png:base64, ${room.roomImage}`}
+          src={`data:image/png;base64, ${room.roomImage}`}
           alt="roomImage"
         ></img>
       </div>

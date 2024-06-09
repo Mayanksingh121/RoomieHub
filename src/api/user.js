@@ -20,3 +20,4 @@ export const addUser = async (user) => {
     console.log(error.message);
   }
 };
+
