@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "http://localhost:8080";
 export const addRoom = async (room) => {
   try {
     const formData = new FormData();
@@ -23,15 +23,5 @@ export const addRoom = async (room) => {
     return data;
   } catch (error) {
     console.log(error.message);
-  }
-};
-
-export const getAllRooms = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/get-all-rooms`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error.message);
   }
 };

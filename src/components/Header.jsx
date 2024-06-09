@@ -1,8 +1,10 @@
 import { useState } from "react";
 import SideBar from "./Sidebar";
+import { useSelector } from "react-redux";
 
 const Header = ({ handleLogin }) => {
   const [showNavBar, setShowNavBar] = useState(false);
+  const userLoginStatus = useSelector(store=>store.user.isLoggedIn);
 
   const handleNavBar = () => {
     setShowNavBar(!showNavBar);
