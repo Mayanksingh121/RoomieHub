@@ -3,8 +3,8 @@ import BANNER from "../assets/banner.svg";
 
 const Banner = () => {
   return (
-    <div className="w-full h-96 mt-5">
-      <div className="flex relative w-[95%] bg-[#f84464] h-[80%] m-auto rounded-xl">
+    <div className="w-full h-80 mt-5">
+      <div className="flex relative w-[95%] bg-[#f84464] h-[100%] m-auto rounded-xl">
         <div className="w-[60%] text-white  mx-16 h-full pt-20 pl-16">
           <h1 className="font-bold text-3xl font-display">Find Your Perfect Space</h1>
           <h2 className="text-xl font-semibold mt-4 font-display">
