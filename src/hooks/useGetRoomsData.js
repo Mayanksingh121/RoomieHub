@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addRoomData } from "../utils/storeSlices/roomDataSlice";
+import { BASE_URL } from "../api/room";
 
 const useGetRoomsData = () => {
   const dispatch = useDispatch();
@@ -10,11 +11,13 @@ const useGetRoomsData = () => {
   }, []);
 
   const getRoomsData = async () => {
-    //url daal liyooooooooooooooooooooooooooooooooooooo :)
-
-    const roomsData = await fetch("");
-    const dataInJson = await roomsData.json();
-    dispatch(addRoomData(dataInJson));
+    try {
+      const response = await fetch(`${BASE_URL}/get-all-rooms`);
+      const data = await response.json();
+      dispatch(addRoomData(data));
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 };
 
