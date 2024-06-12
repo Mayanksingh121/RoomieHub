@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:8080";
+import { BASE_URL } from "../constant/constant";
 export const addRoom = async (room) => {
   try {
     const formData = new FormData();

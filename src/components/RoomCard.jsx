@@ -9,6 +9,7 @@ const RoomCard = ({ room }) => {
           src={`data:image/png;base64, ${room.roomImage}`}
           alt="roomImage"
         ></img>
+        {/* <video controls src={room.roomImage} /> */}
       </div>
       <div>
         {room.rent}

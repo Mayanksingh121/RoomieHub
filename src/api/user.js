@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+import { BASE_URL } from "../constant/constant";
 export const addUser = async (user) => {
   try {
     const formData = new FormData();
@@ -20,4 +20,3 @@ export const addUser = async (user) => {
     console.log(error.message);
   }
 };
-

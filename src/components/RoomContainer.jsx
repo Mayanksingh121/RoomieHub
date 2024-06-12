@@ -4,7 +4,7 @@ import RoomCard from "./RoomCard";
 
 const RoomContainer = () => {
   const roomInfo = useSelector((store) => store.room.availableRooms);
-
+console.log(roomInfo);
   const noOfShimmers = 20;
 
   return (

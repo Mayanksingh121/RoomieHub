@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addRoomData } from "../utils/storeSlices/roomDataSlice";
-import { BASE_URL } from "../api/room";
+import { BASE_URL } from "../constant/constant";
 
 const useGetRoomsData = () => {
   const dispatch = useDispatch();
