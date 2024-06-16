@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 
 const Header = ({ handleLogin }) => {
   const [showNavBar, setShowNavBar] = useState(false);
-  const userLoginStatus = useSelector(store=>store.user.isLoggedIn);
+
+  const userLoginStatus = useSelector((store) => store.user.isLoggedIn);
 
   const handleNavBar = () => {
     setShowNavBar(!showNavBar);
@@ -21,7 +22,7 @@ const Header = ({ handleLogin }) => {
               id="search"
               className="text-sm w-full px-3 py-1 rounded-e-lg focus:outline-1 focus:outline-[#e0e0e0]"
               type="text"
-              placeholder="Search for Movies, Events, Plays, Sports and Activites"
+              placeholder="Search for State"
               autoComplete="on"
             />
           </div>
@@ -39,7 +40,7 @@ const Header = ({ handleLogin }) => {
           ></i>
         </div>
       </div>
-      {showNavBar && <SideBar handleNavBar={handleNavBar}/>}
+      {showNavBar && <SideBar handleNavBar={handleNavBar} />}
     </>
   );
 };

@@ -3,6 +3,7 @@ import Banner from "./Banner";
 import RoomContainer from "./RoomContainer";
 import useGetRoomsData from "../hooks/useGetRoomsData";
 
+
 const Body = () => {
   useGetRoomsData();
   return (

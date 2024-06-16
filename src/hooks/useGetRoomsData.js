@@ -11,6 +11,21 @@ const useGetRoomsData = () => {
   }, []);
 
   const getRoomsData = async () => {
+    //ise mt hataiyo dummy data hai mere liye
+    // const data2 = [
+    //   {
+    //     roomId: 1,
+    //     rent: 2000,
+    //     state: "Delhi",
+    //     city: "new Delhi",
+    //     location: "Kotla",
+    //     numberOfBalconies: 2,
+    //     bathRooms: 4,
+    //     floor: 10,
+    //     roomArea: "100sqrft",
+    //   },
+    //   { roomId: 2 },
+    // ];
     try {
       const response = await fetch(`${BASE_URL}/get-all-rooms`);
       const data = await response.json();

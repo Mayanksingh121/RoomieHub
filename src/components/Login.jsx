@@ -1,28 +1,24 @@
 import { useState } from "react";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Login = ({ handleLogin }) => {
   const [alreadyUser, setAlreadyUser] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setIsVisible(true), 10);
-  }, []);
 
   const handleAlreadyUser = () => {
     setAlreadyUser(!alreadyUser);
   };
 
   return (
-    <div
-      className={`z-10 absolute h-full w-full bg-black bg-opacity-30 transition-opacity duration-500 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 100 }}
+      className="z-50 fixed h-full w-full bg-black bg-opacity-30"
     >
-      <div
-        className={`font-display w-1/3 h-[90%] bg-white m-auto mt-5 rounded-lg flex flex-col transition-all duration-500 transform ${
-          isVisible ? "translate-y-0" : "-translate-y-20"
-        }`}
+      <motion.div
+        initial={{ y: -250, opacity: 0 }}
+        animate={{ y: 0, opacity: 100 }}
+        transition={{ delay:0.2, type: "spring", stiffness: 200 }}
+        className="font-display w-1/3 h-[90%] bg-white m-auto mt-5 rounded-lg flex flex-col"
       >
         <div className="mt-10 flex justify-between w-full items-center">
           <h3 className="ml-16 px-1 font-medium">Get Started</h3>
@@ -67,8 +63,8 @@ const Login = ({ handleLogin }) => {
             {alreadyUser ? "Sign up" : "Sign in"}
           </button>
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

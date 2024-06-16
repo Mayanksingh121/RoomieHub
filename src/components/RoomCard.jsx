@@ -1,45 +1,53 @@
+import { Link } from "react-router-dom";
+
 const RoomCard = ({ room }) => {
   return (
-    <div className="flex flex-col gap-2 rounded-lg w-92 p-6 shadow-lg border ">
-      <div className="h-48 aspect-w-4 aspect-h-3">
+    <div className="flex border flex-col gap-2 rounded-lg w-92 p-6 shadow-lg">
+      <div className="h-48">
         <img
           className="rounded-lg w-full h-full object-cover"
           src={`data:image/png;base64, ${room.roomImage}`}
           alt="roomImage"
         ></img>
       </div>
-      <div className="flex justify-between font-body">
+      <div className="flex flex-col justify-between font-body">
         <div>
-          <div className="flex flex-col mb-3">
+          <div className="flex flex-col mb-2">
             <h2 className="">Rental</h2>
-            <p className="text-sm -mt-1">₹{room.rent}</p>
+            <p className="text-xs -mt-1">₹{room.rent}</p>
           </div>
-          <div className="flex flex-col">
-            <h2 className="">State</h2>
-            <p className="text-sm -mt-1">{room.state}</p>
-          </div>
-        </div>
-        <div>
-          <div className="flex flex-col mb-3">
-            <h2 className="">City</h2>
-            <p className="text-sm -mt-1">{room.city}</p>
-          </div>
-          <div className="flex flex-col">
-            <h2 className="">Location</h2>
-            <p className="text-sm -mt-1">{room.location}</p>
+          <div className="flex items-center gap-2">
+            <div className="pb-1">
+              <i className="text-red-500 fa-solid fa-location-dot"></i>
+            </div>
+            <p className="text-sm -mt-1">
+              {room.location}, {room.city}, {room.state}
+            </p>
           </div>
         </div>
-        <div>
-          <div className="flex flex-col mb-3">
+
+        <div className="border-b border-gray-300"></div>
+        <div className="flex justify-between mt-3">
+          <div className="flex flex-col">
             <h2 className="">Balconies</h2>
-            <p className="text-sm -mt-1">{room.numberOfBalconies}</p>
+            <p className="text-xs -mt-1">{room.numberOfBalconies}</p>
           </div>
           <div className="flex flex-col">
             <h2 className="">Floor</h2>
-            <p className="text-sm -mt-1">{room.floor}</p>
+            <p className="text-xs -mt-1">{room.floor}</p>
           </div>
         </div>
       </div>
+      <Link to={"/room/" + room.roomId}>
+        <div className="mt-2">
+          <p className="text-sm">
+            View details
+            <span className="items-center mx-2">
+              <i className="fa-solid fa-arrow-right"></i>
+            </span>
+          </p>
+        </div>
+      </Link>
     </div>
   );
 };

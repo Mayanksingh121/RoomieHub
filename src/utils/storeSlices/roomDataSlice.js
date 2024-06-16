@@ -12,5 +12,5 @@ const roomDataSlice = createSlice({
   },
 });
 
-export const { addRoomData } = roomDataSlice.actions;
+export const { addRoomData} = roomDataSlice.actions;
 export default roomDataSlice.reducer;
