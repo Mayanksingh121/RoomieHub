@@ -15,35 +15,24 @@ const Shimmer = () => {
           ></svg>
         </div>
 
-        <div className="flex items-center mt-4 justify-between">
+        <div className="flex mt-4 flex-col">
           <div>
             <div className="flex flex-col mb-3">
-              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-20 mb-2"></div>
-              <div className="w-16 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-            </div>
-            <div className="flex flex-col mb-3">
-              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-20 mb-2"></div>
-              <div className="w-16 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 mb-2"></div>
+              <div className="w-12 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
             </div>
           </div>
           <div>
-            <div className="flex flex-col mb-3">
-              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-20 mb-2"></div>
-              <div className="w-16 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-            </div>
-            <div className="flex flex-col mb-3">
-              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-20 mb-2"></div>
-              <div className="w-16 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-            </div>
+            <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-40 mb-2"></div>
           </div>
-          <div>
-            <div className="flex flex-col mb-3">
-              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-20 mb-2"></div>
-              <div className="w-16 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+          <div className="flex justify-between my-4">
+            <div>
+              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 mb-2"></div>
+              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-10 mb-2"></div>
             </div>
-            <div className="flex flex-col mb-3">
-              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-20 mb-2"></div>
-              <div className="w-16 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+            <div>
+              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 mb-2"></div>
+              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-10 mb-2"></div>
             </div>
           </div>
         </div>
