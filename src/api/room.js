@@ -20,8 +20,10 @@ export const addRoom = async (room) => {
     const response = await fetch(`${BASE_URL}/add-room`, formData);
 
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
+
     console.log(error.message);
   }
 };

@@ -15,6 +15,7 @@ const useGetRoomsData = () => {
       const response = await fetch(`${BASE_URL}/get-all-rooms`);
       const data = await response.json();
       dispatch(addRoomData(data));
+      console.log(data);
     } catch (error) {
       console.error(error.message);
     }
