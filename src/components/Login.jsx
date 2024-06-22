@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { FaXmark } from "react-icons/fa6";
 
 const Login = ({ handleLogin }) => {
   const [alreadyUser, setAlreadyUser] = useState(true);
@@ -23,10 +24,10 @@ const Login = ({ handleLogin }) => {
         <div className="mt-10 flex justify-between w-full items-center">
           <h3 className="ml-16 px-1 font-medium">Get Started</h3>
           <div className="mr-10">
-            <i
+            <span
               onClick={handleLogin}
-              className="cursor-pointer fa-solid fa-xmark"
-            ></i>
+              className="cursor-pointer"
+            ><FaXmark/></span>
           </div>
         </div>
         <div className="flex flex-col my-10 px-4 items-center">

@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { FaXmark } from "react-icons/fa6";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 const SideBar = ({ handleNavBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,9 +20,13 @@ const SideBar = ({ handleNavBar }) => {
           isVisible ? "translate-x-0" : "translate-x-[100%]"
         }`}
       >
-        <div className="h-16 border-b-2 flex items-center justify-between px-4">
+        <div className="h-16 border-b border-black flex items-center justify-between px-4">
           <h2 className="font-bold text-xl">Hey!</h2>
-          <i onClick={handleNavBar} className="cursor-pointer fa-solid fa-x "></i>
+          <span onClick={handleNavBar} className="cursor-pointer"><FaXmark/></span>
+        </div>
+        <div className="cursor-pointer flex items-center justify-between px-4 py-4">
+          <div className="font-body font-bold">List you room</div>
+          <span><MdKeyboardArrowRight/></span>
         </div>
       </div>
     </div>
