@@ -10,9 +10,10 @@ import { useSelector } from "react-redux";
 
 const RoomContainer = () => {
   const roomInfo = useSelector((store) => store.room.availableRooms);
+  console.log(roomInfo);
   const noOfShimmers = 20;
 
-  //ise mt hataiyo
+  //! ise mt hataiyo
   // const roomInfo = [
   //   {
   //     roomId: 1,
