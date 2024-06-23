@@ -17,8 +17,7 @@ const RoomCard = ({ room }) => {
       <div className="h-48  aspect-w-4 aspect-h-3">
         <img
           className="rounded-t-lg w-full h-full object-cover"
-          // src={`data:image/png;base64, ${room.roomImage}`}
-          src={room.roomImage}
+          src={`data:image/png;base64, ${room.roomImage}`}
           loading="lazy"
           alt="roomImage"
         />
@@ -49,16 +48,15 @@ const RoomCard = ({ room }) => {
             </p>
           </div>
         </div>
-
         <div className="border-b border-gray-300"></div>
         <div className="flex justify-between mt-3">
           <div className="flex flex-col">
-            <h2 className="">Balconies</h2>
+            <h2>Balconies</h2>
             <p className="text-xs -mt-1">{room.numberOfBalconies}</p>
           </div>
           <div className="flex flex-col">
-            <h2 className="">Floor</h2>
-            <p className="text-sm -mt-1">{room.floorNumber}</p>
+            <h2>Floor</h2>
+            <p className="text-xs -mt-1">{room.floorNumber}</p>
           </div>
         </div>
       </div>

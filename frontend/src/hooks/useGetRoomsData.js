@@ -27,11 +27,10 @@ const useGetRoomsData = () => {
       { roomId: 2 },
     ];
     try {
-      // const response = await fetch(`${BASE_URL}/get-all-rooms`);
-      // const data = await response.json();
-      // dispatch(addRoomData(data));
-      // console.log(data);
-      dispatch(addRoomData(data2));
+      const response = await fetch(`${BASE_URL}/get-all-rooms`);
+      const data = await response.json();
+      dispatch(addRoomData(data));
+      console.log(data);
     } catch (error) {
       console.error(error.message);
     }

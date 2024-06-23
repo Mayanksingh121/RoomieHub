@@ -26,6 +26,8 @@ const RoomInformation = ({ handleLogin }) => {
     }
   };
 
+  console.log(data);
+  console.log(reqRoom);
   if (reqRoom === undefined) {
     return null;
   }
@@ -34,10 +36,15 @@ const RoomInformation = ({ handleLogin }) => {
     rent,
     state,
     city,
-    location,
+    address,
+    roomImage,
     numberOfBalconies,
     bathRooms,
-    floor,
+    floorNumber,
+    furnishedStatus,
+    description,
+    roomVideo,
+    securityDeposit,
     roomArea,
   } = reqRoom;
 
@@ -45,8 +52,8 @@ const RoomInformation = ({ handleLogin }) => {
     <div className="flex h-full bg-[#f5f5f5]">
       <div className="bg-[#ffffff] rounded-xl w-[70%] mt-5 mb-20 border border-[#e1e1e1] shadow-md ml-6 px-4">
         <div className="flex my-5 w-full">
-          <video className="w-full rounded-lg" controls>
-            {/* <source src={`data:video/mp4;base64,${reqRoom.roomImage}`} /> */}
+          <video className="w-full rounded-lg" controls >
+            <source  src={roomVideo} />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -56,12 +63,12 @@ const RoomInformation = ({ handleLogin }) => {
               Rental: <span className="font-medium">₹{rent}</span>
             </h3>
             <h3 className="text-sm mb-5">
-              Security Deposit: <span className="font-medium">₹10000</span>
+              Security Deposit: <span className="font-medium">₹{ securityDeposit}</span>
             </h3>
             <h3 className="flex flex-col">
               Flat available for rent in{" "}
               <span className="font-semibold">
-                {location}, {city}, {state}
+                {address}, {city}, {state}
               </span>
             </h3>
           </div>
@@ -123,22 +130,13 @@ const RoomInformation = ({ handleLogin }) => {
             <div className="flex gap-2 mt-4 mb-6">
               <div className="font-body w-1/2">
                 <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Autem ipsum blanditiis doloremque adipisci nam voluptas
-                  assumenda illum quia placeat possimus culpa, voluptatem atque
-                  voluptate recusandae consequatur nobis a natus quisquam! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Delectus,
-                  exercitationem facilis recusandae maiores animi culpa,
-                  deserunt ab iusto ipsam veritatis incidunt! Culpa iusto
-                  possimus veritatis officia perspiciatis! Sapiente, facere
-                  officiis.
+                {description}
                 </p>
               </div>
               <div className="w-1/2 h-56">
                 <img
-                  className="rounded-lg w-full h-full object-cover"
-                  // src={`data:image/png;base64, ${reqRoom.roomImage}`}
-                  src={Dog}
+                  className="rounded-lg w-full object-cover"
+                  src={roomImage}
                   alt="roomImage"
                 />
               </div>
