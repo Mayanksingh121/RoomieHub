@@ -6,12 +6,25 @@ import { FaBath } from "react-icons/fa";
 import { GiSofa } from "react-icons/gi";
 import { MdBalcony } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
-const RoomInformation = () => {
+const RoomInformation = ({ handleLogin }) => {
   const { roomId } = useParams();
-
   const data = useSelector((store) => store.room?.availableRooms);
   const reqRoom = data?.find((room) => room.roomId === Number(roomId));
+
+  const loginStatus = useSelector((store) => store.user.isLoggedIn);
+
+  const handleGetPhoneNo = () => {
+    if (loginStatus) {
+    } else {
+      toast("To get owner's contact details login is required.", {
+        duration: 3000,
+        position: "top-right",
+      });
+      handleLogin();
+    }
+  };
 
   if (reqRoom === undefined) {
     return null;
@@ -86,7 +99,7 @@ const RoomInformation = () => {
               </div>
               <div className="flex gap-2">
                 <span className=" text-[#f84464] pt-2 text-lg ">
-                  <FaBuilding/>
+                  <FaBuilding />
                 </span>
                 <h3 className="flex flex-col text-sm font-bold">
                   Floor
@@ -134,16 +147,16 @@ const RoomInformation = () => {
         </div>
         <div className="mx-5 my-5">
           <p className="font-body text-lg mx-4 mb-4">Contact Details</p>
-          <button className="border border-[#f84464] text-[#f84464] rounded-3xl px-6 py-2 mr-4">
+          <button onClick={handleGetPhoneNo} className="border border-[#f84464] text-[#f84464] rounded-3xl px-6 py-2 mr-4">
             Get Phone No.
           </button>
-          <button className="border  text-white bg-[#f84464] rounded-3xl px-6 py-2">
+          <button onClick={handleGetPhoneNo} className="border  text-white bg-[#f84464] rounded-3xl px-6 py-2">
             Contact Owner
           </button>
         </div>
       </div>
       <div className="w-[25%] font-body mt-5">
-        <OwnerCard />
+        <OwnerCard handleGetPhoneNo={handleGetPhoneNo} />
       </div>
     </div>
   );

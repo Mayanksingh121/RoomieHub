@@ -1,5 +1,6 @@
 
 import Shimmer from "./Shimmer";
+import { useSelector } from "react-redux"; 
 import RoomCard from "./RoomCard";
 import Peacock from "../assets/peacock.jpg";
 import Peacock2 from "../assets/peacock2.jpg";
@@ -8,7 +9,8 @@ import Tiger2 from "../assets/tiger2.jpg";
 import Dog from "../assets/dog.jpg";
 
 const RoomContainer = () => {
-  //const roomInfo = useSelector((store) => store.room.availableRooms);
+ // const roomInfo = useSelector((store) => store.room.availableRooms);
+  const noOfShimmers = 20;
   const roomInfo = [
     {
       roomId: 1,
@@ -18,7 +20,7 @@ const RoomContainer = () => {
       state: "Delhi",
       location: "Kotla",
       numberOfBalconies: 1,
-      floor: 1,
+      floorNumber: 1,
     },
     {
       roomId: 2,
@@ -28,7 +30,7 @@ const RoomContainer = () => {
       state: "Haryana",
       location: "Kotla",
       numberOfBalconies: 1,
-      floor: 1,
+      floorNumber: 1,
     },
     {
       roomId: 3,
@@ -38,7 +40,7 @@ const RoomContainer = () => {
       state: "Haryana",
       location: "Kotla",
       numberOfBalconies: 1,
-      floor: 1,
+      floorNumber: 1,
     },
     {
       roomId: 4,
@@ -48,7 +50,7 @@ const RoomContainer = () => {
       state: "Delhi",
       location: "Kotla",
       numberOfBalconies: 1,
-      floor: 1,
+      floorNumber: 1,
     },
     {
       roomId: 5,
@@ -58,12 +60,9 @@ const RoomContainer = () => {
       state: "Delhi",
       location: "Kotla",
       numberOfBalconies: 1,
-      floor: 1,
+      floorNumber: 1,
     },
   ];
-
-
-  //ise mt hataiyo
   
   return (
     <div className="px-10 py-10">

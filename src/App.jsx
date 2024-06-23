@@ -7,17 +7,6 @@ import Footer from "./components/Footer";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RoomInformation from "./components/roomdetails/RoomInformation";
 
-const appRouting = createBrowserRouter([
-  {
-    path: "/",
-    element: <Body />,
-  },
-  {
-    path: "/room/:roomId",
-    element: <RoomInformation />,
-  },
-]);
-
 function App() {
   const [showLogin, setShowLogin] = useState(false);
 
@@ -25,12 +14,23 @@ function App() {
     setShowLogin(!showLogin);
   };
 
+  const appRouting = createBrowserRouter([
+    {
+      path: "/",
+      element: <Body />,
+    },
+    {
+      path: "/room/:roomId",
+      element: <RoomInformation handleLogin={handleShowLogin} />,
+    },
+  ]);
+
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
       {showLogin && <Login handleLogin={handleShowLogin} />}
       <Header handleLogin={handleShowLogin} />
-      <RouterProvider router={appRouting}/>
+      <RouterProvider router={appRouting} />
       <Footer />
     </>
   );

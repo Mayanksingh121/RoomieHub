@@ -18,16 +18,15 @@ const Login = ({ handleLogin }) => {
       <motion.div
         initial={{ y: -250, opacity: 0 }}
         animate={{ y: 0, opacity: 100 }}
-        transition={{ delay:0.2, type: "spring", stiffness: 200 }}
+        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
         className="font-display w-1/3 h-[90%] bg-white m-auto mt-5 rounded-lg flex flex-col"
       >
         <div className="mt-10 flex justify-between w-full items-center">
           <h3 className="ml-16 px-1 font-medium">Get Started</h3>
           <div className="mr-10">
-            <span
-              onClick={handleLogin}
-              className="cursor-pointer"
-            ><FaXmark/></span>
+            <span onClick={handleLogin} className="cursor-pointer">
+              <FaXmark />
+            </span>
           </div>
         </div>
         <div className="flex flex-col my-10 px-4 items-center">
@@ -47,14 +46,25 @@ const Login = ({ handleLogin }) => {
             placeholder="Enter Email"
             autoComplete="on"
           />
+          {!alreadyUser && (
+            <input
+              id="phoneNo"
+              className="border w-3/4 my-4 px-2 py-2 rounded-lg focus:outline-1"
+              type="number"
+              placeholder="Enter Phone No"
+              autoComplete="off"
+            />
+          )}
+
           <input
             id="password"
             className="border w-3/4 my-4 px-2 py-2 rounded-lg focus:outline-1"
-            type="text"
+            type="password"
             placeholder="Enter Password"
             autoComplete="off"
           />
-          <button className="bg-[#f84464] my-4 w-3/4 py-2 text-lg rounded-lg">
+
+          <button className="bg-[#f84464] mt-4 w-3/4 py-2 text-lg rounded-lg">
             {alreadyUser ? "Sign in" : "Sign Up"}
           </button>
         </div>

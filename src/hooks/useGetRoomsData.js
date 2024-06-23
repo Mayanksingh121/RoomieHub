@@ -21,7 +21,7 @@ const useGetRoomsData = () => {
         location: "Kotla",
         numberOfBalconies: 2,
         bathRooms: 4,
-        floor: 10,
+        floorNumber: 10,
         roomArea: "100sqrft",
       },
       { roomId: 2 },
@@ -29,6 +29,8 @@ const useGetRoomsData = () => {
     try {
       // const response = await fetch(`${BASE_URL}/get-all-rooms`);
       // const data = await response.json();
+      // dispatch(addRoomData(data));
+      // console.log(data);
       dispatch(addRoomData(data2));
     } catch (error) {
       console.error(error.message);
