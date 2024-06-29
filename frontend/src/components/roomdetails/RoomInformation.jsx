@@ -17,6 +17,7 @@ const RoomInformation = ({ handleLogin }) => {
 
   const handleGetPhoneNo = () => {
     if (loginStatus) {
+      console.log("object");
     } else {
       toast("To get owner's contact details login is required.", {
         duration: 3000,
@@ -37,13 +38,13 @@ const RoomInformation = ({ handleLogin }) => {
     state,
     city,
     address,
-    roomImage,
+    roomImageUrl,
     numberOfBalconies,
     bathRooms,
     floorNumber,
     furnishedStatus,
     description,
-    roomVideo,
+    roomVideoUrl,
     securityDeposit,
     roomArea,
   } = reqRoom;
@@ -52,8 +53,8 @@ const RoomInformation = ({ handleLogin }) => {
     <div className="flex h-full bg-[#f5f5f5]">
       <div className="bg-[#ffffff] rounded-xl w-[70%] mt-5 mb-20 border border-[#e1e1e1] shadow-md ml-6 px-4">
         <div className="flex my-5 w-full">
-          <video className="w-full rounded-lg" controls >
-            <source  src={roomVideo} />
+          <video className="w-full rounded-lg" controls>
+            <source src={roomVideoUrl} />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -63,7 +64,8 @@ const RoomInformation = ({ handleLogin }) => {
               Rental: <span className="font-medium">₹{rent}</span>
             </h3>
             <h3 className="text-sm mb-5">
-              Security Deposit: <span className="font-medium">₹{ securityDeposit}</span>
+              Security Deposit:{" "}
+              <span className="font-medium">₹{securityDeposit}</span>
             </h3>
             <h3 className="flex flex-col">
               Flat available for rent in{" "}
@@ -80,7 +82,7 @@ const RoomInformation = ({ handleLogin }) => {
                 </span>
                 <h3 className="flex flex-col text-sm mb-6 font-bold">
                   Furnished Status
-                  <span className="font-medium text-xs">Fully furnished</span>
+                  <span className="font-medium text-xs">{furnishedStatus}</span>
                 </h3>
               </div>
 
@@ -110,7 +112,7 @@ const RoomInformation = ({ handleLogin }) => {
                 </span>
                 <h3 className="flex flex-col text-sm font-bold">
                   Floor
-                  <span className="font-medium text-xs">{floor}</span>
+                  <span className="font-medium text-xs">{floorNumber}</span>
                 </h3>
               </div>
             </div>
@@ -129,14 +131,12 @@ const RoomInformation = ({ handleLogin }) => {
             </p>
             <div className="flex gap-2 mt-4 mb-6">
               <div className="font-body w-1/2">
-                <p>
-                {description}
-                </p>
+                <p>{description}</p>
               </div>
               <div className="w-1/2 h-56">
                 <img
                   className="rounded-lg w-full object-cover"
-                  src={roomImage}
+                  src={roomImageUrl}
                   alt="roomImage"
                 />
               </div>
@@ -145,10 +145,16 @@ const RoomInformation = ({ handleLogin }) => {
         </div>
         <div className="mx-5 my-5">
           <p className="font-body text-lg mx-4 mb-4">Contact Details</p>
-          <button onClick={handleGetPhoneNo} className="border border-[#f84464] text-[#f84464] rounded-3xl px-6 py-2 mr-4">
+          <button
+            onClick={handleGetPhoneNo}
+            className="border border-[#f84464] text-[#f84464] rounded-3xl px-6 py-2 mr-4"
+          >
             Get Phone No.
           </button>
-          <button onClick={handleGetPhoneNo} className="border  text-white bg-[#f84464] rounded-3xl px-6 py-2">
+          <button
+            onClick={handleGetPhoneNo}
+            className="border  text-white bg-[#f84464] rounded-3xl px-6 py-2"
+          >
             Contact Owner
           </button>
         </div>

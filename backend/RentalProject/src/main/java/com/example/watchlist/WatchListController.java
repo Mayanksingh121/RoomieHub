@@ -26,9 +26,9 @@ public class WatchListController {
   }
 
   @DeleteMapping("/delete-watchlist-item")
-  public ResponseEntity<Void> removeFromWatchlist(@RequestParam String userEmail, @RequestParam Long roomId) {
+  public ResponseEntity<String> removeFromWatchlist(@RequestParam String userEmail, @RequestParam Long roomId) {
       watchlistService.removeFromWatchlist(userEmail, roomId);
-      return ResponseEntity.noContent().build();
+      return ResponseEntity.ok("Successfully removed");
   }
 
   @GetMapping("/get-user-watchlist/{userEmail}")

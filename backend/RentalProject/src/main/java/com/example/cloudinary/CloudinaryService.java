@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface MediaService {
+public interface CloudinaryService {
 	public Map<String, Object> uploadMedia(MultipartFile file);
+
+	public Map<String, Object> deleteMedia(String publicId, String resourceType);
 }

@@ -28,8 +28,8 @@ public class WatchListServiceImpl implements WatchListService {
     public Watchlist addToWatchlist(String userEmail, Long roomId) {
         User user = userRepository.findByUserEmail(userEmail);
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
-        
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with given id: "));
+
         Watchlist existingEntry = watchlistRepository.findByUserAndRoom(user, room);
         if (existingEntry == null) {
             Watchlist watchlist = new Watchlist();
@@ -46,8 +46,8 @@ public class WatchListServiceImpl implements WatchListService {
     public void removeFromWatchlist(String userEmail, Long roomId) {
         User user = userRepository.findByUserEmail(userEmail);
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
-        
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with given id: " ));
+
         Watchlist watchlist = watchlistRepository.findByUserAndRoom(user, room);
         if (watchlist != null) {
             watchlistRepository.delete(watchlist);

@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.room.FurnishedStatus;
+import com.example.room.Room;
+import com.example.user.User;
+import com.example.user.UserService;
 
 @RestController
 @RequestMapping("/api/roommates")
@@ -20,10 +26,27 @@ public class RoommateController {
 	@Autowired
 	private RoommateService roommateService;
 
+	@Autowired
+	private UserService userService;
+
 	@PostMapping("/add-roommate")
 	public ResponseEntity<RoomMate> createRoommate(
-			@RequestParam("description") String description, @RequestParam("preferences") String preferences,@RequestParam("roomId") Long roomId) {
-		RoomMate roommate = roommateService.createRoomMate( description, preferences,roomId);
+	@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
+			@RequestParam(name = "bathRooms") Integer bathRooms,
+			@RequestParam(name = "floorNumber") String floorNumber,
+			@RequestParam(name = "roomArea" ) String roomArea,
+			@RequestParam(name = "roomImage") MultipartFile roomImage,
+			@RequestParam(name = "roomVideo" ) MultipartFile roomVideo,
+			@RequestParam(name = "rent") Double rent, @RequestParam(name = "securityDeposit") Double securityDeposit,
+			@RequestParam(name = "description") String description, @RequestParam(name = "landmark") String landmark,
+			@RequestParam(name = "state") String state, @RequestParam(name = "city") String city,
+			@RequestParam(name = "address") String address,
+			@RequestParam(name = "furnishedStatus") FurnishedStatus furnishedStatus,
+			@RequestParam(name = "userEmail") String userEmail,
+			@RequestParam(name="preference",required = false)String preference
+	) {
+		User user = this.userService.getUserByUserEmail(userEmail);
+		RoomMate roommate = roommateService.createRoomMate(numberOfBalconies, bathRooms, floorNumber, bathRooms, preference, preference, floorNumber, roomArea, userEmail, preference, securityDeposit, description, landmark, state, city, address, null, user);
 		return new ResponseEntity<>(roommate, HttpStatus.CREATED);
 	}
 

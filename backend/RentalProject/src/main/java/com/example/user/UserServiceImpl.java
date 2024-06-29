@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.cloudinary.MediaServiceImpl;
+import com.example.cloudinary.CloudinaryServiceImpl;
 import com.example.exception.ResourceNotFoundException;
+import com.example.exception.UserAlreadyExistsException;
 import com.example.room.Room;
 
 import jakarta.transaction.Transactional;
@@ -20,14 +21,19 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private MediaServiceImpl mediaServiceImpl;
+	private CloudinaryServiceImpl cloudinaryServiceImpl;
 
 	@Override
 	public User saveUser(String name, String userEmail, String userPassword, MultipartFile file, Long userPhoneNumber)
 			throws IOException {
-		Map<String, Object> mediaObject = this.mediaServiceImpl.uploadMedia(file);
-		String userProfile = (String) mediaObject.get("secure_url");
-		User user = new User(name, userEmail, userPassword, userProfile, null, userPhoneNumber);
+		if (this.userRepository.existsByUserEmail(userEmail)) {
+			throw new UserAlreadyExistsException("User with given email is  already exists");
+		}
+		Map<String, Object> mediaObject = this.cloudinaryServiceImpl.uploadMedia(file);
+		String userProfileUrl = (String) mediaObject.get("secure_url");
+		String userProfilePublicId = (String) mediaObject.get("public_id");
+		System.out.println("url="+userProfileUrl+" public_id="+userProfilePublicId);
+		User user = new User(name, userEmail, userPassword, userPhoneNumber, userProfileUrl, userProfilePublicId);
 		return userRepository.save(user);
 	}
 
@@ -47,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	public User getUserByUserEmail(String userEmail) {
 		User user = userRepository.findByUserEmail(userEmail);
 		if (user == null) {
-			throw new ResourceNotFoundException("User not found with email: " + userEmail);
+			throw new ResourceNotFoundException("User not found with provided email: ");
 		}
 		return user;
 	}
@@ -64,16 +70,33 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(Long userId, String name, String userEmail, String userPassword, MultipartFile userProfile,
+	public User updateUser(String name, String userEmail, String userPassword, MultipartFile userProfile,
 			Long userPhoneNumber) throws IOException {
-		User user = getUserById(userId);
-		user.setName(name);
-		user.setUserEmail(userEmail);
-		user.setUserPassword(userPassword);
-		user.setUserPhoneNumber(userPhoneNumber);
+		User user = this.userRepository.findByUserEmail(userEmail);
+		if (user.getUserProfileUrl() != null) {
+			if (userProfile != null && user.getUserProfilePublicId() != null) {
+				this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(),"image");
+				Map<String, Object> uploadMap = this.cloudinaryServiceImpl.uploadMedia(userProfile);
+				user.setUserProfileUrl(uploadMap.get("secure_url").toString());
+				user.setUserProfilePublicId(uploadMap.get("public_id").toString());
 
-		if (userProfile != null) {
-//            user.setUserProfile(userProfile.getBytes());
+			}
+		}
+
+		if (name != null) {
+			user.setName(name);
+		}
+
+		if (userEmail != null) {
+			user.setUserEmail(userEmail);
+		}
+
+		if (userPassword != null) {
+			user.setUserPassword(userPassword);
+		}
+
+		if (userPhoneNumber != null) {
+			user.setUserPhoneNumber(userPhoneNumber);
 		}
 
 		return userRepository.save(user);
@@ -82,7 +105,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(Long userId) {
 		User user = getUserById(userId);
-		userRepository.delete(user);
+		if (user.getUserProfileUrl() != null) {
+			if (user.getUserProfilePublicId() != null) {
+				this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(),"image");
+			}
+		}
+		this.userRepository.delete(user);
 	}
 
 }

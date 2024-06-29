@@ -1,8 +1,8 @@
 
 import Shimmer from "./Shimmer";
-import { useSelector } from "react-redux"; 
-import RoomCard from "./RoomCard";
 import { useSelector } from "react-redux";
+import RoomCard from "./RoomCard";
+
 // import Peacock from "../assets/peacock.jpg";
 // import Peacock2 from "../assets/peacock2.jpg";
 // import Tiger from "../assets/tiger.jpg";

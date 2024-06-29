@@ -9,7 +9,7 @@ import com.example.room.Room;
 
 public interface UserService {
 
-    User saveUser(String name, String userEmail, String userPassword, MultipartFile file,Long  userPhoneNumber) throws IOException;
+    User saveUser(String name, String userEmail, String userPassword, MultipartFile userProfile,Long  userPhoneNumber) throws IOException;
 
     User addRoom(String userEmail, Room room);
 
@@ -19,7 +19,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User updateUser(Long userId, String name, String userEmail, String userPassword, MultipartFile userProfile,Long  userPhoneNumber) throws IOException;
+    User updateUser( String name, String userEmail, String userPassword, MultipartFile userProfile,Long  userPhoneNumber) throws IOException;
 
     void deleteUser(Long userId);
 }

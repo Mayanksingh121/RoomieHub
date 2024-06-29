@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.cloudinary.MediaServiceImpl;
+import com.example.cloudinary.CloudinaryServiceImpl;
 import com.example.exception.ResourceNotFoundException;
 import com.example.roommate.RoomMate;
 import com.example.roommate.RoommateRepository;
@@ -25,79 +25,129 @@ public class RoomServiceImpl implements RoomService {
 	@Autowired
 	private RoommateRepository roommateRepository;
 	@Autowired
-	private MediaServiceImpl mediaServiceImpl;
+	private CloudinaryServiceImpl cloudinaryServiceImpl;
 
 	@Override
 	public Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
 			MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,
 			String state, String city, String address, FurnishedStatus furnishedStatus, String userEmail,
-			MultipartFile roomVideo,String preference) throws IOException {
-
+			MultipartFile roomVideo, String preference)
+			throws IOException {
 		// Upload the image and video
-		Map<String, Object> imageObject = this.mediaServiceImpl.uploadMedia(roomImage);
-		Map<String, Object> videoObject = this.mediaServiceImpl.uploadMedia(roomVideo);
+		Map<String, Object> imageObject = this.cloudinaryServiceImpl.uploadMedia(roomImage);
+		Map<String, Object> videoObject = this.cloudinaryServiceImpl.uploadMedia(roomVideo);
 		String roomImageUrl = (String) imageObject.get("secure_url");
+		String imagePublicId = (String) imageObject.get("public_id");
 		String roomVideoUrl = (String) videoObject.get("secure_url");
+		String videoPublicId = (String) videoObject.get("public_id");
+
+  System.out.println(videoPublicId+" video url "+roomVideoUrl);
 
 		// Fetch the user by email
 		User user = this.userRepository.findByUserEmail(userEmail);
 		System.out.println("user is " + user);
 
 		if (user == null) {
-			throw new ResourceNotFoundException("User not found with email: " + userEmail);
+			throw new ResourceNotFoundException("User not found with email: " +
+					userEmail);
 		}
 
-		// Create the Room entity and associate it with the User
-		Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea, roomImageUrl, rent, securityDeposit,
-				description, landmark, state, city, address, furnishedStatus, user, roomVideoUrl,preference);
-
-		// Save the Room entity
-		return roomRepository.save(room);
+		Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea, preference, roomImageUrl, imagePublicId, roomVideoUrl, videoPublicId, rent, securityDeposit, description, landmark, state, city, address, furnishedStatus, user);
+		return this.roomRepository.save(room);
 	}
-//    @Override
-//    public Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
-//                         MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,
-//                         String state, String city, String address, FurnishedStatus furnishedStatus, String userEmail,
-//                         MultipartFile roomVideo) throws IOException {
-//
-//    	 Map<String, Object> imageObject = this.mediaServiceImpl.uploadMedia(roomImage);
-//    	 Map<String, Object> videoObject = this.mediaServiceImpl.uploadMedia(roomVideo);
-//         String roomImageUrl= (String)imageObject.get("secure_url");
-//         String roomVideoUrl= (String)videoObject.get("secure_url");
-//    	
-//     
-//
-//        User user = this.userRepository.findByUserEmail(userEmail);
-////        if (user == null) {
-////              throw new ResourceNotFoundException("User not found with email: " + userEmail);
-////        }
-//
-//        Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea, roomImageUrl, rent, securityDeposit,
-//                description, landmark, state, city, address, furnishedStatus, user, roomVideoUrl);
-//        return roomRepository.save(room);
-//    }
 
-//	@Override
-//	public Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
-//			MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,
-//			String state, String city, String address, FurnishedStatus furnishedStatus, String userEmail,
-//			MultipartFile roomVideo) throws IOException {
-//		byte[] imageData = null, videoData = null;
-//		if (roomImage != null) {
-//			imageData = roomImage.getBytes();
-//		}
-//
-//		if (roomVideo != null) {
-//			videoData = roomVideo.getBytes();
-//		}
-//
-//		System.out.println("hi" + userEmail);
-//		User user = this.userRepository.findByUserEmail(userEmail);
-//
-//		Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea, imageData, rent, securityDeposit,
-//				description, landmark, state, city, address, furnishedStatus, user, videoData);
-//		return roomRepository.save(room);
-//	}
+	// @Override
+	// public Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String
+	// floorNumber, String roomArea,
+	// MultipartFile roomImage, Double rent, Double securityDeposit, String
+	// description, String landmark,
+	// String state, String city, String address, FurnishedStatus furnishedStatus,
+	// String userEmail,
+	// MultipartFile roomVideo,String preference) throws IOException {
+
+	// // Upload the image and video
+	// Map<String, Object> imageObject =
+	// this.mediaServiceImpl.uploadMedia(roomImage);
+	// Map<String, Object> videoObject =
+	// this.mediaServiceImpl.uploadMedia(roomVideo);
+	// String roomImageUrl = (String) imageObject.get("secure_url");
+	// String roomVideoUrl = (String) videoObject.get("secure_url");
+
+	// // Fetch the user by email
+	// User user = this.userRepository.findByUserEmail(userEmail);
+	// System.out.println("user is " + user);
+
+	// if (user == null) {
+	// throw new ResourceNotFoundException("User not found with email: " +
+	// userEmail);
+	// }
+
+	// // Create the Room entity and associate it with the User
+	// Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea,
+	// roomImageUrl, rent, securityDeposit,
+	// description, landmark, state, city, address, furnishedStatus, user,
+	// roomVideoUrl,preference);
+
+	// // Save the Room entity
+	// return roomRepository.save(room);
+	// }
+	// @Override
+	// public Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String
+	// floorNumber, String roomArea,
+	// MultipartFile roomImage, Double rent, Double securityDeposit, String
+	// description, String landmark,
+	// String state, String city, String address, FurnishedStatus furnishedStatus,
+	// String userEmail,
+	// MultipartFile roomVideo) throws IOException {
+	//
+	// Map<String, Object> imageObject =
+	// this.mediaServiceImpl.uploadMedia(roomImage);
+	// Map<String, Object> videoObject =
+	// this.mediaServiceImpl.uploadMedia(roomVideo);
+	// String roomImageUrl= (String)imageObject.get("secure_url");
+	// String roomVideoUrl= (String)videoObject.get("secure_url");
+	//
+	//
+	//
+	// User user = this.userRepository.findByUserEmail(userEmail);
+	//// if (user == null) {
+	//// throw new ResourceNotFoundException("User not found with email: " +
+	// userEmail);
+	//// }
+	//
+	// Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea,
+	// roomImageUrl, rent, securityDeposit,
+	// description, landmark, state, city, address, furnishedStatus, user,
+	// roomVideoUrl);
+	// return roomRepository.save(room);
+	// }
+
+	// @Override
+	// public Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String
+	// floorNumber, String roomArea,
+	// MultipartFile roomImage, Double rent, Double securityDeposit, String
+	// description, String landmark,
+	// String state, String city, String address, FurnishedStatus furnishedStatus,
+	// String userEmail,
+	// MultipartFile roomVideo) throws IOException {
+	// byte[] imageData = null, videoData = null;
+	// if (roomImage != null) {
+	// imageData = roomImage.getBytes();
+	// }
+	//
+	// if (roomVideo != null) {
+	// videoData = roomVideo.getBytes();
+	// }
+	//
+	// System.out.println("hi" + userEmail);
+	// User user = this.userRepository.findByUserEmail(userEmail);
+	//
+	// Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea,
+	// imageData, rent, securityDeposit,
+	// description, landmark, state, city, address, furnishedStatus, user,
+	// videoData);
+	// return roomRepository.save(room);
+	// }
 
 	@Override
 	public List<Room> getAllRooms() {
@@ -124,35 +174,43 @@ public class RoomServiceImpl implements RoomService {
 	public Room updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber,
 			String roomArea, MultipartFile roomImage, Double rent, Double securityDeposit, String description,
 			String landmark, String state, String city, String address, FurnishedStatus furnishedStatus,
-			String userEmail, MultipartFile roomVideo,String preference) throws IOException {
+			String userEmail, MultipartFile roomVideo, String preference) throws IOException {
 		Room room = getRoomById(roomId);
 
-		byte[] imageData = null, videoData = null;
-		if (roomImage != null) {
-			imageData = roomImage.getBytes();
+		if (room.getRoomImageUrl() != null) {
+
+			if (roomImage!=null && room.getRoomImagePublicId() != null) {
+				this.cloudinaryServiceImpl.deleteMedia(room.getRoomImagePublicId(),"image");
+				Map<String, Object> uploadResult = this.cloudinaryServiceImpl.uploadMedia(roomImage);
+				room.setRoomImageUrl(uploadResult.get("secure_url").toString());
+				room.setRoomImagePublicId(uploadResult.get("public_id").toString());
+			}
 		}
 
-		if (roomVideo != null) {
-			videoData = roomVideo.getBytes();
+		if (room.getRoomVideoUrl() != null) {
+			if (roomVideo!=null && room.getRoomVideoPublicId() != null) {
+				this.cloudinaryServiceImpl.deleteMedia(room.getRoomVideoPublicId(),"video");
+				Map<String, Object> uploadResult = this.cloudinaryServiceImpl.uploadMedia(roomVideo);
+				room.setRoomVideoUrl(uploadResult.get("secure_url").toString());
+				room.setRoomVideoPublicId(uploadResult.get("public_id").toString());
+			}
 		}
 
-		User user = userRepository.findByUserEmail(userEmail);
-		if (user == null) {
-			throw new ResourceNotFoundException("User not found with Email: " + userEmail);
-		}
+
 		room.setNumberOfBalconies(numberOfBalconies);
 		room.setBathRooms(bathRooms);
 		room.setFloorNumber(floorNumber);
 		room.setRoomArea(roomArea);
-//		room.setRoomImage(imageData);
-//		room.setRoomVideo(videoData);
 		room.setRent(rent);
 		room.setState(state);
 		room.setCity(city);
 		room.setAddress(address);
-		room.setUser(user);
 		room.setDescription(description);
 		room.setLandmark(landmark);
+		room.setPreference(preference);
+		room.setSecurityDeposit(securityDeposit);
+		room.setFurnishedStatus(furnishedStatus);
+
 
 		return roomRepository.save(room);
 	}
@@ -160,6 +218,13 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public void deleteRoom(Long roomId) {
 		Room room = getRoomById(roomId);
+		if (room.getRoomImagePublicId() != null) {
+			this.cloudinaryServiceImpl.deleteMedia(room.getRoomImagePublicId(),"image");
+		}
+		if (room.getRoomVideoPublicId() != null) {
+			this.cloudinaryServiceImpl.deleteMedia(room.getRoomVideoPublicId(),"video");
+		}
 		roomRepository.delete(room);
 	}
+
 }

@@ -32,11 +32,15 @@ public class Room {
 	private String floorNumber;
 	@Column(nullable = false)
 	private String roomArea;
-     private String preference;
-	@Column(length = 5000)
-	private String roomImage;
-	@Column(length = 5000)
-	private String roomVideo;
+	private String preference;
+
+	@Column(length = 5000, nullable = false)
+	private String roomImageUrl;
+	private String roomImagePublicId;
+	@Column(length = 5000, nullable = false)
+	private String roomVideoUrl;
+	@Column(nullable = false)
+	private String roomVideoPublicId;
 	@Column(nullable = false)
 	private Double rent;
 	private Double securityDeposit;
@@ -50,32 +54,36 @@ public class Room {
 	private String city;
 	@Column(nullable = false)
 	private String address;
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private FurnishedStatus furnishedStatus;
-	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<RoomMate> roommates;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
 
 	@OneToMany(mappedBy = "room",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Watchlist> watchlists;
-	
-	
+
 	public Room() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Room(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea, String roomImage,
-			Double rent, Double securityDeposit, String description, String landmark, String state, String city,
-			String address, FurnishedStatus furnishedStatus, User user, String roomVideo,String preference) {
-		super();
+
+
+	public Room(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea, String preference,
+			String roomImageUrl, String roomImagePublicId, String roomVideoUrl, String roomVideoPublicId, Double rent,
+			Double securityDeposit, String description, String landmark, String state, String city, String address,
+			FurnishedStatus furnishedStatus, User user) {
 		this.numberOfBalconies = numberOfBalconies;
 		this.bathRooms = bathRooms;
 		this.floorNumber = floorNumber;
 		this.roomArea = roomArea;
-		this.roomImage = roomImage;
+		this.preference = preference;
+		this.roomImageUrl = roomImageUrl;
+		this.roomImagePublicId = roomImagePublicId;
+		this.roomVideoUrl = roomVideoUrl;
+		this.roomVideoPublicId = roomVideoPublicId;
 		this.rent = rent;
 		this.securityDeposit = securityDeposit;
 		this.description = description;
@@ -84,13 +92,12 @@ public class Room {
 		this.city = city;
 		this.address = address;
 		this.furnishedStatus = furnishedStatus;
-//		this.roommates = roommates;
 		this.user = user;
-		this.roomVideo = roomVideo;
-		this.preference=preference;
+		// this.watchlists = watchlists;
 	}
 
-	
+
+
 	public String getPreference() {
 		return preference;
 	}
@@ -171,13 +178,7 @@ public class Room {
 		this.roomArea = roomArea;
 	}
 
-	public List<RoomMate> getRoommates() {
-		return roommates;
-	}
 
-	public void setRoommates(List<RoomMate> roommates) {
-		this.roommates = roommates;
-	}
 
 	public int getBathRooms() {
 		return bathRooms;
@@ -187,10 +188,6 @@ public class Room {
 		this.bathRooms = bathRooms;
 	}
 
-	public void addRoommate(RoomMate roommate) {
-		this.roommates.add(roommate);
-		roommate.setRoom(this);
-	}
 
 	public Double getSecurityDeposit() {
 		return securityDeposit;
@@ -244,20 +241,37 @@ public class Room {
 		this.rent = rent;
 	}
 
-	public String getRoomImage() {
-		return roomImage;
+	public String getRoomImageUrl() {
+		return roomImageUrl;
 	}
 
-	public void setRoomImage(String roomImage) {
-		this.roomImage = roomImage;
+	public void setRoomImageUrl(String roomImageUrl) {
+		this.roomImageUrl = roomImageUrl;
 	}
 
-	public String getRoomVideo() {
-		return roomVideo;
+	public String getRoomImagePublicId() {
+		return roomImagePublicId;
 	}
 
-	public void setRoomVideo(String roomVideo) {
-		this.roomVideo = roomVideo;
+	public void setRoomImagePublicId(String roomImagePublicId) {
+		this.roomImagePublicId = roomImagePublicId;
 	}
+
+	public String getRoomVideoUrl() {
+		return roomVideoUrl;
+	}
+
+	public void setRoomVideoUrl(String roomVideoUrl) {
+		this.roomVideoUrl = roomVideoUrl;
+	}
+
+	public String getRoomVideoPublicId() {
+		return roomVideoPublicId;
+	}
+
+	public void setRoomVideoPublicId(String roomVideoPublicId) {
+		this.roomVideoPublicId = roomVideoPublicId;
+	}
+
 
 }
