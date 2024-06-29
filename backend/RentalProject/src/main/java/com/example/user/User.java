@@ -20,16 +20,19 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
-	@Column()
+	@Column(nullable = false)
 	private String name;
 	@Column(nullable = false, unique = true)
 	private String userEmail;
+	@Column(nullable = false)
 	private String userPassword;
-	@Column(length = 10)
+	@Column(nullable = false)
      private Long userPhoneNumber;
-	
+
 	@Column(length = 5000)
-	private String userProfile;
+	private String userProfileUrl;
+	private String userProfilePublicId;
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Room> rooms;
@@ -40,25 +43,38 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(String name, String userEmail, String userPassword, String userProfile, List<Room> rooms,Long  userPhoneNumber) {
-		super();
+
+
+	public User(String name, String userEmail, String userPassword, Long userPhoneNumber, String userProfileUrl,
+			String userProfilePublicId
+			// List<Room> rooms, List<Watchlist> watchlist
+			) {
 		this.name = name;
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
-		this.userProfile = userProfile;
-		this.rooms = rooms;
-		this.userPhoneNumber=userPhoneNumber;
+		this.userPhoneNumber = userPhoneNumber;
+		this.userProfileUrl = userProfileUrl;
+		this.userProfilePublicId = userProfilePublicId;
+		// this.rooms = rooms;
+		// this.watchlist = watchlist;
 	}
 
 
-	
 
-	public String getUserProfile() {
-		return userProfile;
+	public String getUserProfileUrl() {
+		return userProfileUrl;
 	}
 
-	public void setUserProfile(String userProfile) {
-		this.userProfile = userProfile;
+	public void setUserProfileUrl(String userProfileUrl) {
+		this.userProfileUrl = userProfileUrl;
+	}
+
+	public List<Watchlist> getWatchlist() {
+		return watchlist;
+	}
+
+	public void setWatchlist(List<Watchlist> watchlist) {
+		this.watchlist = watchlist;
 	}
 
 	public Long getUserId() {
@@ -110,6 +126,18 @@ public class User {
 
 	public void setRooms(List<Room> rooms) {
 		this.rooms = rooms;
+	}
+
+
+
+	public String getUserProfilePublicId() {
+		return userProfilePublicId;
+	}
+
+
+
+	public void setUserProfilePublicId(String userProfilePublicId) {
+		this.userProfilePublicId = userProfilePublicId;
 	}
 
 }

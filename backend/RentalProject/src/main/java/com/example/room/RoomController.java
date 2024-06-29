@@ -25,18 +25,18 @@ public class RoomController {
 
 	@PostMapping("/add-room")
 	public ResponseEntity<Room> addRoom(
-			@RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
-			@RequestParam(name = "bathRooms", required = false) Integer bathRooms,
-			@RequestParam(name = "floorNumber", required = false) String floorNumber,
-			@RequestParam(name = "roomArea", required = false) String roomArea,
-			@RequestParam(name = "roomImage", required = false) MultipartFile roomImage,
-			@RequestParam(name = "roomVideo", required = false) MultipartFile roomVideo,
+			@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
+			@RequestParam(name = "bathRooms") Integer bathRooms,
+			@RequestParam(name = "floorNumber") String floorNumber,
+			@RequestParam(name = "roomArea" ) String roomArea,
+			@RequestParam(name = "roomImage") MultipartFile roomImage,
+			@RequestParam(name = "roomVideo" ) MultipartFile roomVideo,
 			@RequestParam(name = "rent") Double rent, @RequestParam(name = "securityDeposit") Double securityDeposit,
 			@RequestParam(name = "description") String description, @RequestParam(name = "landmark") String landmark,
 			@RequestParam(name = "state") String state, @RequestParam(name = "city") String city,
 			@RequestParam(name = "address") String address,
 			@RequestParam(name = "furnishedStatus") FurnishedStatus furnishedStatus,
-			@RequestParam(name = "userEmail", required = false) String userEmail,
+			@RequestParam(name = "userEmail") String userEmail,
 			@RequestParam(name="preference",required = false)String preference) throws IOException {
 
 		try {
@@ -74,6 +74,7 @@ public class RoomController {
 	@GetMapping("/get-all-rooms")
 	public ResponseEntity<List<Room>> getAllRooms() {
 		List<Room> rooms = roomService.getAllRooms();
+		System.out.println(rooms);
 		return new ResponseEntity<>(rooms, HttpStatus.OK);
 	}
 
@@ -141,9 +142,9 @@ public class RoomController {
 //		return new ResponseEntity<>(room, HttpStatus.OK);
 //	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
-		roomService.deleteRoom(id);
+	@DeleteMapping("/delete-room/{roomId}")
+	public ResponseEntity<Void> deleteRoom(@PathVariable Long roomId) {
+		roomService.deleteRoom(roomId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 

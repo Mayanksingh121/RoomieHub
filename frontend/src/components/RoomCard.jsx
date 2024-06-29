@@ -17,7 +17,7 @@ const RoomCard = ({ room }) => {
       <div className="h-48  aspect-w-4 aspect-h-3">
         <img
           className="rounded-t-lg w-full h-full object-cover"
-          src={`data:image/png;base64, ${room.roomImage}`}
+          src={room.roomImageUrl}
           loading="lazy"
           alt="roomImage"
         />

@@ -25,22 +25,36 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+
+
 //	@Autowired
 //	UserRepository userRepository;
 //
-	
-	   @PostMapping("/add-user")
-	    public ResponseEntity<User> addUser(
-	            @RequestParam("userEmail") String userEmail,
-	            @RequestParam(name = "name", required = false) String name,
-	            @RequestParam("userPassword") String userPassword,
-	            @RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
-	            @RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
-	        
-	        User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
-	        return new ResponseEntity<>(user, HttpStatus.CREATED);
-	    }
-	
+
+@PostMapping("/add-user")
+public ResponseEntity<User> addUser(
+		@RequestParam("userEmail") String userEmail,
+		@RequestParam(name = "name") String name,
+		@RequestParam("userPassword") String userPassword,
+		@RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
+		@RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
+
+	User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
+	return new ResponseEntity<>(user, HttpStatus.CREATED);
+}
+
+	//    @PostMapping("/add-user")
+	//     public ResponseEntity<User> addUser(
+	//             @RequestParam("userEmail") String userEmail,
+	//             @RequestParam(name = "name", required = false) String name,
+	//             @RequestParam("userPassword") String userPassword,
+	//             @RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
+	//             @RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
+
+	//         User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
+	//         return new ResponseEntity<>(user, HttpStatus.CREATED);
+	//     }
+
 //	@PostMapping("/add-user")
 //	public ResponseEntity<User> addUser(@RequestParam("userEmail") String userEmail,
 //			@RequestParam(name = "name", required = false) String name,
@@ -77,24 +91,24 @@ public class UserController {
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
-	@PutMapping("/update-user/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestParam("name") String name,
-			@RequestParam("userEmail") String userEmail, @RequestParam("userPassword") String userPassword,
+	@PutMapping("/update-user/{userEmail}")
+	public ResponseEntity<User> updateUser(@PathVariable String userEmail, @RequestParam("name") String name,
+			 @RequestParam("userPassword") String userPassword,
 			@RequestParam(name = "userProfile", required = false) MultipartFile file,
 			@RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
-		User updatedUser = userService.updateUser(id, name, userEmail, userPassword, file, userPhoneNumber);
+		User updatedUser = userService.updateUser( name, userEmail, userPassword, file, userPhoneNumber);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete-user/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-		userService.deleteUser(id);
+		this.userService.deleteUser(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 //	@Autowired
 //	private UserService userService;
-//	
+//
 //	@Autowired
 //	private UserRepository userRepository;
 //
@@ -103,10 +117,10 @@ public class UserController {
 ////			@RequestParam("userEmail") String userEmail, @RequestParam("userPassword") String userPassword,
 ////			@RequestParam(name = "userProfile", required = false) MultipartFile file) throws IOException {
 //////		System.out.println(userEmail,userName);
-////		
+////
 ////           return ResponseEntity.ok(this.userService.saveUser(userName, userEmail, userPassword, file));
 ////	}
-//	
+//
 ////	@PostMapping("/add-user")
 ////	public ResponseEntity<User> saveUser(@RequestParam("userName") String userName,
 ////	                                     @RequestParam("userEmail") String userEmail,
@@ -115,7 +129,7 @@ public class UserController {
 ////	    System.out.println(userEmail + " " + userName);
 ////	    return ResponseEntity.ok(this.userService.saveUser(userName, userEmail, userPassword, file));
 ////	}
-//	
+//
 //	  @PostMapping("/add-user")
 //	    public ResponseEntity<User> saveUser(@RequestParam("userName") String userName,
 //	                                         @RequestParam("userEmail") String userEmail,
@@ -123,12 +137,12 @@ public class UserController {
 //	                                         @RequestParam(name = "userProfile", required = false) MultipartFile file) throws IOException {
 //	        return ResponseEntity.ok(this.userService.saveUser(userName, userEmail, userPassword, file));
 //	    }
-//	  
+//
 //		@GetMapping("/user")
 //		public User getUser(@RequestParam("userName")String userName) {
 //			return this.userRepository.findByUserName(userName);
 //		}
-//		
-//	  
+//
+//
 
 }

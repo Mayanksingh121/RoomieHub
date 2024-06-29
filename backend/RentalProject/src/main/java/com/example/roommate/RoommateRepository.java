@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoommateRepository extends JpaRepository<RoomMate, Long> {
-	public List<RoomMate> findByRoomRoomId(Long roomId);
+
 }
