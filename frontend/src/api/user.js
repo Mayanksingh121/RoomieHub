@@ -26,7 +26,7 @@ export const addUser = async (user) => {
     const data = await response.json();
     console.log(data);
     console.log(typeof data.userPhoneNumber);
-    return data;
+    return response;
   } catch (error) {
     console.error("Error adding user:", error.message);
     // Optionally, display an error message to the user

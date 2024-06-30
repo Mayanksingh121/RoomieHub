@@ -55,16 +55,20 @@ export const signInWithEmailAndPassword = async (email, password) => {
 
 export const getOtp = async (email) => {
   try {
-    const response = await fetch("");
+    const response = await fetch(`${BASE_URL}/send-otp/${email}`, {
+      method: "POST",
+    });
     return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const verifyOtp = async (email, otp) => {
+export const verifyOtp = async () => {
   try {
-    const response = await fetch("");
+    const response = await fetch(`${BASE_URL}/get-otp`);
+    const data = await response.json();
+    console.log(data);
     return response;
   } catch (error) {
     console.log(error);

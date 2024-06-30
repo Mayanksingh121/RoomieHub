@@ -25,12 +25,16 @@ const Login = ({ handleLogin }) => {
     setAlreadyUser(!alreadyUser);
   };
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setUser((prevState) => ({
-      ...prevState,
-      [name]: files ? files[0] : value,
-    }));
+  const handleChange = (event) => {
+    const { name, value, files } = event.target;
+    if (name === "userProfile") {
+      setUser((prevUser) => ({
+        ...prevUser,
+        userProfile: files[0],
+      }));
+    } else {
+      setUser((prevUser) => ({ ...prevUser, [name]: value }));
+    }
   };
 
   const handleUserLogin = async (event) => {
@@ -40,8 +44,10 @@ const Login = ({ handleLogin }) => {
       setOtpStep(true);
       const response = await getOtp(user.userEmail);
       if (response.ok) {
+        toast.success("OTP sent to your email id");
         console.log("sent");
       } else {
+        toast.error("Can't send OTP");
         console.log("cannt send");
       }
     } else {
@@ -62,7 +68,22 @@ const Login = ({ handleLogin }) => {
 
   const handleOtpSubmit = async (event) => {
     event.preventDefault();
-    const response = await verifyOtp(user.userEmail, otp);
+    const response = await verifyOtp();
+
+    // otp verify
+    // if(response === otp){
+    //   toast.success("OTP verified successfully");
+    //   const finalResponse = await addUser(user);
+    //   if (finalResponse.ok) {
+    //     dispatch(setIsLoggedIn());
+    //     handleLogin();
+    //   } else {
+    //     console.log("not registerd")
+    //   }
+    // } else {
+    //   console.log("otp are not same");
+    // }
+
     if (response.ok) {
       toast.success("OTP verified successfully");
       const finalResponse = await addUser(user);
@@ -70,10 +91,10 @@ const Login = ({ handleLogin }) => {
         dispatch(setIsLoggedIn());
         handleLogin();
       } else {
-        setErrorMessage("Final registration failed");
+        console.log("not registerd");
       }
     } else {
-      setErrorMessage("OTP verification failed");
+      console.log("otp are not same");
     }
   };
 
