@@ -1,12 +1,16 @@
 package com.example.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.exception.InvalidPasswordException;
 import com.example.exception.UserNotFoundException;
 import com.example.user.User;
 import com.example.user.UserRepository;
+
+import jakarta.mail.Session;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -24,5 +28,15 @@ public class AuthServiceImpl implements AuthService {
         }
 
     }
+
+//     @Scheduled(fixedRate = 10000)
+//     public void isUserIdle(HttpSession session) {
+
+//         Long sessionCreationTime=session.getCreationTime();
+
+//  Long lastAccessTime=session.getLastAccessedTime();
+//     }
+
+
 
 }

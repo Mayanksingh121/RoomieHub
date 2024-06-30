@@ -47,7 +47,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 			return result;
 		} catch (IOException e) {
 			System.out.println(e.getLocalizedMessage() + " " + e.getMessage() + " " + e.getCause());
-			throw new MediaNotUploadException("Failed to delete media: " + e.getMessage()+e);
+			throw new MediaNotUploadException("Failed to delete media: " + e.getMessage()+e.getCause());
 		}
 	}
 

@@ -21,9 +21,10 @@ public class EmailServiceImpl implements EmailService  {
     @Override
     public String sendOtpMail(String userEmail) {
         // TODO Auto-generated method stub
-
+  System.out.println("hi email: " + userEmail);
         try {
             OTP = otpService.generateOtp();
+            System.out.println("OTP="+OTP);
             MimeMessage mimeMessage = mailSender.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -69,7 +70,7 @@ public class EmailServiceImpl implements EmailService  {
         //    String msg= mailSender.send(mimeMessage);
             return "OTP has been sent to your email";
         } catch (Exception e) {
-            return "Error Occurred while Sending OTP";
+            return "Error Occurred while Sending OTP"+e.getCause()+e.getMessage();
         }
 
     }
