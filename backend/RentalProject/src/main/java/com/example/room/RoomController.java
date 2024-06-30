@@ -171,7 +171,7 @@ public class RoomController {
 //
 //	@GetMapping("/get-all-rooms")
 //	public ResponseEntity<List<Room>> getAllRooms() {
-//		List<Room> rooms = this.roomService.getAllRooms();
+//		List<Room> rooms = this.roomService.getAllRoomsx();
 //		System.out.println(rooms);
 //		return ResponseEntity.ok(this.roomService.getAllRooms());
 //	}

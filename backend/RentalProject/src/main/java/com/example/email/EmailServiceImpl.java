@@ -1,14 +1,9 @@
 package com.example.email;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import com.example.otp.OtpService;
 
 import jakarta.mail.internet.MimeMessage;
 
@@ -72,7 +67,6 @@ public class EmailServiceImpl implements EmailService  {
                     "</html>";
 
             helper.setText(htmlContent, true); // Set the HTML content and specify it as HTML
-
            mailSender.send(mimeMessage);
             return "OTP has been sent to your email";
         } catch (Exception e) {

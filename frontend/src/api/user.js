@@ -6,7 +6,7 @@ export const addUser = async (user) => {
     // formData.append("rooms", user.rooms); // Assuming not needed here
     formData.append("userEmail", user.userEmail);
     formData.append("userPassword", user.userPassword);
-    formData.append("userPhoneNumber",parseInt( user.userPhoneNumber));
+    formData.append("userPhoneNumber", parseInt(user.userPhoneNumber));
     if (user.userProfile) {
       formData.append("userProfile", user.userProfile);
     }
@@ -19,15 +19,14 @@ export const addUser = async (user) => {
     if (!response.ok) {
       // Handle non-2xx HTTP status codes from the server
       const errorData = await response.json();
-      throw new Error(
-        //Network response was not ok: ${response.statusText} - ${errorData.message || 'Unknown error'}
-      );
+      throw new Error();
+      //Network response was not ok: ${response.statusText} - ${errorData.message || 'Unknown error'}
     }
 
     const data = await response.json();
     console.log(data);
     console.log(typeof data.userPhoneNumber);
-    return data;
+    return response;
   } catch (error) {
     console.error("Error adding user:", error.message);
     // Optionally, display an error message to the user

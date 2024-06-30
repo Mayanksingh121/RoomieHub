@@ -1,23 +1,27 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import Dog from "../../assets/dog.jpg";
 import OwnerCard from "./OwnerCard";
 import { FaBath } from "react-icons/fa";
 import { GiSofa } from "react-icons/gi";
 import { MdBalcony } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
+import UserModal from "./UserModal";
 
 const RoomInformation = ({ handleLogin }) => {
   const { roomId } = useParams();
   const data = useSelector((store) => store.room?.availableRooms);
   const reqRoom = data?.find((room) => room.roomId === Number(roomId));
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const loginStatus = useSelector((store) => store.user.isLoggedIn);
+  console.log(reqRoom.user);
+  const { name, userPhoneNumber, userProfileUrl, userEmail } = reqRoom.user;
 
   const handleGetPhoneNo = () => {
     if (loginStatus) {
-      console.log("object");
+      setModalIsOpen(true);
     } else {
       toast("To get owner's contact details login is required.", {
         duration: 3000,
@@ -126,16 +130,16 @@ const RoomInformation = ({ handleLogin }) => {
         </div>
         <div className="border-b-2">
           <div className=" font-body mx-5">
-            <p className="text-center text-lg font-semibold">
+            <p className="text-center text-lg font-semibold mb-4">
               More Information
             </p>
-            <div className="flex gap-2 mt-4 mb-6">
-              <div className="font-body w-1/2">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="w-full md:w-1/2">
                 <p>{description}</p>
               </div>
-              <div className="w-1/2 h-56">
+              <div className="w-full md:w-1/2 h-56">
                 <img
-                  className="rounded-lg w-full object-cover"
+                  className="rounded-lg w-full h-full object-cover"
                   src={roomImageUrl}
                   alt="roomImage"
                 />
@@ -161,6 +165,11 @@ const RoomInformation = ({ handleLogin }) => {
       </div>
       <div className="w-[25%] font-body mt-5">
         <OwnerCard handleGetPhoneNo={handleGetPhoneNo} />
+        <UserModal
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          user={{ name, userPhoneNumber, userProfileUrl, userEmail }}
+        />
       </div>
     </div>
   );

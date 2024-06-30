@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import TIGER from "../assets/tiger.jpg";
 
 const BookmarkRooms = ({ room }) => {
   return (
