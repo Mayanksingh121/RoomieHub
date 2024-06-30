@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 //@RequestMapping(value = "/api/user")
 @CrossOrigin("*")
@@ -37,8 +40,11 @@ public ResponseEntity<User> addUser(
 		@RequestParam(name = "name") String name,
 		@RequestParam("userPassword") String userPassword,
 		@RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
-		@RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
-
+		@RequestParam("userPhoneNumber") Long userPhoneNumber,
+				HttpServletRequest request) throws IOException {
+	HttpSession session = request.getSession();
+	System.out.println(session.getId());
+	session.setAttribute("userEmail", userEmail);
 	User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
 	return new ResponseEntity<>(user, HttpStatus.CREATED);
 }
