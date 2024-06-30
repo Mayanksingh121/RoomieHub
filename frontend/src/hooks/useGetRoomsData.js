@@ -11,26 +11,13 @@ const useGetRoomsData = () => {
   }, []);
 
   const getRoomsData = async () => {
-    //ise mt hataiyo dummy data hai mere liye
-    const data2 = [
-      {
-        roomId: 1,
-        rent: 2000,
-        state: "Delhi",
-        city: "new Delhi",
-        location: "Kotla",
-        numberOfBalconies: 2,
-        bathRooms: 4,
-        floorNumber: 10,
-        roomArea: "100sqrft",
-      },
-      { roomId: 2 },
-    ];
     try {
-      const response = await fetch(`${BASE_URL}/get-all-rooms`);
+      const response = await fetch(`${BASE_URL}/get-all-rooms`, {
+        method: "Get",
+      });
       const data = await response.json();
+      console.log("hi", data);
       dispatch(addRoomData(data));
-      console.log(data);
     } catch (error) {
       console.error(error.message);
     }
