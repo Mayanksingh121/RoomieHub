@@ -1,12 +1,80 @@
 import { useState } from "react";
+import { addUser } from "../api/user";
+import { signInWithEmailAndPassword, verifyOtp, getOtp } from "../api/validate";
+import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
 
 const Login = ({ handleLogin }) => {
+  const dispatch = useDispatch();
   const [alreadyUser, setAlreadyUser] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [otpStep, setOtpStep] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    userEmail: "",
+    userPassword: "",
+    userProfile: null,
+    userPhoneNumber: "",
+  });
 
   const handleAlreadyUser = () => {
     setAlreadyUser(!alreadyUser);
+  };
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setUser((prevState) => ({
+      ...prevState,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const handleUserLogin = async (event) => {
+    event.preventDefault();
+
+    if (!alreadyUser) {
+      setOtpStep(true);
+      const response = await getOtp(user.userEmail);
+      if (response.ok) {
+        console.log("sent");
+      } else {
+        console.log("cannt send");
+      }
+    } else {
+      const response = await signInWithEmailAndPassword(
+        user.userEmail,
+        user.userPassword
+      );
+      if (response.ok) {
+        toast.success("Signed in successfully");
+        dispatch(setIsLoggedIn());
+        handleLogin();
+      } else {
+        toast.error("Sign in fail");
+        setErrorMessage("Sign in failed");
+      }
+    }
+  };
+
+  const handleOtpSubmit = async (event) => {
+    event.preventDefault();
+    const response = await verifyOtp(user.userEmail, otp);
+    if (response.ok) {
+      toast.success("OTP verified successfully");
+      const finalResponse = await addUser(user);
+      if (finalResponse.ok) {
+        dispatch(setIsLoggedIn());
+        handleLogin();
+      } else {
+        setErrorMessage("Final registration failed");
+      }
+    } else {
+      setErrorMessage("OTP verification failed");
+    }
   };
 
   return (
@@ -29,51 +97,96 @@ const Login = ({ handleLogin }) => {
             </span>
           </div>
         </div>
-        <div className="flex flex-col my-10 px-4 items-center">
-          {!alreadyUser && (
+        {!otpStep ? (
+          <form className="flex flex-col my-6 px-4 items-center">
+            {!alreadyUser && (
+              <input
+                name="name"
+                value={user.name}
+                onChange={handleChange}
+                id="name"
+                className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+                type="text"
+                placeholder="Enter Your Name"
+                autoComplete="on"
+              />
+            )}
             <input
-              id="name"
-              className="border w-3/4 my-4 px-2 py-2 rounded-lg focus:outline-1"
+              name="userEmail"
+              value={user.userEmail}
+              onChange={handleChange}
+              id="email"
+              className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
               type="text"
-              placeholder="Enter Your Name"
+              placeholder="Enter Email"
               autoComplete="on"
             />
-          )}
-          <input
-            id="email"
-            className="border w-3/4 my-4 px-2 py-2 rounded-lg focus:outline-1"
-            type="text"
-            placeholder="Enter Email"
-            autoComplete="on"
-          />
-          {!alreadyUser && (
+            {!alreadyUser && (
+              <input
+                name="userPhoneNumber"
+                value={user.userPhoneNumber}
+                onChange={handleChange}
+                id="phoneNo"
+                className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+                type="number"
+                placeholder="Enter Phone No"
+                autoComplete="off"
+              />
+            )}
+
             <input
-              id="phoneNo"
-              className="border w-3/4 my-4 px-2 py-2 rounded-lg focus:outline-1"
-              type="number"
-              placeholder="Enter Phone No"
+              name="userPassword"
+              value={user.userPassword}
+              onChange={handleChange}
+              id="password"
+              className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+              type="password"
+              placeholder="Enter Password"
               autoComplete="off"
             />
-          )}
 
-          <input
-            id="password"
-            className="border w-3/4 my-4 px-2 py-2 rounded-lg focus:outline-1"
-            type="password"
-            placeholder="Enter Password"
-            autoComplete="off"
-          />
-
-          <button className="bg-[#f84464] mt-4 w-3/4 py-2 text-lg rounded-lg">
-            {alreadyUser ? "Sign in" : "Sign Up"}
-          </button>
-        </div>
-        <p className="flex justify-center">
-          {alreadyUser ? "New user ?" : "Already a User? "}
-          <button onClick={handleAlreadyUser} className="px-2">
-            {alreadyUser ? "Sign up" : "Sign in"}
-          </button>
-        </p>
+            {!alreadyUser && (
+              <input
+                name="userProfile"
+                onChange={handleChange}
+                type="file"
+                className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+              />
+            )}
+            <p className="text-red-500">{errorMessage}</p>
+            <button
+              onClick={handleUserLogin}
+              className="bg-[#f84464] mt-4 w-3/4 py-2 text-lg rounded-lg"
+            >
+              {alreadyUser ? "Sign in" : "Sign Up"}
+            </button>
+          </form>
+        ) : (
+          <form className="flex flex-col my-6 px-4 items-center">
+            <input
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+              type="text"
+              placeholder="Enter OTP"
+              autoComplete="off"
+            />
+            <button
+              onClick={handleOtpSubmit}
+              className="bg-[#f84464] mt-4 w-3/4 py-2 text-lg rounded-lg"
+            >
+              Submit OTP
+            </button>
+          </form>
+        )}
+        {!otpStep && (
+          <p className="flex justify-center">
+            {alreadyUser ? "New user ?" : "Already a User? "}
+            <button onClick={handleAlreadyUser} className="px-2">
+              {alreadyUser ? "Sign up" : "Sign in"}
+            </button>
+          </p>
+        )}
       </motion.div>
     </motion.div>
   );
