@@ -1,5 +1,6 @@
 package com.example.email;
 
 public interface EmailService {
-    String sendOtpMail(String userEmail);
+    int generateOtp();
+    String sendOtpMail(String userEmail,int OTP);
 }

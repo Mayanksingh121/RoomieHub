@@ -3,6 +3,7 @@ package com.example.email;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,25 +14,30 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImpl implements EmailService  {
-    @Autowired
-    private OtpService otpService;
+
     @Autowired
     private JavaMailSender mailSender;
-    private static int OTP;
+
+    @Value("${spring.mail.username}")
+    private String senderEmail;
     @Override
-    public String sendOtpMail(String userEmail) {
+    public int generateOtp() {
         // TODO Auto-generated method stub
-  System.out.println("hi email: " + userEmail);
+        return (int) Math.floor(Math.random() * 99999);
+    }
+
+    @Override
+    public String sendOtpMail(String userEmail,int OTP) {
+        // TODO Auto-generated method stub
+  System.out.println("Sender email: " + senderEmail);
         try {
-            OTP = otpService.generateOtp();
-            System.out.println("OTP="+OTP);
+
             MimeMessage mimeMessage = mailSender.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            helper.setFrom("${spring.mail.username}");
+            helper.setFrom(senderEmail);
             helper.setTo(userEmail);
             helper.setSubject("Forgot Password - OTP Verification");
-
             String htmlContent = "<!DOCTYPE html>" +
                     "<html lang=\"en\">" +
                     "<head>" +
@@ -65,9 +71,9 @@ public class EmailServiceImpl implements EmailService  {
                     "</body>" +
                     "</html>";
 
-            // helper.setText(htmlContent, true); // Set the HTML content and specify it as HTML
+            helper.setText(htmlContent, true); // Set the HTML content and specify it as HTML
 
-        //    String msg= mailSender.send(mimeMessage);
+           mailSender.send(mimeMessage);
             return "OTP has been sent to your email";
         } catch (Exception e) {
             return "Error Occurred while Sending OTP"+e.getCause()+e.getMessage();

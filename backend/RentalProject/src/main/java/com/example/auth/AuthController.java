@@ -1,21 +1,17 @@
 package com.example.auth;
 
-import java.io.IOException;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import com.example.user.User;
 import com.example.user.UserRepository;
 import com.example.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -48,8 +44,9 @@ public class AuthController {
     public ResponseEntity<String> loginUser(@RequestParam("userEmail") String userEmail,
             @RequestParam("userPassword") String userPassword, HttpServletRequest request) {
         // Authentication is handled by Spring Security
+System.out.println(userEmail);
         HttpSession session = request.getSession();
-        
+
         System.out.println("Session id: " + session.getId());
         session.setAttribute("userEmail", userEmail);
         this.authService.validateUser(userEmail, userPassword);
