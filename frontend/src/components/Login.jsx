@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addUser } from "../api/user";
-import { signInWithEmailAndPassword, verifyOtp, getOtp } from "../api/validate";
+import { signInWithEmailAndPassword, getOTP, sendOTP } from "../api/validate";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
@@ -42,7 +42,7 @@ const Login = ({ handleLogin }) => {
 
     if (!alreadyUser) {
       setOtpStep(true);
-      const response = await getOtp(user.userEmail);
+      const response = await sendOTP(user.userEmail);
       if (response.ok) {
         toast.success("OTP sent to your email id");
         console.log("sent");
@@ -68,23 +68,10 @@ const Login = ({ handleLogin }) => {
 
   const handleOtpSubmit = async (event) => {
     event.preventDefault();
-    const response = await verifyOtp();
+    const response = await getOTP();
 
     // otp verify
-    // if(response === otp){
-    //   toast.success("OTP verified successfully");
-    //   const finalResponse = await addUser(user);
-    //   if (finalResponse.ok) {
-    //     dispatch(setIsLoggedIn());
-    //     handleLogin();
-    //   } else {
-    //     console.log("not registerd")
-    //   }
-    // } else {
-    //   console.log("otp are not same");
-    // }
-
-    if (response.ok) {
+    if (response === otp) {
       toast.success("OTP verified successfully");
       const finalResponse = await addUser(user);
       if (finalResponse.ok) {
@@ -96,6 +83,19 @@ const Login = ({ handleLogin }) => {
     } else {
       console.log("otp are not same");
     }
+
+    // if (response.ok) {
+    //   toast.success("OTP verified successfully");
+    //   const finalResponse = await addUser(user);
+    //   if (finalResponse.ok) {
+    //     dispatch(setIsLoggedIn());
+    //     handleLogin();
+    //   } else {
+    //     console.log("not registerd");
+    //   }
+    // } else {
+    //   console.log("otp are not same");
+    // }
   };
 
   return (

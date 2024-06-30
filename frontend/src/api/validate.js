@@ -53,10 +53,11 @@ export const signInWithEmailAndPassword = async (email, password) => {
   }
 };
 
-export const getOtp = async (email) => {
+export const sendOTP = async (userEmail) => {
   try {
-    const response = await fetch(`${BASE_URL}/send-otp/${email}`, {
+    const response = await fetch(`${BASE_URL}/send-otp`, {
       method: "POST",
+      body: userEmail,
     });
     return response;
   } catch (error) {
@@ -64,12 +65,12 @@ export const getOtp = async (email) => {
   }
 };
 
-export const verifyOtp = async () => {
+export const getOTP = async () => {
   try {
     const response = await fetch(`${BASE_URL}/get-otp`);
     const data = await response.json();
     console.log(data);
-    return response;
+    return data;
   } catch (error) {
     console.log(error);
   }

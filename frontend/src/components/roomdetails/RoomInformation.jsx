@@ -137,11 +137,11 @@ const RoomInformation = ({ handleLogin }) => {
               <div className="w-full md:w-1/2">
                 <p>{description}</p>
               </div>
-              <div className="w-full md:w-1/2 h-56">
+              <div className="w-full md:w-1/2 h-52 pb-4">
                 <img
                   className="rounded-lg w-full h-full object-cover"
                   src={roomImageUrl}
-                  alt="roomImage"
+                  alt="Room"
                 />
               </div>
             </div>
