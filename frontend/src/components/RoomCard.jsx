@@ -1,25 +1,56 @@
 import { Link } from "react-router-dom";
 import { MdArrowRightAlt } from "react-icons/md";
-import { FaRegHeart } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { addBookmarkRooms } from "../utils/storeSlices/roomDataSlice";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { addToWatchList } from "../api/watchList";
 
 const RoomCard = ({ room }) => {
-  const dispatch = useDispatch();
+  const { isLoggedIn, userDetails } = useSelector((store) => store.user);
+  const [isBookmarked, setIsBookmarked] = useState(false); // State to track bookmark status
 
-  const handleBookmark = () => {
-    dispatch(addBookmarkRooms(room));
+  const handleBookmark = async () => {
+    if (!isLoggedIn) {
+      toast("To add wishlist room login is required.", {
+        duration: 3000,
+        position: "top-center",
+      });
+      return;
+    }
+
+    try {
+      const response = await addToWatchList(userDetails, room.roomId);
+      if (response.ok) {
+        setIsBookmarked(true); // Update state when successfully added to wishlist
+        toast("Room added to wishlist!", {
+          duration: 3000,
+          position: "top-center",
+        });
+      } else {
+        toast("Failed to add room to wishlist. Try again later.", {
+          duration: 3000,
+          position: "top-center",
+        });
+      }
+    } catch (error) {
+      toast("An error occurred. Please try again.", {
+        duration: 3000,
+        position: "top-center",
+      });
+      console.error("Error adding to wishlist:", error);
+    }
   };
 
   return (
     <div className="flex flex-col gap-2 rounded-lg w-92 shadow-lg border">
-      <div className="h-48  aspect-w-4 aspect-h-3">
+      <div className="h-48 aspect-w-4 aspect-h-3">
         <img
           className="rounded-t-lg w-full h-full object-cover"
           src={room.roomImageUrl}
           loading="lazy"
-          alt="roomImage"
+          alt="Room"
         />
       </div>
       <div className="flex flex-col justify-between px-3 font-body">
@@ -31,9 +62,13 @@ const RoomCard = ({ room }) => {
             </div>
             <span
               onClick={handleBookmark}
-              className="mr-2 cursor-pointer text-xl"
+              className="mr-2 cursor-pointer text-xl transition-colors duration-300"
             >
-              <FaRegHeart />
+              {isBookmarked ? (
+                <FaHeart className="text-red-500" />
+              ) : (
+                <FaRegHeart className="text-gray-500 hover:text-red-500" />
+              )}
             </span>
           </div>
 
@@ -60,8 +95,8 @@ const RoomCard = ({ room }) => {
           </div>
         </div>
       </div>
-      <Link to={"/room/" + room.roomId}>
-        <div className="px-3 pb-2 ">
+      <Link to={`/room/${room.roomId}`}>
+        <div className="px-3 pb-2">
           <p className="text-sm flex items-center">
             View details
             <span className="text-2xl mx-1">

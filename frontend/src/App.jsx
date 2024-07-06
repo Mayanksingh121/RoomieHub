@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Body from "./components/Body";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
+import WishList from "./components/WishList";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RoomInformation from "./components/roomdetails/RoomInformation";
 
@@ -22,6 +23,10 @@ function App() {
     {
       path: "/room/:roomId",
       element: <RoomInformation handleLogin={handleShowLogin} />,
+    },
+    {
+      path: "/wishlist",
+      element: <WishList />,
     },
   ]);
 

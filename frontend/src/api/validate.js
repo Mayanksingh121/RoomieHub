@@ -55,9 +55,12 @@ export const signInWithEmailAndPassword = async (email, password) => {
 
 export const sendOTP = async (userEmail) => {
   try {
+    const formData = new FormData();
+    formData.append("userEmail", userEmail);
+    console.log(userEmail);
     const response = await fetch(`${BASE_URL}/send-otp`, {
       method: "POST",
-      body: userEmail,
+      body: formData,
     });
     return response;
   } catch (error) {

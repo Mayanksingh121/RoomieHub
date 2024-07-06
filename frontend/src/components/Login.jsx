@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
-import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
+import { setIsLoggedIn, setUserDetails } from "../utils/storeSlices/userSlice";
 
 const Login = ({ handleLogin }) => {
   const dispatch = useDispatch();
@@ -45,10 +45,8 @@ const Login = ({ handleLogin }) => {
       const response = await sendOTP(user.userEmail);
       if (response.ok) {
         toast.success("OTP sent to your email id");
-        console.log("sent");
       } else {
         toast.error("Can't send OTP");
-        console.log("cannt send");
       }
     } else {
       const response = await signInWithEmailAndPassword(
@@ -58,6 +56,7 @@ const Login = ({ handleLogin }) => {
       if (response.ok) {
         toast.success("Signed in successfully");
         dispatch(setIsLoggedIn());
+        dispatch(setUserDetails(user.userEmail));
         handleLogin();
       } else {
         toast.error("Sign in fail");
@@ -71,10 +70,11 @@ const Login = ({ handleLogin }) => {
     const response = await getOTP();
 
     // otp verify
-    if (response === otp) {
+    if (response == otp) {
       toast.success("OTP verified successfully");
       const finalResponse = await addUser(user);
       if (finalResponse.ok) {
+        dispatch(setUserDetails(user.userEmail));
         dispatch(setIsLoggedIn());
         handleLogin();
       } else {
