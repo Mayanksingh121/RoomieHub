@@ -5,6 +5,7 @@ const userSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     userDetails: null,
+    watchList: [],
     search: null,
   },
 
@@ -15,8 +16,12 @@ const userSlice = createSlice({
     setUserDetails: (state, action) => {
       state.userDetails = action.payload;
     },
+    setWatchList: (state, action) => {
+      state.watchList = action.payload;
+    },
   },
 });
 
-export const { setIsLoggedIn, setUserDetails } = userSlice.actions;
+export const { setIsLoggedIn, setUserDetails, setWatchList } =
+  userSlice.actions;
 export default userSlice.reducer;

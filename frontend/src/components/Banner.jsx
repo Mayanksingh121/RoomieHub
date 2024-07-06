@@ -13,9 +13,9 @@ const Banner = () => {
             Connecting Roommates and Rooms Effortlessly
           </h2>
           <div className="flex gap-7 my-6">
-            <Link to="/wishlist">
+            <Link to="/watchList">
               <button className="bg-white text-black px-20 py-2 rounded-lg font-body text-lg font-semibold hover:text-white hover:bg-black">
-                WishList
+                WatchList
               </button>
             </Link>
             <button className="bg-white text-black px-20 py-2 rounded-lg font-body text-lg font-semibold hover:text-white hover:bg-black">
