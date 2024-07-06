@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.roommate.RoomMate;
 import com.example.user.User;
 import com.example.watchlist.Watchlist;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -62,6 +63,7 @@ public class Room {
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "room",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Watchlist> watchlists;
 

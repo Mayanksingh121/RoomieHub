@@ -2,6 +2,7 @@ package com.example.watchlist;
 
 import com.example.room.Room;
 import com.example.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,10 +19,12 @@ public class Watchlist {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "room_id")
 	private Room room;
