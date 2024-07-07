@@ -16,7 +16,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
 
     @Override
-    public void validateUser(String userEmail, String userPassword) {
+    public Boolean validateUser(String userEmail, String userPassword) {
         // TODO Auto-generated method stub
         User user = this.userRepository.findByUserEmail(userEmail);
         if (user == null) {
@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
         if (!user.getUserPassword().equals(userPassword)) {
             throw new InvalidPasswordException("Invalid password");
         }
-
+        return true;
     }
 
     // @Scheduled(fixedRate = 10000)

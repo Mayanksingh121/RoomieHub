@@ -1,27 +1,27 @@
 package com.example.roommate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.room.FurnishedStatus;
-import com.example.room.Room;
 import com.example.user.User;
 import com.example.user.UserService;
 
 @RestController
-@RequestMapping("/api/roommates")
+// @RequestMapping("/api/roommates")
+@CrossOrigin("*")
 public class RoommateController {
 	@Autowired
 	private RoommateService roommateService;
@@ -31,30 +31,32 @@ public class RoommateController {
 
 	@PostMapping("/add-roommate")
 	public ResponseEntity<RoomMate> createRoommate(
-	@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
+			@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
 			@RequestParam(name = "bathRooms") Integer bathRooms,
 			@RequestParam(name = "floorNumber") String floorNumber,
-			@RequestParam(name = "roomArea" ) String roomArea,
+			@RequestParam(name = "age") Integer age,
 			@RequestParam(name = "roomImage") MultipartFile roomImage,
-			@RequestParam(name = "roomVideo" ) MultipartFile roomVideo,
-			@RequestParam(name = "rent") Double rent, @RequestParam(name = "securityDeposit") Double securityDeposit,
+			@RequestParam(name = "roomVideo") MultipartFile roomVideo,
+			@RequestParam(name = "budget") Double budget, @RequestParam(name = "occupation") String occupation,
 			@RequestParam(name = "description") String description, @RequestParam(name = "landmark") String landmark,
 			@RequestParam(name = "state") String state, @RequestParam(name = "city") String city,
 			@RequestParam(name = "address") String address,
-			@RequestParam(name = "furnishedStatus") FurnishedStatus furnishedStatus,
+			@RequestParam(name = "availableFrom") LocalDate availableFrom,
 			@RequestParam(name = "userEmail") String userEmail,
-			@RequestParam(name="preference",required = false)String preference
-	) {
+			@RequestParam(name = "preference", required = false) String preference) {
 		User user = this.userService.getUserByUserEmail(userEmail);
-		RoomMate roommate = roommateService.createRoomMate(numberOfBalconies, bathRooms, floorNumber, bathRooms, preference, preference, floorNumber, roomArea, userEmail, preference, securityDeposit, description, landmark, state, city, address, null, user);
+		RoomMate roommate = roommateService.createRoomMate(numberOfBalconies, bathRooms, floorNumber, age, occupation,
+				preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark, state, city,
+				address, availableFrom, user);
 		return new ResponseEntity<>(roommate, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/room/{roomId}")
-	public ResponseEntity<List<RoomMate>> getRoommatesByRoomId(@PathVariable Long roomId) {
-		List<RoomMate> roommates = roommateService.getRoommatesByRoomId(roomId);
-		return new ResponseEntity<>(roommates, HttpStatus.OK);
-	}
+	// @GetMapping("/room/{roomId}")
+	// public ResponseEntity<List<RoomMate>> getRoommatesByRoomId(@PathVariable Long
+	// roomId) {
+	// List<RoomMate> roommates = roommateService.getRoommatesByRoomId(roomId);
+	// return new ResponseEntity<>(roommates, HttpStatus.OK);
+	// }
 
 	@GetMapping("/get-roommate/{id}")
 	public ResponseEntity<RoomMate> getRoommateById(@PathVariable Long id) {
@@ -64,26 +66,32 @@ public class RoommateController {
 
 	@PutMapping("/update-roommate/{id}")
 	public ResponseEntity<RoomMate> updateRoommate(@PathVariable Long id,
-			@RequestParam("description") String description, @RequestParam("preferences") String preferences) {
-		RoomMate updatedRoommate = roommateService.updateRoommate(id, description, preferences);
+			@RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
+			@RequestParam(name = "bathRooms", required = false) Integer bathRooms,
+			@RequestParam(name = "floorNumber", required = false) String floorNumber,
+			@RequestParam(name = "age", required = false) Integer age,
+			@RequestParam(name = "roomImage", required = false) MultipartFile roomImage,
+			@RequestParam(name = "roomVideo", required = false) MultipartFile roomVideo,
+			@RequestParam(name = "budget", required = false) Double budget,
+			@RequestParam(name = "occupation", required = false) String occupation,
+			@RequestParam(name = "description", required = false) String description,
+			@RequestParam(name = "landmark", required = false) String landmark,
+			@RequestParam(name = "state", required = false) String state,
+			@RequestParam(name = "city", required = false) String city,
+			@RequestParam(name = "address", required = false) String address,
+			@RequestParam(name = "availableFrom", required = false) LocalDate availableFrom,
+			@RequestParam(name = "userEmail", required = false) String userEmail,
+			@RequestParam(name = "preference", required = false) String preference) {
+		RoomMate updatedRoommate = this.roommateService.updateRoommate(id, numberOfBalconies, bathRooms, floorNumber,
+				age, occupation, preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark,
+				state, city, address, availableFrom);
 		return new ResponseEntity<>(updatedRoommate, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete-roommate/{id}")
-	public ResponseEntity<Void> deleteRoommate(@PathVariable Long id) {
+	public ResponseEntity<String> deleteRoommate(@PathVariable Long id) {
 		roommateService.deleteRoommate(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
 	}
-//
-//    @PostMapping("/create")
-//    public ResponseEntity<RoomMate> createRoommate(@RequestParam("roomId") Long roomId,
-//                                                   @RequestParam("description") String description,
-//                                                   @RequestParam("preferences") String preferences) {
-//        return ResponseEntity.ok(roommateService.createRoommate(roomId, description, preferences));
-//    }
-//
-//    @GetMapping("/room/{roomId}")
-//    public ResponseEntity<List<RoomMate>> getRoommatesByRoomId(@PathVariable Long roomId) {
-//        return ResponseEntity.ok(roommateService.getRoommatesByRoomId(roomId));
-//    }
+
 }
