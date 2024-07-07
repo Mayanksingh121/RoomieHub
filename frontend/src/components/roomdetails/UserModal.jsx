@@ -20,7 +20,10 @@ const UserModal = ({ isOpen, onRequestClose, user }) => {
           className="w-24 h-24 rounded-full mb-4"
         />
         <h2 className="text-xl font-bold mb-2">{name}</h2>
-        <p className="text-lg mb-1"><span className="font-bold">Email: </span>{userEmail}</p>
+        <p className="text-lg mb-1">
+          <span className="font-bold">Email: </span>
+          {userEmail}
+        </p>
         <p className="text-lg">Phone: {userPhoneNumber}</p>
         <button
           onClick={onRequestClose}

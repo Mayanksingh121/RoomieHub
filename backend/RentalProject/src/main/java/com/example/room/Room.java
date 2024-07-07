@@ -64,8 +64,13 @@ public class Room {
 	@JsonIgnore
 	private User user;
 
+<<<<<<< HEAD
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
+=======
+	@JsonIgnore
+	@OneToMany(mappedBy = "room",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+>>>>>>> d7eac470ce16c6e9eda3b15a382c3e174fb2badd
 	private List<Watchlist> watchlists;
 
 	public Room() {

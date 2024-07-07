@@ -19,11 +19,13 @@ public class Watchlist {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	  @JsonIgnore
 	private User user;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "room_id")
 	@JsonIgnore
