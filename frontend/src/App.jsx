@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import WatchList from "./components/WatchList";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RoomInformation from "./components/roomdetails/RoomInformation";
+import RoommateDetails from "./components/RoommateDetails";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -28,6 +29,10 @@ function App() {
       path: "/watchlist",
       element: <WatchList />,
     },
+    {
+      path: "/roommate/:roomId",
+      element: <RoommateDetails/>
+    }
   ]);
 
   return (

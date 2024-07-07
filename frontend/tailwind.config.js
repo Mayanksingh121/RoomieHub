@@ -12,10 +12,8 @@ export default {
     function ({ addUtilities }) {
       addUtilities({
         ".hide-scrollbar": {
-          /* Hide scrollbar for IE, Edge and Firefox */
-          "-ms-overflow-style": "none" /* IE and Edge */,
-          "scrollbar-width": "none" /* Firefox */,
-          /* Hide scrollbar for Chrome, Safari and Opera */
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
           "&::-webkit-scrollbar": {
             display: "none",
           },

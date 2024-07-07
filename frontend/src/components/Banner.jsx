@@ -19,7 +19,7 @@ const Banner = () => {
               </button>
             </Link>
             <button className="bg-white text-black px-20 py-2 rounded-lg font-body text-lg font-semibold hover:text-white hover:bg-black">
-              Find roomate
+              List your room
             </button>
           </div>
           <div>

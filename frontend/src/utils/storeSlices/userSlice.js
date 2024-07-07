@@ -6,7 +6,6 @@ const userSlice = createSlice({
     isLoggedIn: false,
     userDetails: null,
     watchList: [],
-    search: null,
   },
 
   reducers: {
