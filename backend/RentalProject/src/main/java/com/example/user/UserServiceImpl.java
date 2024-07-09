@@ -32,22 +32,22 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> mediaObject = this.cloudinaryServiceImpl.uploadMedia(file);
 		String userProfileUrl = (String) mediaObject.get("secure_url");
 		String userProfilePublicId = (String) mediaObject.get("public_id");
-		System.out.println("url="+userProfileUrl+" public_id="+userProfilePublicId);
+		System.out.println("url=" + userProfileUrl + " public_id=" + userProfilePublicId);
 		User user = new User(name, userEmail, userPassword, userPhoneNumber, userProfileUrl, userProfilePublicId);
 		return userRepository.save(user);
 	}
 
-	@Override
-	@Transactional
-	public User addRoom(String userEmail, Room room) {
-		User user = userRepository.findByUserEmail(userEmail);
-		if (user == null) {
-			throw new ResourceNotFoundException("User not found with email: " + userEmail);
-		}
-		user.getRooms().add(room);
-		room.setUser(user); // Ensure the room is correctly linked to the user
-		return userRepository.save(user);
-	}
+	// @Override
+	// @Transactional
+	// public User addRoom(String userEmail, Room room) {
+	// 	User user = userRepository.findByUserEmail(userEmail);
+	// 	if (user == null) {
+	// 		throw new ResourceNotFoundException("User not found with email: " + userEmail);
+	// 	}
+	// 	user.getRooms().add(room);
+	// 	room.setUser(user); // Ensure the room is correctly linked to the user
+	// 	return userRepository.save(user);
+	// }
 
 	@Override
 	public User getUserByUserEmail(String userEmail) {
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 		User user = this.userRepository.findByUserEmail(userEmail);
 		if (user.getUserProfileUrl() != null) {
 			if (userProfile != null && user.getUserProfilePublicId() != null) {
-				this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(),"image");
+				this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(), "image");
 				Map<String, Object> uploadMap = this.cloudinaryServiceImpl.uploadMedia(userProfile);
 				user.setUserProfileUrl(uploadMap.get("secure_url").toString());
 				user.setUserProfilePublicId(uploadMap.get("public_id").toString());
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 		User user = getUserById(userId);
 		if (user.getUserProfileUrl() != null) {
 			if (user.getUserProfilePublicId() != null) {
-				this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(),"image");
+				this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(), "image");
 			}
 		}
 		this.userRepository.delete(user);

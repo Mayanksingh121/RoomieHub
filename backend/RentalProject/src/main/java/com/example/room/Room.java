@@ -1,8 +1,6 @@
 package com.example.room;
 
 import java.util.List;
-
-import com.example.roommate.RoomMate;
 import com.example.user.User;
 import com.example.watchlist.Watchlist;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -61,16 +59,10 @@ public class Room {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = true)
-	@JsonIgnore
 	private User user;
 
-<<<<<<< HEAD
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
-=======
-	@JsonIgnore
-	@OneToMany(mappedBy = "room",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
->>>>>>> d7eac470ce16c6e9eda3b15a382c3e174fb2badd
 	private List<Watchlist> watchlists;
 
 	public Room() {
@@ -101,7 +93,6 @@ public class Room {
 		this.address = address;
 		this.furnishedStatus = furnishedStatus;
 		this.user = user;
-		// this.watchlists = watchlists;
 	}
 
 

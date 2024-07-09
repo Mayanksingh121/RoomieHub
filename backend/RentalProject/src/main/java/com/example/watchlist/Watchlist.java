@@ -22,13 +22,11 @@ public class Watchlist {
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	  @JsonIgnore
 	private User user;
 
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "room_id")
-	@JsonIgnore
 	private Room room;
 
 	public Watchlist() {

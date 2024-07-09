@@ -15,7 +15,7 @@ public interface RoomService {
 
 	Room getRoomById(Long roomId);
 
-	Room addRoommateToRoom(Long roomId, String description, String preferences);
+	// Room addRoommateToRoom(Long roomId, String description, String preferences);
 
 	Room updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
 			MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,

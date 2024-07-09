@@ -36,18 +36,18 @@ const RoomCard = ({ room }) => {
         const response = await deleteFromWatchList(userDetails, room.roomId);
         if (response.ok) {
           setIsBookmarked(false);
-          toast("Room deleted from wishlist", {
+          toast.success("Room deleted from wishlist", {
             duration: 3000,
             position: "top-center",
           });
         } else {
-          toast("Failed to delete room from wishlist. Try again later.", {
+          toast.error("Failed to delete room from wishlist. Try again later.", {
             duration: 3000,
             position: "top-center",
           });
         }
       } catch (error) {
-        toast("An error occurred. Please try again.", {
+        toast.error("An error occurred. Please try again.", {
           duration: 3000,
           position: "top-center",
         });

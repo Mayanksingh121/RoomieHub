@@ -1,19 +1,12 @@
 package com.example.roommate;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import com.example.room.FurnishedStatus;
-import com.example.room.Room;
 import com.example.user.User;
-import com.example.watchlist.Watchlist;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -59,8 +52,6 @@ public class RoomMate {
 	@Column(nullable = false)
 	private String address;
 	@Column(nullable = false)
-
-
 
 	@Temporal(TemporalType.DATE)
 	private LocalDate availableFrom;
@@ -246,6 +237,5 @@ public class RoomMate {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 
 }

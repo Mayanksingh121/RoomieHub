@@ -28,12 +28,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-
-
-//	@Autowired
-//	UserRepository userRepository;
-//
-
 @PostMapping("/add-user")
 public ResponseEntity<User> addUser(
 		@RequestParam("userEmail") String userEmail,
@@ -112,43 +106,6 @@ public ResponseEntity<User> addUser(
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-//	@Autowired
-//	private UserService userService;
-//
-//	@Autowired
-//	private UserRepository userRepository;
-//
-////	@PostMapping("/add-user")
-////	public ResponseEntity<User> saveUser(@RequestParam("userName") String userName,
-////			@RequestParam("userEmail") String userEmail, @RequestParam("userPassword") String userPassword,
-////			@RequestParam(name = "userProfile", required = false) MultipartFile file) throws IOException {
-//////		System.out.println(userEmail,userName);
-////
-////           return ResponseEntity.ok(this.userService.saveUser(userName, userEmail, userPassword, file));
-////	}
-//
-////	@PostMapping("/add-user")
-////	public ResponseEntity<User> saveUser(@RequestParam("userName") String userName,
-////	                                     @RequestParam("userEmail") String userEmail,
-////	                                     @RequestParam("userPassword") String userPassword,
-////	                                     @RequestParam(name = "userProfile", required = false) MultipartFile file) throws IOException {
-////	    System.out.println(userEmail + " " + userName);
-////	    return ResponseEntity.ok(this.userService.saveUser(userName, userEmail, userPassword, file));
-////	}
-//
-//	  @PostMapping("/add-user")
-//	    public ResponseEntity<User> saveUser(@RequestParam("userName") String userName,
-//	                                         @RequestParam("userEmail") String userEmail,
-//	                                         @RequestParam("userPassword") String userPassword,
-//	                                         @RequestParam(name = "userProfile", required = false) MultipartFile file) throws IOException {
-//	        return ResponseEntity.ok(this.userService.saveUser(userName, userEmail, userPassword, file));
-//	    }
-//
-//		@GetMapping("/user")
-//		public User getUser(@RequestParam("userName")String userName) {
-//			return this.userRepository.findByUserName(userName);
-//		}
-//
-//
+
 
 }
