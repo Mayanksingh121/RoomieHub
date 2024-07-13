@@ -90,7 +90,14 @@ public class EmailServiceImpl implements EmailService {
             helper.setFrom(senderEmail);
             helper.setTo(receiverEmail);
             helper.setSubject("Forgot Password - OTP Verification");
-            String htmlContent = "";
+            String htmlContent =  "<html><body><div class='container'>" +
+            "<div class='header'><h2>Room Rental Interest</h2></div>" +
+            "<div class='content'><p>Dear " + senderEmail + ",</p><p>Thank you for your interest in our room rental!</p>" +
+            "<p>Here's a brief summary of the room rental:</p><ul><li>Location:"+senderEmail+" </li><li>Price:" +senderEmail+"</li><li>Amenities: [Amenities]</li></ul>"
+            +
+            "<p>If you're interested in scheduling a viewing, please reply to this email or give us a call at [Phone Number].</p></div>"
+            +
+            "<div class='footer'><p>Best,</p><p>[Your Name]</p></div></div></body></html>";
             helper.setText(htmlContent, true); // Set the HTML content and specify it as HTML
             mailSender.send(mimeMessage);
             return "message has been sent to the user";
