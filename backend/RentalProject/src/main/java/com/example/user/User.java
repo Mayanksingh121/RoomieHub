@@ -25,12 +25,14 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String userEmail;
 	@Column(nullable = false)
+	@JsonIgnore
 	private String userPassword;
 	@Column(nullable = false)
      private Long userPhoneNumber;
 
 	@Column(length = 5000)
 	private String userProfileUrl;
+	@JsonIgnore
 	private String userProfilePublicId;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

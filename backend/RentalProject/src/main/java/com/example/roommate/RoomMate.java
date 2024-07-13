@@ -22,7 +22,6 @@ public class RoomMate {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Column(nullable = false)
 	private Integer numberOfBalconies;
 	@Column(nullable = false)
@@ -58,7 +57,7 @@ public class RoomMate {
 	private LocalDate availableFrom;
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-	@JsonIgnore
+	// @JsonIgnore
 	private User user;
 
 	public RoomMate() {
