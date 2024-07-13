@@ -16,7 +16,6 @@ const useGetRoomsData = () => {
         method: "Get",
       });
       const data = await response.json();
-      console.log(data);
       dispatch(addRoomData(data));
     } catch (error) {
       console.error(error.message);

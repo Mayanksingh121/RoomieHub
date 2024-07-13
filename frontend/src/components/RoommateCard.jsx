@@ -2,7 +2,7 @@ import React from "react";
 
 const RoommateCard = ({ roommate }) => {
   return (
-    <div className="cursor-pointer w-60 rounded-lg shadow-md m-3 bg-white">
+    <div className="cursor-pointer w-60 rounded-lg m-3 shadow-md bg-[#ffffff]">
       <img
         className="w-full h-32 object-cover rounded-t-lg"
         src="https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg"

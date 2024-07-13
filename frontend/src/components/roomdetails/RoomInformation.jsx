@@ -16,7 +16,6 @@ const RoomInformation = ({ handleLogin }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const loginStatus = useSelector((store) => store.user.isLoggedIn);
-  console.log(reqRoom.user);
   const { name, userPhoneNumber, userProfileUrl, userEmail } = reqRoom.user;
 
   const handleGetPhoneNo = () => {
@@ -30,9 +29,6 @@ const RoomInformation = ({ handleLogin }) => {
       handleLogin();
     }
   };
-
-  console.log(data);
-  console.log(reqRoom);
   if (reqRoom === undefined) {
     return null;
   }

@@ -30,9 +30,9 @@ function App() {
       element: <WatchList />,
     },
     {
-      path: "/roommate/:roomId",
-      element: <RoommateDetails/>
-    }
+      path: "/roommate/:roommateID",
+      element: <RoommateDetails />,
+    },
   ]);
 
   return (

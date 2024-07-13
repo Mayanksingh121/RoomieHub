@@ -90,56 +90,50 @@ const RoomCard = ({ room }) => {
       </div>
       <div className="flex flex-col justify-between px-3 font-body">
         <div>
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col mb-2">
-              <h2 className="">Rental</h2>
-              <p className="text-xs -mt-1">₹{room.rent}</p>
-            </div>
-            <span
-              onClick={handleBookmark}
-              className="mr-2 cursor-pointer text-xl transition-colors duration-300"
-            >
-              {isBookmarked ? (
-                <FaHeart className="text-red-500" />
-              ) : (
-                <FaRegHeart className="text-gray-500 hover:text-red-500" />
-              )}
-            </span>
+          <div className="flex text-xs gap-4">
+            <p className="rounded-sm bg-[#f84464] py-1 px-3 text-white">
+              Balconies {room.numberOfBalconies}
+            </p>
+            <p className="rounded-sm bg-[#f84464] py-1 px-3 text-white">
+              Floor {room.floorNumber}
+            </p>
           </div>
-
           <div className="flex items-center gap-2">
-            <div className="pb-1">
-              <span className="text-red-500">
-                <FaLocationDot />
-              </span>
-            </div>
-            <p className="text-sm -mt-1">
+            <span className="text-[#f84464]">
+              <FaLocationDot />
+            </span>
+            <p className="text-sm font-semibold mt-1">
               {room.address}, {room.city}, {room.state}, {room.landmark}
             </p>
           </div>
         </div>
-        <div className="border-b border-gray-300"></div>
-        <div className="flex justify-between mt-3">
-          <div className="flex flex-col">
-            <h2>Balconies</h2>
-            <p className="text-xs -mt-1">{room.numberOfBalconies}</p>
+        <div className="flex justify-between items-center mt-3">
+          <div className="flex flex-col mb-2">
+            <h2 className="text-xs">Rental</h2>
+            <p className="text-sm -mt-1 font-bold">₹{room.rent}/month</p>
           </div>
-          <div className="flex flex-col">
-            <h2>Floor</h2>
-            <p className="text-xs -mt-1">{room.floorNumber}</p>
-          </div>
+          <span
+            onClick={handleBookmark}
+            className="mr-2 cursor-pointer text-xl transition-colors duration-300"
+          >
+            {isBookmarked ? (
+              <FaHeart className="text-red-500" />
+            ) : (
+              <FaRegHeart className="text-gray-500 hover:text-red-500" />
+            )}
+          </span>
         </div>
       </div>
-      <Link to={`/room/${room.roomId}`}>
-        <div className="px-3 pb-2">
+      <div className="px-3 pb-2">
+        <Link to={`/room/${room.roomId}`}>
           <p className="text-sm flex items-center">
             View details
             <span className="text-2xl mx-1">
               <MdArrowRightAlt />
             </span>
           </p>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 };

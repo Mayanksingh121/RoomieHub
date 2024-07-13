@@ -17,7 +17,6 @@ const useGetWatchListData = () => {
       );
       const json = await response.json();
       dispatch(setWatchList(json));
-      console.log(json);
     } catch (error) {
       console.log(error);
     }
