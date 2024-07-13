@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Long userId) {
+	public String deleteUser(Long userId) {
 		User user = getUserById(userId);
 		if (user.getUserProfileUrl() != null) {
 			if (user.getUserProfilePublicId() != null) {
@@ -108,8 +108,7 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		this.userRepository.delete(user);
+		return "User deleted successfully";
 	}
 
 }
-
-

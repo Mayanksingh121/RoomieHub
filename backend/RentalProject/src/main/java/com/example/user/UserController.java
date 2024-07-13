@@ -100,10 +100,10 @@ public ResponseEntity<User> addUser(
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/delete-user/{id}")
-	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-		this.userService.deleteUser(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+	@DeleteMapping("/delete-user/{userId}")
+	public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+		String msg=this.userService.deleteUser(userId);
+		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
 
 

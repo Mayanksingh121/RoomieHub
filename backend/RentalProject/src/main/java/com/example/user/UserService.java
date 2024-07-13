@@ -23,5 +23,5 @@ public interface UserService {
     User updateUser(String name, String userEmail, String userPassword, MultipartFile userProfile, Long userPhoneNumber)
             throws IOException;
 
-    void deleteUser(Long userId);
+    String deleteUser(Long userId);
 }
