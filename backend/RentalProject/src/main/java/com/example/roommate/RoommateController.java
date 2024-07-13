@@ -1,6 +1,8 @@
 package com.example.roommate;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,12 @@ public class RoommateController {
 				preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark, state, city,
 				address, availableFrom, user);
 		return new ResponseEntity<>(roommate, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/get-all-roommates")
+	public ResponseEntity<List<RoomMate>> getAllRoommates() {
+		List<RoomMate> roommates = this.roommateService.getAllRoommates();
+		return new ResponseEntity<>(roommates, HttpStatus.OK);
 	}
 
 	// @GetMapping("/room/{roomId}")

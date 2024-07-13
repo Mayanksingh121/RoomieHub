@@ -1,6 +1,7 @@
 package com.example.roommate;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,8 +13,9 @@ public interface RoommateService {
             String occupation,
             String preference, MultipartFile roomImage, String roomImagePublicId, MultipartFile roomVideo,
             String roomVideoPublicId, Double budget, String description, String landmark, String state, String city,
-            String address, LocalDate availableFrom, User user);
+                    String address, LocalDate availableFrom, User user);
 
+    List<RoomMate> getAllRoommates();
     // List<RoomMate> getRoommatesByRoomId(Long roomId);
 
     RoomMate getRoommateById(Long id);

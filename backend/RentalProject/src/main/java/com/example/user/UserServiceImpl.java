@@ -11,9 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.cloudinary.CloudinaryServiceImpl;
 import com.example.exception.ResourceNotFoundException;
 import com.example.exception.UserAlreadyExistsException;
-import com.example.room.Room;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -114,3 +111,5 @@ public class UserServiceImpl implements UserService {
 	}
 
 }
+
+

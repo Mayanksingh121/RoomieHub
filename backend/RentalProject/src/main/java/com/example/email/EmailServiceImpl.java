@@ -6,6 +6,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.example.exception.MailNotSentException;
+
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -72,8 +74,32 @@ public class EmailServiceImpl implements EmailService {
             mailSender.send(mimeMessage);
             return "OTP has been sent to your email";
         } catch (Exception e) {
-            return "Error Occurred while Sending OTP" + e.getCause() + e.getMessage();
+            throw new MailNotSentException("Error Occurred while sending mail" + e.getMessage() + e.getCause());
+
         }
+
+    }
+
+    @Override
+    public String sendMessageMailString(String receiverEmail) {
+        // TODO Auto-generated method stub
+           try {
+     MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setFrom(senderEmail);
+            helper.setTo(receiverEmail);
+            helper.setSubject("Forgot Password - OTP Verification");
+            String htmlContent = "";
+            helper.setText(htmlContent, true); // Set the HTML content and specify it as HTML
+            mailSender.send(mimeMessage);
+            return "message has been sent to the user";
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw new MailNotSentException("Error Occurred while sending mail" + e.getMessage() + e.getCause());
+
+        }
+
 
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.room.Room;
+
 
 public interface UserService {
 

@@ -1,6 +1,7 @@
 package com.example.roommate;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,10 @@ public class RoommateServiceImpl implements RoommateService {
 		return this.roommateRepository.save(roomMate);
 	}
 
+	@Override
+	public List<RoomMate> getAllRoommates() {
+		return this.roommateRepository.findAll();
+	 }
 	@Override
 	public RoomMate getRoommateById(Long id) {
 		return roommateRepository.findById(id)

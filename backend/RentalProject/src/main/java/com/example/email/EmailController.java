@@ -32,8 +32,10 @@ public class EmailController {
     public int getOtp() {
         return OTP;
     }
-    // @PostMapping("send-message")
-    // public ResponseEntity<String> sendMesssageMailToUser(@RequestParam("userEmail") String userEmail) {
+    @PostMapping("/send-message")
+    public ResponseEntity<String> sendMessageMailToUser(@RequestParam("userEmail") String userEmail) {
+        String message = this.emailService.sendMessageMailString(userEmail);
+        return new ResponseEntity<>(message,HttpStatus.OK);
 
-    // }
+    }
 }

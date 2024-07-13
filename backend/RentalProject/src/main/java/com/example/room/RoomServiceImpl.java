@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.cloudinary.CloudinaryServiceImpl;
 import com.example.exception.ResourceNotFoundException;
-import com.example.roommate.RoommateRepository;
 import com.example.user.User;
 import com.example.user.UserRepository;
 
@@ -21,8 +20,6 @@ public class RoomServiceImpl implements RoomService {
 	private RoomRepository roomRepository;
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private RoommateRepository roommateRepository;
 	@Autowired
 	private CloudinaryServiceImpl cloudinaryServiceImpl;
 

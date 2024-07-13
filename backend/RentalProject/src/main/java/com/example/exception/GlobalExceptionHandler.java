@@ -38,4 +38,9 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@ExceptionHandler(MailNotSentException.class)
+	public ResponseEntity<String> handleMailNotSentException(MailNotSentException ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 }
