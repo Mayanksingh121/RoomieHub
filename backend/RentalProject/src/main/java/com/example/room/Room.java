@@ -61,7 +61,7 @@ public class Room {
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
 
-	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<Watchlist> watchlists;
 

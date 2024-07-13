@@ -35,10 +35,10 @@ public class User {
 	@JsonIgnore
 	private String userProfilePublicId;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<Room> rooms;
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<Watchlist> watchlist;
 
