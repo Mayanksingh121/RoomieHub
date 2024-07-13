@@ -40,7 +40,6 @@ export const checkValidData = (email, password) => {
 export const signInWithEmailAndPassword = async (email, password) => {
   try {
     const formData = new FormData();
-    console.log(email, password);
     formData.append("userEmail", email);
     formData.append("userPassword", password);
     const response = await fetch(`${BASE_URL}/api/auth/validate`, {
@@ -57,7 +56,6 @@ export const sendOTP = async (userEmail) => {
   try {
     const formData = new FormData();
     formData.append("userEmail", userEmail);
-    console.log(userEmail);
     const response = await fetch(`${BASE_URL}/send-otp`, {
       method: "POST",
       body: formData,
@@ -72,7 +70,6 @@ export const getOTP = async () => {
   try {
     const response = await fetch(`${BASE_URL}/get-otp`);
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);

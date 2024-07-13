@@ -22,10 +22,6 @@ export const addUser = async (user) => {
       throw new Error();
       //Network response was not ok: ${response.statusText} - ${errorData.message || 'Unknown error'}
     }
-
-    const data = await response.json();
-    console.log(data);
-    console.log(typeof data.userPhoneNumber);
     return response;
   } catch (error) {
     console.error("Error adding user:", error.message);
