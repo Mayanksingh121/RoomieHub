@@ -50,123 +50,94 @@ const RoomInformation = ({ handleLogin }) => {
   } = reqRoom;
 
   return (
-    <div className="flex h-full bg-[#f5f5f5]">
-      <div className="bg-[#ffffff] rounded-xl w-[70%] mt-5 mb-20 border border-[#e1e1e1] shadow-md ml-6 px-4">
-        <div className="flex my-5 w-full">
-          <video className="w-full rounded-lg" controls>
-            <source src={roomVideoUrl} />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div className="flex justify-between w-full font-body my-4 border-b-2">
-          <div className="mx-5 w-1/2 border-r-2 mb-4">
-            <h3 className="text-sm">
-              Rental: <span className="font-medium">₹{rent}</span>
-            </h3>
-            <h3 className="text-sm mb-5">
-              Security Deposit:{" "}
-              <span className="font-medium">₹{securityDeposit}</span>
-            </h3>
-            <h3 className="flex flex-col">
-              Flat available for rent in{" "}
-              <span className="font-semibold">
-                {address}, {city}, {state}
-              </span>
-            </h3>
+    <div className="min-h-screen bg-[#f5f5f5]">
+      <main className="flex p-6">
+        <div className="md:w-2/3 bg-white rounded-xl shadow-lg p-6 mb-6 md:mb-0 md:mr-6">
+          <div className="mb-4">
+            <video className="w-full rounded-lg shadow-md" controls>
+              <source src={roomVideoUrl} />
+              Your browser does not support the video tag.
+            </video>
           </div>
-          <div className="flex justify-between mr-5 w-1/2">
-            <div className="flex flex-col">
-              <div className="flex gap-2">
-                <span className=" text-[#f84464] pt-2 text-lg ">
-                  <GiSofa />
-                </span>
-                <h3 className="flex flex-col text-sm mb-6 font-bold">
-                  Furnished Status
-                  <span className="font-medium text-xs">{furnishedStatus}</span>
-                </h3>
-              </div>
-
-              <div className="flex gap-2">
-                <span className=" text-[#f84464] pt-2 text-lg ">
-                  <MdBalcony />
-                </span>
-                <h3 className="flex flex-col text-sm font-bold">
-                  Balconies
-                  <span className="font-medium">{numberOfBalconies}</span>
-                </h3>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="flex gap-2">
-                <span className=" text-[#f84464] pt-2 text-lg ">
-                  <FaBath />
-                </span>
-                <h3 className="flex flex-col text-sm mb-6 font-bold">
-                  Bathrooms
-                  <span className="font-medium text-xs">{bathRooms}</span>
-                </h3>
-              </div>
-              <div className="flex gap-2">
-                <span className=" text-[#f84464] pt-2 text-lg ">
-                  <FaBuilding />
-                </span>
-                <h3 className="flex flex-col text-sm font-bold">
-                  Floor
-                  <span className="font-medium text-xs">{floorNumber}</span>
-                </h3>
-              </div>
-            </div>
-            <div className="flex flex-col mb-6">
-              <h3 className="flex flex-col text-sm font-bold">
-                Room area
-                <span className="font-medium text-xs">{roomArea}</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="border-b-2">
-          <div className=" font-body mx-5">
-            <p className="text-center text-lg font-semibold mb-4">
-              More Information
+          <div className="border-b pb-4 mb-4">
+            <h2 className="text-xl font-semibold text-[#333]">Room Details</h2>
+            <p className="text-sm text-gray-600 mt-2">
+              <strong>Rental:</strong> ₹{rent}
             </p>
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="w-full md:w-1/2">
-                <p>{description}</p>
+            <p className="text-sm text-gray-600 mt-2">
+              <strong>Security Deposit:</strong> ₹{securityDeposit}
+            </p>
+            <p className="text-sm text-gray-600 mt-2">
+              <strong>Location:</strong> {address}, {city}, {state}
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="flex items-center space-x-2">
+              <GiSofa className="text-[#f84464] text-xl" />
+              <div>
+                <h3 className="text-sm font-semibold">Furnished Status</h3>
+                <p className="text-xs text-gray-600">{furnishedStatus}</p>
               </div>
-              <div className="w-full md:w-1/2 h-52 pb-4">
-                <img
-                  className="rounded-lg w-full h-full object-cover"
-                  src={roomImageUrl}
-                  alt="Room"
-                />
+            </div>
+            <div className="flex items-center space-x-2">
+              <MdBalcony className="text-[#f84464] text-xl" />
+              <div>
+                <h3 className="text-sm font-semibold">Balconies</h3>
+                <p className="text-xs text-gray-600">{numberOfBalconies}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <FaBath className="text-[#f84464] text-xl" />
+              <div>
+                <h3 className="text-sm font-semibold">Bathrooms</h3>
+                <p className="text-xs text-gray-600">{bathRooms}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <FaBuilding className="text-[#f84464] text-xl" />
+              <div>
+                <h3 className="text-sm font-semibold">Floor</h3>
+                <p className="text-xs text-gray-600">{floorNumber}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2 col-span-2">
+              <div>
+                <h3 className="text-sm font-semibold">Room Area</h3>
+                <p className="text-xs text-gray-600">{roomArea}</p>
               </div>
             </div>
           </div>
+          <div className="border-b pb-4 mb-4">
+            <h2 className="text-xl font-semibold text-[#333]">More Information</h2>
+            <p className="text-sm text-gray-600 mt-2">{description}</p>
+            <img className="rounded-lg w-full h-52 object-cover mt-4" src={roomImageUrl} alt="Room" />
+          </div>
+          <div className="flex space-x-4">
+            <button
+              onClick={handleGetPhoneNo}
+              className="border border-[#f84464] text-[#f84464] rounded-3xl px-6 py-2"
+            >
+              Get Phone No.
+            </button>
+            <button
+              onClick={handleGetPhoneNo}
+              className="border text-white bg-[#f84464] rounded-3xl px-6 py-2"
+            >
+              Contact Owner
+            </button>
+          </div>
         </div>
-        <div className="mx-5 my-5">
-          <p className="font-body text-lg mx-4 mb-4">Contact Details</p>
-          <button
-            onClick={handleGetPhoneNo}
-            className="border border-[#f84464] text-[#f84464] rounded-3xl px-6 py-2 mr-4"
-          >
-            Get Phone No.
-          </button>
-          <button
-            onClick={handleGetPhoneNo}
-            className="border  text-white bg-[#f84464] rounded-3xl px-6 py-2"
-          >
-            Contact Owner
-          </button>
+        <div className="md:w-1/3">
+          <div className="sticky top-6">
+            <OwnerCard handleGetPhoneNo={handleGetPhoneNo} />
+            <UserModal
+              isOpen={modalIsOpen}
+              onRequestClose={() => setModalIsOpen(false)}
+              user={{ name, userPhoneNumber, userProfileUrl, userEmail }}
+            />
+          </div>
         </div>
-      </div>
-      <div className="w-[25%] font-body mt-5">
-        <OwnerCard handleGetPhoneNo={handleGetPhoneNo} />
-        <UserModal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
-          user={{ name, userPhoneNumber, userProfileUrl, userEmail }}
-        />
-      </div>
+      </main>
     </div>
   );
 };

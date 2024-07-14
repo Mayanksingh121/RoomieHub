@@ -44,7 +44,7 @@ const OwnerCard = ({ handleGetPhoneNo }) => {
       <div className="flex justify-center mx-auto my-4">
         <button
           onClick={handleButtonClick}
-          className="bg-[#f84464] text-white w-[70%] rounded-3xl py-3"
+          className="bg-[#449ba2] text-white w-[70%] rounded-3xl py-3"
         >
           {showPhoneNo ? "Hide Phone number" : "Get Phone No"}
         </button>
