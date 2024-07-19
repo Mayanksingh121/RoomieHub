@@ -5,16 +5,18 @@ import useGetRoomsData from "../hooks/useGetRoomsData";
 import AddRoom from "./AddRoom";
 import RoommateContainer from "./RoommateContainer";
 import AddRoommate from "./AddRoommate";
+import About from "./About";
 
 const Body = () => {
   useGetRoomsData();
   return (
     <div className="w-full">
       <Banner />
+      <About />
       <RoomContainer />
-      <RoommateContainer/>
+      <RoommateContainer />
       <AddRoom />
-      <AddRoommate/>
+      <AddRoommate />
     </div>
   );
 };

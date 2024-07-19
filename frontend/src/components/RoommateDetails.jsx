@@ -100,7 +100,9 @@ const RoommateDetails = ({ user }) => {
             alt="user"
           />
           <div className="font-body">
-            <h3 className="font-bold">{roommateData.user.name} ({roommateData.user.userEmail})</h3>
+            <h3 className="font-bold">
+              {roommateData.user.name} ({roommateData.user.userEmail})
+            </h3>
             <p className="text-sm -mt-1">{roommateData.occupation}</p>
             <p className="text-sm">{roommateData.age} year old</p>
           </div>
@@ -135,7 +137,7 @@ const RoommateDetails = ({ user }) => {
         <div>
           <div className="flex gap-2 items-center">
             <span className="text-xl">
-              <FaLandmark/>
+              <FaLandmark />
             </span>
 
             <p className="flex flex-col">

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MdArrowRightAlt } from "react-icons/md";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { addToWatchList, deleteFromWatchList } from "../api/watchList";
 import useGetWatchListData from "../hooks/useGetWatchListData";
+import { motion } from "framer-motion";
 
 const RoomCard = ({ room }) => {
   useGetWatchListData();
@@ -79,59 +78,58 @@ const RoomCard = ({ room }) => {
   };
 
   return (
-    <div className="flex flex-col gap-2 rounded-lg w-92 shadow-lg border">
-      <div className="h-48 aspect-w-4 aspect-h-3">
+    <div className="font-roboto relative rounded-sm w-92 shadow-lg border overflow-hidden">
+      <div className="h-48 aspect-w-4 aspect-h-3 relative">
         <img
-          className="rounded-t-lg w-full h-full object-cover"
+          className="w-full h-full object-cover"
           src={room.roomImageUrl}
           loading="lazy"
           alt="Room"
         />
-      </div>
-      <div className="flex flex-col justify-between px-3 font-body">
-        <div>
-          <div className="flex text-xs gap-4">
-            <p className="rounded-sm bg-[#f84464] py-1 px-3 text-white">
-              Balconies {room.numberOfBalconies}
-            </p>
-            <p className="rounded-sm bg-[#f84464] py-1 px-3 text-white">
-              Floor {room.floorNumber}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[#f84464]">
-              <FaLocationDot />
-            </span>
-            <p className="text-sm font-semibold mt-1">
-              {room.address}, {room.city}, {room.state}, {room.landmark}
-            </p>
-          </div>
-        </div>
-        <div className="flex justify-between items-center mt-3">
-          <div className="flex flex-col mb-2">
-            <h2 className="text-xs">Rental</h2>
-            <p className="text-sm -mt-1 font-bold">₹{room.rent}/month</p>
-          </div>
-          <span
-            onClick={handleBookmark}
-            className="mr-2 cursor-pointer text-xl transition-colors duration-300"
-          >
-            {isBookmarked ? (
-              <FaHeart className="text-red-500" />
-            ) : (
-              <FaRegHeart className="text-gray-500 hover:text-red-500" />
-            )}
-          </span>
-        </div>
-      </div>
-      <div className="px-3 pb-2">
-        <Link to={`/room/${room.roomId}`}>
-          <p className="text-sm flex items-center">
-            View details
-            <span className="text-2xl mx-1">
-              <MdArrowRightAlt />
-            </span>
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-3 text-white"
+          initial={{ x: 200 }}
+          whileHover={{ x: 0 }}
+          transition={{ delay: 0.2, type: "tween", stiffness: 200 }}
+        >
+          <p className="text-xs">
+            {room.city}, {room.state}
           </p>
+        </motion.div>
+      </div>
+      <div className="px-3 py-2 font-body">
+        <div className="flex text-xs gap-2 ">
+          <p className="rounded-sm bg-[#449ba2] py-1 px-3 text-white">
+            Balconies {room.numberOfBalconies}
+          </p>
+          <p className="rounded-sm bg-[#449ba2] py-1 px-3 text-white">
+            Floor {room.floorNumber}
+          </p>
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <p className="text-sm">
+            {room.address}, {room.landmark}
+          </p>
+        </div>
+        <div className="flex flex-col justify-between mt-2 font-roboto-condensed">
+          <p className="text-xs">Rent</p>
+          <h2 className="text-lg font-bold -mt-2">₹{room.rent}/month</h2>
+        </div>
+      </div>
+      <div className="px-3 py-2 flex justify-between">
+        <button
+          onClick={handleBookmark}
+          className="flex items-center gap-2 text-sm text-[#449ba2] hover:text-red-500 transition-colors duration-300"
+        >
+          {isBookmarked ? (
+            <FaHeart className="text-red-500" />
+          ) : (
+            <FaRegHeart className="text-gray-500" />
+          )}
+          Save
+        </button>
+        <Link to={`/room/${room.roomId}`} className="text-sm text-[#449ba2] hover:text-gray-500 transition-colors duration-300">
+          Visit
         </Link>
       </div>
     </div>

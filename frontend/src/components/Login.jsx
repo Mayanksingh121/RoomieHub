@@ -108,7 +108,7 @@ const Login = ({ handleLogin }) => {
         initial={{ y: -250, opacity: 0 }}
         animate={{ y: 0, opacity: 100 }}
         transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-        className="font-display w-1/3 h-[90%] bg-white m-auto mt-5 rounded-lg flex flex-col"
+        className="font-roboto w-1/3 h-[94%] bg-white m-auto mt-5 rounded-lg flex flex-col"
       >
         <div className="mt-10 flex justify-between w-full items-center">
           <h3 className="ml-16 px-1 font-medium">Get Started</h3>
@@ -126,7 +126,7 @@ const Login = ({ handleLogin }) => {
                 value={user.name}
                 onChange={handleChange}
                 id="name"
-                className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+                className="border w-3/4 my-2 px-2 py-2 rounded-lg focus:outline-1"
                 type="text"
                 placeholder="Enter Your Name"
                 autoComplete="on"
@@ -137,7 +137,7 @@ const Login = ({ handleLogin }) => {
               value={user.userEmail}
               onChange={handleChange}
               id="email"
-              className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+              className="border w-3/4 my-2 px-2 py-2 rounded-lg focus:outline-1"
               type="text"
               placeholder="Enter Email"
               autoComplete="on"
@@ -171,13 +171,13 @@ const Login = ({ handleLogin }) => {
                 name="userProfile"
                 onChange={handleChange}
                 type="file"
-                className="border w-3/4 my-3 px-2 py-2 rounded-lg focus:outline-1"
+                className="border w-3/4 my-2 px-2 py-2 rounded-lg focus:outline-1"
               />
             )}
             <p className="text-red-500">{errorMessage}</p>
             <button
               onClick={handleUserLogin}
-              className="bg-[#f84464] mt-4 w-3/4 py-2 text-lg rounded-lg"
+              className="bg-[#449ba2] mt-4 w-3/4 text-white py-2 text-lg rounded-lg"
             >
               {alreadyUser ? "Sign in" : "Sign Up"}
             </button>
@@ -194,7 +194,7 @@ const Login = ({ handleLogin }) => {
             />
             <button
               onClick={handleOtpSubmit}
-              className="bg-[#f84464] mt-4 w-3/4 py-2 text-lg rounded-lg"
+              className="bg-[#449ba2] mt-4 w-3/4 py-2 text-lg rounded-lg"
             >
               Submit OTP
             </button>
