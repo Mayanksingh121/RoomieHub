@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 public interface RoomService {
-	Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
-			MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,
-			String state, String city, String address, FurnishedStatus furnishedStatus, String userEmail,
-			MultipartFile roomVideo,String preference) throws IOException;
+	 String saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
+        MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,
+        String state, String city, String address, FurnishedStatus furnishedStatus, String userEmail,
+        MultipartFile roomVideo, String preference, Boolean lift, Boolean reservedParking, Boolean security,
+			Boolean gym, Boolean maintainanceStaff, Boolean garden, Boolean wifi) throws IOException;
 
 	List<Room> getAllRooms();
 

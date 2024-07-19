@@ -1,6 +1,7 @@
 package com.example.room;
 
 import java.util.List;
+
 import com.example.user.User;
 import com.example.watchlist.Watchlist;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
 
 @Entity
 public class Room {
@@ -65,16 +67,33 @@ public class Room {
 	@JsonIgnore
 	private List<Watchlist> watchlists;
 
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean lift;
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean reservedParking;
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean security;
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean gym;
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean maintainanceStaff;
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean garden;
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean wifi;
+
+
 	public Room() {
 		// TODO Auto-generated constructor stub
 	}
 
-
-
-	public Room(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea, String preference,
-			String roomImageUrl, String roomImagePublicId, String roomVideoUrl, String roomVideoPublicId, Double rent,
-			Double securityDeposit, String description, String landmark, String state, String city, String address,
-			FurnishedStatus furnishedStatus, User user) {
+	public Room(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
+			String preference, String roomImageUrl, String roomImagePublicId, String roomVideoUrl,
+			String roomVideoPublicId, Double rent, Double securityDeposit, String description, String landmark,
+			String state, String city, String address, FurnishedStatus furnishedStatus, User user,
+			Boolean lift, Boolean reservedParking, Boolean security, Boolean gym,
+			Boolean maintainanceStaff, Boolean garden, Boolean wifi) {
+		this.roomId = roomId;
 		this.numberOfBalconies = numberOfBalconies;
 		this.bathRooms = bathRooms;
 		this.floorNumber = floorNumber;
@@ -93,9 +112,70 @@ public class Room {
 		this.address = address;
 		this.furnishedStatus = furnishedStatus;
 		this.user = user;
+		this.lift = lift;
+		this.reservedParking = reservedParking;
+		this.security = security;
+		this.gym = gym;
+		this.maintainanceStaff = maintainanceStaff;
+		this.garden = garden;
+		this.wifi = wifi;
 	}
 
+	public Boolean getLift() {
+		return lift;
+	}
 
+	public void setLift(Boolean lift) {
+		this.lift = lift;
+	}
+
+	public Boolean getReservedParking() {
+		return reservedParking;
+	}
+
+	public void setReservedParking(Boolean reservedParking) {
+		this.reservedParking = reservedParking;
+	}
+
+	public Boolean getSecurity() {
+		return security;
+	}
+
+	public void setSecurity(Boolean security) {
+		this.security = security;
+	}
+
+	public Boolean getGym() {
+		return gym;
+	}
+
+	public void setGym(Boolean gym) {
+		this.gym = gym;
+	}
+
+	public Boolean getMaintainanceStaff() {
+		return maintainanceStaff;
+	}
+
+	public void setMaintainanceStaff(Boolean maintainanceStaff) {
+		this.maintainanceStaff = maintainanceStaff;
+	}
+
+	public Boolean getGarden() {
+		return garden;
+	}
+
+	public void setGarden(Boolean garden) {
+		this.garden = garden;
+	}
+
+	public Boolean getWifi() {
+		return wifi;
+	}
+
+	public void setWifi(Boolean wifi) {
+		this.wifi = wifi;
+	}
 
 	public String getPreference() {
 		return preference;
@@ -177,8 +257,6 @@ public class Room {
 		this.roomArea = roomArea;
 	}
 
-
-
 	public int getBathRooms() {
 		return bathRooms;
 	}
@@ -186,7 +264,6 @@ public class Room {
 	public void setBathRooms(int bathRooms) {
 		this.bathRooms = bathRooms;
 	}
-
 
 	public Double getSecurityDeposit() {
 		return securityDeposit;
@@ -271,6 +348,5 @@ public class Room {
 	public void setRoomVideoPublicId(String roomVideoPublicId) {
 		this.roomVideoPublicId = roomVideoPublicId;
 	}
-
 
 }

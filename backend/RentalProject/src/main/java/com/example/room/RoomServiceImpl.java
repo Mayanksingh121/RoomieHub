@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.example.cloudinary.CloudinaryServiceImpl;
 import com.example.exception.ResourceNotFoundException;
 import com.example.user.User;
@@ -24,10 +23,12 @@ public class RoomServiceImpl implements RoomService {
 	private CloudinaryServiceImpl cloudinaryServiceImpl;
 
 	@Override
-	public Room saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
+	public String saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
 			MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,
 			String state, String city, String address, FurnishedStatus furnishedStatus, String userEmail,
-			MultipartFile roomVideo, String preference)
+			MultipartFile roomVideo, String preference, Boolean lift, Boolean reservedParking, Boolean security,
+			Boolean gym, Boolean maintainanceStaff, Boolean garden,
+			Boolean wifi)
 			throws IOException {
 		// Upload the image and video
 		Map<String, Object> imageObject = this.cloudinaryServiceImpl.uploadMedia(roomImage);
@@ -48,8 +49,14 @@ public class RoomServiceImpl implements RoomService {
 					userEmail);
 		}
 
-		Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea, preference, roomImageUrl, imagePublicId, roomVideoUrl, videoPublicId, rent, securityDeposit, description, landmark, state, city, address, furnishedStatus, user);
-		return this.roomRepository.save(room);
+		Room room = new Room(null, numberOfBalconies, bathRooms, floorNumber, roomArea, preference, roomImageUrl,
+				imagePublicId, roomVideoUrl, videoPublicId, rent, securityDeposit, description, landmark, state, city,
+				address, furnishedStatus, user, lift, reservedParking, security, gym, maintainanceStaff, garden, wifi);
+
+		this.roomRepository.save(room);
+
+
+	return "Room created successfully";
 	}
 
 
@@ -65,15 +72,6 @@ public class RoomServiceImpl implements RoomService {
 				.orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
 	}
 
-	// @Override
-	// public Room addRoommateToRoom(Long roomId, String description, String preferences) {
-	// 	Room room = roomRepository.findById(roomId)
-	// 			.orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
-	// 	RoomMate roommate = new RoomMate(description, preferences, room);
-	// 	room.addRoommate(roommate);
-	// 	roommateRepository.save(roommate);
-	// 	return roomRepository.save(room);
-	// }
 
 	@Override
 	public Room updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber,

@@ -24,26 +24,36 @@ public class RoomController {
 	private RoomService roomService;
 
 	@PostMapping("/add-room")
-	public ResponseEntity<Room> addRoom(
+	public ResponseEntity<String> addRoom(
 			@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
 			@RequestParam(name = "bathRooms") Integer bathRooms,
 			@RequestParam(name = "floorNumber") String floorNumber,
 			@RequestParam(name = "roomArea") String roomArea,
 			@RequestParam(name = "roomImage") MultipartFile roomImage,
 			@RequestParam(name = "roomVideo") MultipartFile roomVideo,
-			@RequestParam(name = "rent") Double rent, @RequestParam(name = "securityDeposit") Double securityDeposit,
-			@RequestParam(name = "description") String description, @RequestParam(name = "landmark") String landmark,
-			@RequestParam(name = "state") String state, @RequestParam(name = "city") String city,
+			@RequestParam(name = "rent") Double rent,
+			@RequestParam(name = "securityDeposit") Double securityDeposit,
+			@RequestParam(name = "description") String description,
+			@RequestParam(name = "landmark") String landmark,
+			@RequestParam(name = "state") String state,
+			@RequestParam(name = "city") String city,
 			@RequestParam(name = "address") String address,
 			@RequestParam(name = "furnishedStatus") FurnishedStatus furnishedStatus,
 			@RequestParam(name = "userEmail") String userEmail,
-			@RequestParam(name = "preference", required = false) String preference) throws IOException {
+			@RequestParam(name = "preference", required = false) String preference,
+			@RequestParam(name = "lift", required = false) Boolean lift,
+			@RequestParam(name = "reservedParking", required = false) Boolean reservedParking,
+			@RequestParam(name = "security", required = false) Boolean security,
+			@RequestParam(name = "gym", required = false) Boolean gym,
+			@RequestParam(name = "maintainanceStaff", required = false) Boolean maintainanceStaff,
+			@RequestParam(name = "garden", required = false) Boolean garden,
+			@RequestParam(name = "wifi", required = false) Boolean wifi) throws IOException {
 
 		try {
-			Room room = roomService.saveRoom(numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage, rent,
+			 String msg=this.roomService.saveRoom(numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage, rent,
 					securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
-					roomVideo, preference);
-			return new ResponseEntity<>(room, HttpStatus.CREATED);
+					roomVideo, preference, lift, reservedParking, security, gym, maintainanceStaff, garden, wifi);
+			return new ResponseEntity<>(msg, HttpStatus.CREATED);
 		} catch (Exception ex) {
 			// Log the exception details
 			ex.printStackTrace();
