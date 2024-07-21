@@ -6,26 +6,20 @@ const WatchListCard = ({ room }) => {
   return (
     <Link to={`/room/${room.roomId}`}>
       <motion.div
-        whileHover={{ scale: 1.03 }}
-        className="font-display cursor-pointer bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-lg shadow-lg overflow-hidden w-72 h-92"
+        whileHover={{ scale: 1.01 }}
+        className="font-roboto cursor-pointer bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden w-72 h-92 transition-transform transform hover:shadow-xl"
       >
         <img
           src={roomImageUrl}
           alt="Room"
-          className="w-full h-48 object-cover rounded-t-lg"
+          className="w-full h-48 object-cover"
         />
-        <div className="flex flex-col justify-between py-2 px-2 bg-white rounded-b-lg h-48">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">
-              Address: {address}
-            </h3>
-            <p className="text-sm text-gray-600 mt-2">Location: {state}</p>
-          </div>
-          <div>
-            <p className="text-xl text-gray-800 mt-2 font-bold">
-              Rent: ₹{rent}
-            </p>
-          </div>
+        <div className="p-4">
+          <h3 className="text-lg font-semibold text-gray-900">{address}</h3>
+          <p className="text-sm text-gray-600">{state}</p>
+          <p className="font-roboto-condensed text-xl text-gray-800 font-bold mt-2">
+            ₹{rent}
+          </p>
         </div>
       </motion.div>
     </Link>

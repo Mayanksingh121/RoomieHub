@@ -66,7 +66,9 @@ const RoomInformation = ({ handleLogin }) => {
 
         <div className="p-8">
           <div className="flex flex-col md:flex-row md:justify-between mb-8">
-            <h1 className="text-4xl font-bold font-roboto-condensed text-gray-800 mb-4 md:mb-0">Room Details</h1>
+            <h1 className="text-4xl font-bold font-roboto-condensed text-gray-800 mb-4 md:mb-0">
+              Room Details
+            </h1>
             <div className="flex space-x-4">
               <button
                 onClick={handleGetPhoneNo}
@@ -85,10 +87,20 @@ const RoomInformation = ({ handleLogin }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 font-roboto">
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4">Room Info</h2>
-              <p className="text-lg text-gray-600 mb-2"><strong className="font-roboto-slab">Rental:</strong> ₹{rent}</p>
-              <p className="text-lg text-gray-600 mb-2"><strong className="font-roboto-slab">Security Deposit:</strong> ₹{securityDeposit}</p>
-              <p className="text-lg text-gray-600 mb-4"><strong className="font-roboto-slab">Location:</strong> {address}, {city}, {state}</p>
+              <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+                Room Info
+              </h2>
+              <p className="text-lg text-gray-600 mb-2">
+                <strong className="font-roboto-slab">Rental:</strong> ₹{rent}
+              </p>
+              <p className="text-lg text-gray-600 mb-2">
+                <strong className="font-roboto-slab">Security Deposit:</strong>{" "}
+                ₹{securityDeposit}
+              </p>
+              <p className="text-lg text-gray-600 mb-4">
+                <strong className="font-roboto-slab">Location:</strong>{" "}
+                {address}, {city}, {state}
+              </p>
               <div className="grid grid-cols-2 gap-4 font-roboto-condensed">
                 <div className="flex items-center space-x-2">
                   <GiSofa className="text-red-500 text-2xl" />
@@ -127,10 +139,16 @@ const RoomInformation = ({ handleLogin }) => {
               </div>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4 font-roboto">More Information</h2>
-              <p className="text-lg text-gray-600 mb-4 font-roboto-slab">{description}</p>
+              <h2 className="text-2xl font-semibold text-gray-700 mb-4 font-roboto">
+                More Information
+              </h2>
+              <p className="text-lg text-gray-600 mb-4 font-roboto-slab">
+                {description}
+              </p>
               <div className="border-t pt-4 mt-4">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4 font-roboto">Amenities</h2>
+                <h2 className="text-xl font-semibold text-gray-700 mb-4 font-roboto">
+                  Amenities
+                </h2>
                 <ul className="list-disc font-roboto-slab pl-5 text-gray-700">
                   <li className={garden ? "text-green-600" : "text-gray-500"}>
                     🌳 Garden: {garden ? "Available" : "Not Available"}
@@ -138,8 +156,13 @@ const RoomInformation = ({ handleLogin }) => {
                   <li className={gym ? "text-green-600" : "text-gray-500"}>
                     🏋️ Gym: {gym ? "Available" : "Not Available"}
                   </li>
-                  <li className={reservedParking ? "text-green-600" : "text-gray-500"}>
-                    🅿️ Reserved Parking: {reservedParking ? "Available" : "Not Available"}
+                  <li
+                    className={
+                      reservedParking ? "text-green-600" : "text-gray-500"
+                    }
+                  >
+                    🅿️ Reserved Parking:{" "}
+                    {reservedParking ? "Available" : "Not Available"}
                   </li>
                   <li className={security ? "text-green-600" : "text-gray-500"}>
                     🛡️ Security: {security ? "Available" : "Not Available"}
@@ -154,7 +177,11 @@ const RoomInformation = ({ handleLogin }) => {
 
           <div className="relative flex flex-col gap-6">
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-              <img className="w-full h-80 object-cover rounded-xl" src={roomImageUrl} alt="Room" />
+              <img
+                className="w-full h-80 object-cover rounded-xl"
+                src={roomImageUrl}
+                alt="Room"
+              />
             </div>
             <div className="absolute top-0 right-0 rounded-xl">
               <OwnerCard handleGetPhoneNo={handleGetPhoneNo} />
