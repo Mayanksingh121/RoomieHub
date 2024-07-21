@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { FaPhoneAlt } from "react-icons/fa";
 
 const OwnerCard = ({ handleGetPhoneNo }) => {
   const [showPhoneNo, setShowPhoneNo] = useState(false);
@@ -23,30 +24,25 @@ const OwnerCard = ({ handleGetPhoneNo }) => {
   };
 
   return (
-    <div className="w-full bg-[#ffffff] text-[#303030] mx-3 border border-[#e1e1e1]  rounded-xl shadow-md">
-      <div className="flex mt-6 mb-3 justify-between ml-6 mr-14">
-        <h2 className="font-semibold text-xl">Contact Owner</h2>
-        <div className="-mt-1 w-10 h-10">
+    <div className="w-full bg-white text-gray-800 border border-gray-300 rounded-xl shadow-lg overflow-hidden">
+      <div className="flex items-center justify-between p-4 bg-gray-200">
+        <div className="flex items-center gap-4">
           <img
-            className="rounded-full w-10 h-10 object-cover"
+            className="w-20 h-20 rounded-full border-4 border-gray-300"
             src={userProfileUrl}
-            alt="userImage"
+            alt="Owner"
           />
+          <div className="mr-2">
+            <h2 className="text-xl font-montserrat font-semibold">{name}</h2>
+            <p className="text-sm text-gray-600">{`+91-${showPhoneNo ? userPhoneNumber : "XXXXXXXXXX"}`}</p>
+          </div>
         </div>
-      </div>
-
-      <div className="flex items-center gap-2 mx-6">
-        <h2 className="text-lg font-semibold">{name}</h2>
-        <p className="text-xs text-[#585858]">{`+91-${
-          showPhoneNo ? userPhoneNumber : "XXXXXXXXXX"
-        }`}</p>
-      </div>
-      <div className="flex justify-center mx-auto my-4">
         <button
           onClick={handleButtonClick}
-          className="bg-[#449ba2] text-white w-[70%] rounded-3xl py-3"
+          className="flex items-center gap-2 bg-gray-800 text-white px-3 py-2 rounded-full shadow-md hover:bg-gray-900 transition"
         >
-          {showPhoneNo ? "Hide Phone number" : "Get Phone No"}
+          <FaPhoneAlt />
+          {showPhoneNo ? "Hide Phone Number" : "Get Phone Number"}
         </button>
       </div>
     </div>

@@ -128,7 +128,10 @@ const RoomCard = ({ room }) => {
           )}
           Save
         </button>
-        <Link to={`/room/${room.roomId}`} className="text-sm text-[#449ba2] hover:text-gray-500 transition-colors duration-300">
+        <Link
+          to={`/room/${room.roomId}`}
+          className="text-sm text-[#449ba2] hover:text-gray-500 transition-colors duration-300"
+        >
           Visit
         </Link>
       </div>
