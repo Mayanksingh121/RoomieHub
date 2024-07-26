@@ -31,6 +31,7 @@ const OwnerCard = ({ handleGetPhoneNo }) => {
             className="w-20 h-20 rounded-full border-4 border-gray-300"
             src={userProfileUrl}
             alt="Owner"
+            loading="lazy"
           />
           <div className="mr-2">
             <h2 className="text-xl font-montserrat font-semibold">{name}</h2>

@@ -7,6 +7,7 @@ const RoommateCard = ({ roommate }) => {
         className="w-full h-32 object-cover rounded-t-lg"
         src="https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg"
         alt="roommate image"
+        loading="lazy"
       />
       <div className="px-4 py-2">
         <div className="font-display font-bold text-lg mb-1">{roommate.user.name}</div>
