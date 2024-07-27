@@ -34,18 +34,6 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-	// @Override
-	// @Transactional
-	// public User addRoom(String userEmail, Room room) {
-	// 	User user = userRepository.findByUserEmail(userEmail);
-	// 	if (user == null) {
-	// 		throw new ResourceNotFoundException("User not found with email: " + userEmail);
-	// 	}
-	// 	user.getRooms().add(room);
-	// 	room.setUser(user); // Ensure the room is correctly linked to the user
-	// 	return userRepository.save(user);
-	// }
-
 	@Override
 	public User getUserByUserEmail(String userEmail) {
 		User user = userRepository.findByUserEmail(userEmail);
@@ -53,12 +41,6 @@ public class UserServiceImpl implements UserService {
 			throw new ResourceNotFoundException("User not found with provided email: ");
 		}
 		return user;
-	}
-
-	@Override
-	public User getUserById(Long id) {
-		return userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 	}
 
 	@Override
@@ -100,8 +82,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String deleteUser(Long userId) {
-		User user = getUserById(userId);
+	public String deleteUser(String userEmail) {
+		User user = getUserByUserEmail(userEmail);
 		if (user.getUserProfileUrl() != null) {
 			if (user.getUserProfilePublicId() != null) {
 				this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(), "image");

@@ -20,7 +20,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-//@RequestMapping(value = "/api/user")
 @CrossOrigin("*")
 
 public class UserController {
@@ -28,26 +27,24 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-@PostMapping("/add-user")
-public ResponseEntity<User> addUser(
-		@RequestParam("userEmail") String userEmail,
-		@RequestParam(name = "name") String name,
-		@RequestParam("userPassword") String userPassword,
-		@RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
-		@RequestParam("userPhoneNumber") Long userPhoneNumber,
-				HttpServletRequest request) throws IOException {
-	HttpSession session = request.getSession();
-	System.out.println(session.getId());
-	session.setAttribute("userEmail", userEmail);
-	User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
-	return new ResponseEntity<>(user, HttpStatus.CREATED);
-}
+	@PostMapping("/add-user")
+	public ResponseEntity<User> addUser(
+			@RequestParam("userEmail") String userEmail,
+			@RequestParam(name = "name") String name,
+			@RequestParam("userPassword") String userPassword,
+			@RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
+			@RequestParam("userPhoneNumber") Long userPhoneNumber,
+			HttpServletRequest request) throws IOException {
+		HttpSession session = request.getSession();
+		System.out.println(session.getId());
+		session.setAttribute("userEmail", userEmail);
+		User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
 
-
-
-	@GetMapping("/get-user/{userId}")
-	public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-		User user = userService.getUserById(userId);
+	@GetMapping("/get-user/{userEmail}")
+	public ResponseEntity<User> getUser(@PathVariable String userEmail) {
+		User user = userService.getUserByUserEmail(userEmail);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
@@ -59,19 +56,17 @@ public ResponseEntity<User> addUser(
 
 	@PutMapping("/update-user/{userEmail}")
 	public ResponseEntity<User> updateUser(@PathVariable String userEmail, @RequestParam("name") String name,
-			 @RequestParam("userPassword") String userPassword,
+			@RequestParam("userPassword") String userPassword,
 			@RequestParam(name = "userProfile", required = false) MultipartFile file,
 			@RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
-		User updatedUser = userService.updateUser( name, userEmail, userPassword, file, userPhoneNumber);
+		User updatedUser = userService.updateUser(name, userEmail, userPassword, file, userPhoneNumber);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/delete-user/{userId}")
-	public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-		String msg=this.userService.deleteUser(userId);
-		return new ResponseEntity<>(msg,HttpStatus.OK);
+	@DeleteMapping("/delete-user/{userEmail}")
+	public ResponseEntity<String> deleteUser(@PathVariable String userEmail) {
+		String msg = this.userService.deleteUser(userEmail);
+		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
-
-
 
 }
