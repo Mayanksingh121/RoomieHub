@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import Header from "./components/Header";
 import Login from "./components/Login";
-import Body from "./components/Body";
-import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
-import WatchList from "./components/WatchList";
+import { Toaster } from "react-hot-toast";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import RoomInformation from "./components/roomdetails/RoomInformation";
-import RoommateDetails from "./components/RoommateDetails";
+import LoadingSpinner from "./components/LoadingSpinner";
+
+// Lazy load components
+const Body = lazy(() => import("./components/Body"));
+const RoomInformation = lazy(() =>
+  import("./components/roomdetails/RoomInformation")
+);
+const WatchList = lazy(() => import("./components/WatchList"));
+const RoommateDetails = lazy(() => import("./components/RoommateDetails"));
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -40,7 +45,9 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} />
       {showLogin && <Login handleLogin={handleShowLogin} />}
       <Header handleLogin={handleShowLogin} />
-      <RouterProvider router={appRouting} />
+      <Suspense fallback={<LoadingSpinner />}>
+        <RouterProvider router={appRouting} />
+      </Suspense>
       <Footer />
     </div>
   );

@@ -7,12 +7,14 @@ import { MdBalcony } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 import UserModal from "./UserModal";
+import useGetRoomsData from "../../hooks/useGetRoomsData";
 
 const RoomInformation = ({ handleLogin }) => {
   const { roomId } = useParams();
   const data = useSelector((store) => store.room?.availableRooms);
   const reqRoom = data?.find((room) => room.roomId === Number(roomId));
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
 
   const loginStatus = useSelector((store) => store.user.isLoggedIn);
   const { name, userPhoneNumber, userProfileUrl, userEmail } = reqRoom.user;

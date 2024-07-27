@@ -6,6 +6,7 @@ import AddRoom from "./AddRoom";
 import RoommateContainer from "./RoommateContainer";
 import AddRoommate from "./AddRoommate";
 import About from "./About";
+import CustomerReviews from "./CustomerReview";
 
 const Body = () => {
   useGetRoomsData();
@@ -15,6 +16,7 @@ const Body = () => {
       <About />
       <RoomContainer />
       <RoommateContainer />
+      <CustomerReviews/>
       <AddRoom />
       <AddRoommate />
     </div>

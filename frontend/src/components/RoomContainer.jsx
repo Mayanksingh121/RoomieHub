@@ -1,7 +1,7 @@
 import Shimmer from "./Shimmer";
 import { useSelector } from "react-redux";
 import RoomCard from "./RoomCard";
-import { MdOutlineSort, MdOutlineSearch } from "react-icons/md";
+import {  MdOutlineSearch } from "react-icons/md";
 import { useState, useEffect } from "react";
 
 const RoomContainer = () => {
@@ -9,32 +9,36 @@ const RoomContainer = () => {
   const [userSearch, setUserSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sortOrder, setSortOrder] = useState(null);
+  const [sortAndFilter, setSortAndFilter] = useState("default");
   const noOfShimmers = 20;
 
   useEffect(() => {
-    let sortedResults = [...roomInfo];
-    if (sortOrder === "low-to-high") {
-      sortedResults.sort((a, b) => a.rent - b.rent);
-    } else if (sortOrder === "high-to-low") {
-      sortedResults.sort((a, b) => b.rent - a.rent);
+    let results = [...roomInfo];
+    
+    if (sortAndFilter !== "default") {
+      if (sortAndFilter === "low-to-high" || sortAndFilter === "high-to-low") {
+        results.sort((a, b) =>
+          sortAndFilter === "low-to-high" ? a.rent - b.rent : b.rent - a.rent
+        );
+      } else {
+        results = results.filter((room) => room.furnishedStatus === sortAndFilter);
+      }
     }
-    setSearchResult(sortedResults);
+
+    results = results.filter((room) =>
+      room.state.toLowerCase().includes(userSearch.toLowerCase())
+    );
+
+    setSearchResult(results);
     setLoading(false);
-  }, [roomInfo, sortOrder]);
+  }, [roomInfo, sortAndFilter, userSearch]);
 
   const handleSearch = (e) => {
-    const searchValue = e.target.value;
-    setUserSearch(searchValue);
-    setSearchResult(
-      roomInfo.filter((room) => {
-        return room.state.toLowerCase().includes(searchValue.toLowerCase());
-      })
-    );
+    setUserSearch(e.target.value);
   };
 
-  const handleSort = (e) => {
-    setSortOrder(e.target.value);
+  const handleSortAndFilter = (e) => {
+    setSortAndFilter(e.target.value);
   };
 
   return (
@@ -56,14 +60,17 @@ const RoomContainer = () => {
             />
           </div>
           <div className="flex gap-2 items-center">
-            <span className="font-roboto-slab">Sort:</span>
+            <span className="font-roboto-slab">Sort & Filter:</span>
             <select
-              onChange={handleSort}
+              onChange={handleSortAndFilter}
               className="shadow-sm focus:outline-none border px-2 py-1"
             >
-              <option value="">Select </option>
+              <option value="default">Select</option>
               <option value="low-to-high">Rent (low to high)</option>
               <option value="high-to-low">Rent (high to low)</option>
+              <option value="FULLYFURNISHED">Furnished: Fully Furnished</option>
+              <option value="SEMIFURNISHED">Furnished: Semi Furnished</option>
+              <option value="UNFURNISHED">Furnished: Unfurnished</option>
             </select>
           </div>
         </div>
