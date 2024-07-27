@@ -89,7 +89,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             helper.setFrom(senderEmail);
             helper.setTo(receiverEmail);
-            helper.setSubject("Forgot Password - OTP Verification");
+            helper.setSubject("Room Rental Interest - Contact Request");
             String htmlContent =  "<html><body><div class='container'>" +
             "<div class='header'><h2>Room Rental Interest</h2></div>" +
             "<div class='content'><p>Dear " + senderEmail + ",</p><p>Thank you for your interest in our room rental!</p>" +

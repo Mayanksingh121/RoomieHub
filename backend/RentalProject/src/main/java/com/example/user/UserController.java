@@ -43,41 +43,7 @@ public ResponseEntity<User> addUser(
 	return new ResponseEntity<>(user, HttpStatus.CREATED);
 }
 
-	//    @PostMapping("/add-user")
-	//     public ResponseEntity<User> addUser(
-	//             @RequestParam("userEmail") String userEmail,
-	//             @RequestParam(name = "name", required = false) String name,
-	//             @RequestParam("userPassword") String userPassword,
-	//             @RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
-	//             @RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
 
-	//         User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
-	//         return new ResponseEntity<>(user, HttpStatus.CREATED);
-	//     }
-
-//	@PostMapping("/add-user")
-//	public ResponseEntity<User> addUser(@RequestParam("userEmail") String userEmail,
-//			@RequestParam(name = "name", required = false) String name,
-//			@RequestParam("userPassword") String userPassword,
-//			@RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
-//			@RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
-//		User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
-//		return new ResponseEntity<>(user, HttpStatus.CREATED);
-//	}
-
-//	@GetMapping("/get-user/{userEmail}")
-//	public User getUserByEmail (@PathVariable("userEmail") String userEmail)
-//	{
-//		return this.userRepository.findByUserEmail(userEmail);
-//	}
-
-//    uncomment it
-
-//    @GetMapping("/user")
-//    public ResponseEntity<User> getUser(@RequestParam("userName") String userName) {
-//        User user = userService.getUserByUsername(userName);
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
 
 	@GetMapping("/get-user/{userId}")
 	public ResponseEntity<User> getUserById(@PathVariable Long userId) {

@@ -14,7 +14,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class User {
 	@Id
@@ -28,7 +37,7 @@ public class User {
 	@JsonIgnore
 	private String userPassword;
 	@Column(nullable = false)
-     private Long userPhoneNumber;
+	private Long userPhoneNumber;
 
 	@Column(length = 5000)
 	private String userProfileUrl;
@@ -42,27 +51,18 @@ public class User {
 	@JsonIgnore
 	private List<Watchlist> watchlist;
 
-	public User() {
-		// TODO Auto-generated constructor stub
-	}
-
-
-
 	public User(String name, String userEmail, String userPassword, Long userPhoneNumber, String userProfileUrl,
 			String userProfilePublicId
-			// List<Room> rooms, List<Watchlist> watchlist
-			) {
+
+	) {
 		this.name = name;
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 		this.userPhoneNumber = userPhoneNumber;
 		this.userProfileUrl = userProfileUrl;
 		this.userProfilePublicId = userProfilePublicId;
-		// this.rooms = rooms;
-		// this.watchlist = watchlist;
+
 	}
-
-
 
 	public String getUserProfileUrl() {
 		return userProfileUrl;
@@ -88,8 +88,6 @@ public class User {
 		this.userId = userId;
 	}
 
-
-
 	public String getName() {
 		return name;
 	}
@@ -97,7 +95,6 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public Long getUserPhoneNumber() {
 		return userPhoneNumber;
@@ -131,13 +128,9 @@ public class User {
 		this.rooms = rooms;
 	}
 
-
-
 	public String getUserProfilePublicId() {
 		return userProfilePublicId;
 	}
-
-
 
 	public void setUserProfilePublicId(String userProfilePublicId) {
 		this.userProfilePublicId = userProfilePublicId;

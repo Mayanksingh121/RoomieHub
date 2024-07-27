@@ -11,7 +11,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "watchlist")
 public class Watchlist {
@@ -29,37 +37,9 @@ public class Watchlist {
 	@JoinColumn(name = "room_id")
 	private Room room;
 
-	public Watchlist() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public Watchlist(User user, Room room) {
 		super();
 		this.user = user;
-		this.room = room;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
 		this.room = room;
 	}
 

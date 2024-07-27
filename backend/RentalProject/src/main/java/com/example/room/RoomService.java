@@ -16,6 +16,7 @@ public interface RoomService {
 	List<Room> getAllRooms();
 
 	Room getRoomById(Long roomId);
+	
 
 	// Room addRoommateToRoom(Long roomId, String description, String preferences);
 

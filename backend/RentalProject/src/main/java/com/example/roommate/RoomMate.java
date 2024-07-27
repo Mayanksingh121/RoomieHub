@@ -16,7 +16,15 @@ import jakarta.persistence.ManyToOne;
 
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class RoomMate {
 	@Id
@@ -60,8 +68,7 @@ public class RoomMate {
 	// @JsonIgnore
 	private User user;
 
-	public RoomMate() {
-	}
+
 
 	public RoomMate(Integer numberOfBalconies, Integer bathRooms, String floorNumber, Integer age, String occupation,
 			String preference, String roomImageUrl, String roomImagePublicId, String roomVideoUrl,
@@ -87,156 +94,5 @@ public class RoomMate {
 		this.user = user;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Integer getNumberOfBalconies() {
-		return numberOfBalconies;
-	}
-
-	public void setNumberOfBalconies(Integer numberOfBalconies) {
-		this.numberOfBalconies = numberOfBalconies;
-	}
-
-	public Integer getBathRooms() {
-		return bathRooms;
-	}
-
-	public void setBathRooms(Integer bathRooms) {
-		this.bathRooms = bathRooms;
-	}
-
-	public String getFloorNumber() {
-		return floorNumber;
-	}
-
-	public void setFloorNumber(String floorNumber) {
-		this.floorNumber = floorNumber;
-	}
-
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-
-	public String getOccupation() {
-		return occupation;
-	}
-
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
-	}
-
-	public String getPreference() {
-		return preference;
-	}
-
-	public void setPreference(String preference) {
-		this.preference = preference;
-	}
-
-	public String getRoomImageUrl() {
-		return roomImageUrl;
-	}
-
-	public void setRoomImageUrl(String roomImageUrl) {
-		this.roomImageUrl = roomImageUrl;
-	}
-
-	public String getRoomImagePublicId() {
-		return roomImagePublicId;
-	}
-
-	public void setRoomImagePublicId(String roomImagePublicId) {
-		this.roomImagePublicId = roomImagePublicId;
-	}
-
-	public String getRoomVideoUrl() {
-		return roomVideoUrl;
-	}
-
-	public void setRoomVideoUrl(String roomVideoUrl) {
-		this.roomVideoUrl = roomVideoUrl;
-	}
-
-	public String getRoomVideoPublicId() {
-		return roomVideoPublicId;
-	}
-
-	public void setRoomVideoPublicId(String roomVideoPublicId) {
-		this.roomVideoPublicId = roomVideoPublicId;
-	}
-
-	public Double getBudget() {
-		return budget;
-	}
-
-	public void setBudget(Double budget) {
-		this.budget = budget;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getLandmark() {
-		return landmark;
-	}
-
-	public void setLandmark(String landmark) {
-		this.landmark = landmark;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public LocalDate getAvailableFrom() {
-		return availableFrom;
-	}
-
-	public void setAvailableFrom(LocalDate availableFrom) {
-		this.availableFrom = availableFrom;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 }

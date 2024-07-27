@@ -18,9 +18,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
+@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+// @AllArgsConstructor
 public class Room {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,9 +91,9 @@ public class Room {
 	private Boolean wifi;
 
 
-	public Room() {
-		// TODO Auto-generated constructor stub
-	}
+	// public Room() {
+	// 	// TODO Auto-generated constructor stub
+	// }
 
 	public Room(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
 			String preference, String roomImageUrl, String roomImagePublicId, String roomVideoUrl,
@@ -121,232 +129,232 @@ public class Room {
 		this.wifi = wifi;
 	}
 
-	public Boolean getLift() {
-		return lift;
-	}
+	// public Boolean getLift() {
+	// return lift;
+	// }
 
-	public void setLift(Boolean lift) {
-		this.lift = lift;
-	}
+	// public void setLift(Boolean lift) {
+	// this.lift = lift;
+	// }
 
-	public Boolean getReservedParking() {
-		return reservedParking;
-	}
+	// public Boolean getReservedParking() {
+	// return reservedParking;
+	// }
 
-	public void setReservedParking(Boolean reservedParking) {
-		this.reservedParking = reservedParking;
-	}
+	// public void setReservedParking(Boolean reservedParking) {
+	// this.reservedParking = reservedParking;
+	// }
 
-	public Boolean getSecurity() {
-		return security;
-	}
+	// public Boolean getSecurity() {
+	// return security;
+	// }
 
-	public void setSecurity(Boolean security) {
-		this.security = security;
-	}
+	// public void setSecurity(Boolean security) {
+	// this.security = security;
+	// }
 
-	public Boolean getGym() {
-		return gym;
-	}
+	// public Boolean getGym() {
+	// return gym;
+	// }
 
-	public void setGym(Boolean gym) {
-		this.gym = gym;
-	}
+	// public void setGym(Boolean gym) {
+	// this.gym = gym;
+	// }
 
-	public Boolean getMaintainanceStaff() {
-		return maintainanceStaff;
-	}
+	// public Boolean getMaintainanceStaff() {
+	// return maintainanceStaff;
+	// }
 
-	public void setMaintainanceStaff(Boolean maintainanceStaff) {
-		this.maintainanceStaff = maintainanceStaff;
-	}
+	// public void setMaintainanceStaff(Boolean maintainanceStaff) {
+	// this.maintainanceStaff = maintainanceStaff;
+	// }
 
-	public Boolean getGarden() {
-		return garden;
-	}
+	// public Boolean getGarden() {
+	// return garden;
+	// }
 
-	public void setGarden(Boolean garden) {
-		this.garden = garden;
-	}
+	// public void setGarden(Boolean garden) {
+	// this.garden = garden;
+	// }
 
-	public Boolean getWifi() {
-		return wifi;
-	}
+	// public Boolean getWifi() {
+	// return wifi;
+	// }
 
-	public void setWifi(Boolean wifi) {
-		this.wifi = wifi;
-	}
+	// public void setWifi(Boolean wifi) {
+	// this.wifi = wifi;
+	// }
 
-	public String getPreference() {
-		return preference;
-	}
+	// public String getPreference() {
+	// return preference;
+	// }
 
-	public void setPreference(String preference) {
-		this.preference = preference;
-	}
+	// public void setPreference(String preference) {
+	// this.preference = preference;
+	// }
 
-	public List<Watchlist> getWatchlists() {
-		return watchlists;
-	}
+	// public List<Watchlist> getWatchlists() {
+	// return watchlists;
+	// }
 
-	public void setWatchlists(List<Watchlist> watchlists) {
-		this.watchlists = watchlists;
-	}
+	// public void setWatchlists(List<Watchlist> watchlists) {
+	// this.watchlists = watchlists;
+	// }
 
-	public Long getRoomId() {
-		return roomId;
-	}
+	// public Long getRoomId() {
+	// return roomId;
+	// }
 
-	public void setRoomId(Long roomId) {
-		this.roomId = roomId;
-	}
+	// public void setRoomId(Long roomId) {
+	// this.roomId = roomId;
+	// }
 
-	public double getRent() {
-		return rent;
-	}
+	// public double getRent() {
+	// return rent;
+	// }
 
-	public void setRent(double rent) {
-		this.rent = rent;
-	}
+	// public void setRent(double rent) {
+	// this.rent = rent;
+	// }
 
-	public String getState() {
-		return state;
-	}
+	// public String getState() {
+	// return state;
+	// }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+	// public void setState(String state) {
+	// this.state = state;
+	// }
 
-	public String getCity() {
-		return city;
-	}
+	// public String getCity() {
+	// return city;
+	// }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+	// public void setCity(String city) {
+	// this.city = city;
+	// }
 
-	public User getUser() {
-		return user;
-	}
+	// public User getUser() {
+	// return user;
+	// }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+	// public void setUser(User user) {
+	// this.user = user;
+	// }
 
-	public int getNumberOfBalconies() {
-		return numberOfBalconies;
-	}
+	// public int getNumberOfBalconies() {
+	// return numberOfBalconies;
+	// }
 
-	public void setNumberOfBalconies(int numberOfBalconies) {
-		this.numberOfBalconies = numberOfBalconies;
-	}
+	// public void setNumberOfBalconies(int numberOfBalconies) {
+	// this.numberOfBalconies = numberOfBalconies;
+	// }
 
-	public String getFloorNumber() {
-		return floorNumber;
-	}
+	// public String getFloorNumber() {
+	// return floorNumber;
+	// }
 
-	public void setFloorNumber(String floorNumber) {
-		this.floorNumber = floorNumber;
-	}
+	// public void setFloorNumber(String floorNumber) {
+	// this.floorNumber = floorNumber;
+	// }
 
-	public String getRoomArea() {
-		return roomArea;
-	}
+	// public String getRoomArea() {
+	// return roomArea;
+	// }
 
-	public void setRoomArea(String roomArea) {
-		this.roomArea = roomArea;
-	}
+	// public void setRoomArea(String roomArea) {
+	// this.roomArea = roomArea;
+	// }
 
-	public int getBathRooms() {
-		return bathRooms;
-	}
+	// public int getBathRooms() {
+	// return bathRooms;
+	// }
 
-	public void setBathRooms(int bathRooms) {
-		this.bathRooms = bathRooms;
-	}
+	// public void setBathRooms(int bathRooms) {
+	// this.bathRooms = bathRooms;
+	// }
 
-	public Double getSecurityDeposit() {
-		return securityDeposit;
-	}
+	// public Double getSecurityDeposit() {
+	// return securityDeposit;
+	// }
 
-	public void setSecurityDeposit(Double securityDeposit) {
-		this.securityDeposit = securityDeposit;
-	}
+	// public void setSecurityDeposit(Double securityDeposit) {
+	// this.securityDeposit = securityDeposit;
+	// }
 
-	public String getDescription() {
-		return description;
-	}
+	// public String getDescription() {
+	// return description;
+	// }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	// public void setDescription(String description) {
+	// this.description = description;
+	// }
 
-	public String getLandmark() {
-		return landmark;
-	}
+	// public String getLandmark() {
+	// return landmark;
+	// }
 
-	public void setLandmark(String landmark) {
-		this.landmark = landmark;
-	}
+	// public void setLandmark(String landmark) {
+	// this.landmark = landmark;
+	// }
 
-	public String getAddress() {
-		return address;
-	}
+	// public String getAddress() {
+	// return address;
+	// }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	// public void setAddress(String address) {
+	// this.address = address;
+	// }
 
-	public FurnishedStatus getFurnishedStatus() {
-		return furnishedStatus;
-	}
+	// public FurnishedStatus getFurnishedStatus() {
+	// return furnishedStatus;
+	// }
 
-	public void setFurnishedStatus(FurnishedStatus furnishedStatus) {
-		this.furnishedStatus = furnishedStatus;
-	}
+	// public void setFurnishedStatus(FurnishedStatus furnishedStatus) {
+	// this.furnishedStatus = furnishedStatus;
+	// }
 
-	public void setNumberOfBalconies(Integer numberOfBalconies) {
-		this.numberOfBalconies = numberOfBalconies;
-	}
+	// public void setNumberOfBalconies(Integer numberOfBalconies) {
+	// this.numberOfBalconies = numberOfBalconies;
+	// }
 
-	public void setBathRooms(Integer bathRooms) {
-		this.bathRooms = bathRooms;
-	}
+	// public void setBathRooms(Integer bathRooms) {
+	// this.bathRooms = bathRooms;
+	// }
 
-	public void setRent(Double rent) {
-		this.rent = rent;
-	}
+	// public void setRent(Double rent) {
+	// this.rent = rent;
+	// }
 
-	public String getRoomImageUrl() {
-		return roomImageUrl;
-	}
+	// public String getRoomImageUrl() {
+	// return roomImageUrl;
+	// }
 
-	public void setRoomImageUrl(String roomImageUrl) {
-		this.roomImageUrl = roomImageUrl;
-	}
+	// public void setRoomImageUrl(String roomImageUrl) {
+	// this.roomImageUrl = roomImageUrl;
+	// }
 
-	public String getRoomImagePublicId() {
-		return roomImagePublicId;
-	}
+	// public String getRoomImagePublicId() {
+	// return roomImagePublicId;
+	// }
 
-	public void setRoomImagePublicId(String roomImagePublicId) {
-		this.roomImagePublicId = roomImagePublicId;
-	}
+	// public void setRoomImagePublicId(String roomImagePublicId) {
+	// this.roomImagePublicId = roomImagePublicId;
+	// }
 
-	public String getRoomVideoUrl() {
-		return roomVideoUrl;
-	}
+	// public String getRoomVideoUrl() {
+	// return roomVideoUrl;
+	// }
 
-	public void setRoomVideoUrl(String roomVideoUrl) {
-		this.roomVideoUrl = roomVideoUrl;
-	}
+	// public void setRoomVideoUrl(String roomVideoUrl) {
+	// this.roomVideoUrl = roomVideoUrl;
+	// }
 
-	public String getRoomVideoPublicId() {
-		return roomVideoPublicId;
-	}
+	// public String getRoomVideoPublicId() {
+	// return roomVideoPublicId;
+	// }
 
-	public void setRoomVideoPublicId(String roomVideoPublicId) {
-		this.roomVideoPublicId = roomVideoPublicId;
-	}
+	// public void setRoomVideoPublicId(String roomVideoPublicId) {
+	// this.roomVideoPublicId = roomVideoPublicId;
+	// }
 
 }
