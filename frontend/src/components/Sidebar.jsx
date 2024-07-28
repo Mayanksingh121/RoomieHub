@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { getUser } from "../api/user";
+import { getUser, updateUserProfile } from "../api/user";
 import { useUser } from "../utils/Context/UserContext";
 
 const SideBar = ({ handleNavBar }) => {
   const [user, setUser] = useState(null);
   const { userDetails } = useUser();
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const data = await getUser(userDetails);
         setUser(data);
-        console.log(data);
       } catch (e) {
         console.error(e.message);
       }
@@ -26,6 +26,26 @@ const SideBar = ({ handleNavBar }) => {
   }, [userDetails]);
 
   if (!user) return null;
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleUploadPhoto = async () => {
+    if (!selectedFile) {
+      alert("Please select a file first.");
+      return;
+    }
+
+    try {
+      const response = await updateUserProfile(userDetails, selectedFile);
+      console.log(response);
+      alert(response.message);
+      handleNavBar();
+    } catch (error) {
+      alert("Failed to upload photo.");
+    }
+  };
 
   return (
     <motion.div
@@ -62,16 +82,24 @@ const SideBar = ({ handleNavBar }) => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-              Upload Photo
-            </button>
-            <input type="file" className="hidden" id="upload-photo" />
+            <input
+              type="file"
+              id="upload-photo"
+              onChange={handleFileChange}
+              className="hidden"
+            />
             <label
               htmlFor="upload-photo"
-              className="cursor-pointer text-blue-500 hover:underline"
+              className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-center"
             >
               Choose a file
             </label>
+            <button
+              onClick={handleUploadPhoto}
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Upload Photo
+            </button>
           </div>
         </div>
       </motion.div>

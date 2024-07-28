@@ -1,10 +1,8 @@
 import { BASE_URL } from "../constant/constant";
-import { useUser } from "../utils/Context/UserContext";
 export const addUser = async (user) => {
   try {
     const formData = new FormData();
     formData.append("name", user.name);
-    // formData.append("rooms", user.rooms); // Assuming not needed here
     formData.append("userEmail", user.userEmail);
     formData.append("userPassword", user.userPassword);
     formData.append("userPhoneNumber", parseInt(user.userPhoneNumber));
@@ -48,4 +46,47 @@ export const getUser = async (userEmail) => {
     console.error("Error fetching user details:", e.message);
     throw e;
   }
+};
+
+export const updateUser = async (userEmail, userData) => {
+  const formData = new FormData();
+
+  if (userData.name) {
+    formData.append("name", userData.name);
+  }
+  if (userData.userEmail) {
+    formData.append("userEmail", userData.userEmail);
+  }
+  if (userData.userPhoneNumber) {
+    formData.append("userPhoneNumber", userData.userPhoneNumber);
+  }
+
+  const response = await fetch(`${BASE_URL}/update-user/${userEmail}`, {
+    method: "PUT",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update user");
+  }
+
+  return response.json();
+};
+
+export const updateUserProfile = async (userEmail, userProfile) => {
+  console.log(userProfile, userEmail);
+  const formData = new FormData();
+  formData.append("userEmail", userEmail);
+  formData.append("userProfile", userProfile);
+
+  const response = await fetch(`${BASE_URL}/update-user-profile`, {
+    method: "PUT",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update user profile");
+  }
+
+  return response.json();
 };

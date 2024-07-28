@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useUser } from "../utils/Context/UserContext";
-import { getUser } from "../api/user";
+import { getUser, updateUser } from "../api/user"; // Ensure updateUser is imported
 
 const ViewProfile = () => {
   const [userData, setUserData] = useState(null);
   const { userDetails } = useUser();
   const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    userEmail: "",
+    userPhoneNumber: "",
+  });
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const data = await getUser(userDetails);
         setUserData(data);
+        setFormData({
+          name: data.name,
+          userEmail: data.userEmail,
+          userPhoneNumber: data.userPhoneNumber,
+        });
       } catch (e) {
         console.error(e.message);
       }
@@ -32,14 +43,35 @@ const ViewProfile = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (Object.values(userData).some((value) => value.trim() === "")) {
-      toast.error("All fields must be filled out.");
+
+    const updates = {};
+    if (formData.name !== userData.name) updates.name = formData.name;
+    if (formData.userEmail !== userData.userEmail)
+      updates.userEmail = formData.userEmail;
+    if (formData.userPhoneNumber !== userData.userPhoneNumber)
+      updates.userPhoneNumber = formData.userPhoneNumber;
+
+    if (Object.keys(updates).length === 0) {
+      toast.error("No changes to update.");
       return;
     }
-    setIsEditing(false);
-    toast.success("Profile updated successfully!");
+
+    try {
+      const response = await updateUser(userData.userEmail, updates);
+      setUserData(response);
+      console.log(response);
+      setFormData({
+        name: response.name,
+        userEmail: response.userEmail,
+        userPhoneNumber: response.userPhoneNumber,
+      });
+      setIsEditing(false);
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update profile.");
+    }
   };
 
   const handleEditToggle = () => {
@@ -48,7 +80,7 @@ const ViewProfile = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      <Toaster />{" "}
+      <Toaster />
       <aside className="w-1/4 bg-white p-4 shadow-md">
         <nav className="flex flex-col space-y-4">
           <div className="text-blue-600">Profile</div>
@@ -63,9 +95,6 @@ const ViewProfile = () => {
               alt="Profile"
               className="w-32 h-32 rounded-full object-cover mb-4"
             />
-            <button className="px-4 py-2 bg-blue-600 text-white rounded">
-              Update Photo
-            </button>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -73,7 +102,7 @@ const ViewProfile = () => {
               <input
                 type="text"
                 name="name"
-                value={userData.name}
+                value={formData.name}
                 onChange={handleChange}
                 disabled={!isEditing}
                 className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -83,8 +112,8 @@ const ViewProfile = () => {
               <label className="block text-gray-700">Email</label>
               <input
                 type="email"
-                name="email"
-                value={userData.userEmail}
+                name="userEmail"
+                value={formData.userEmail}
                 onChange={handleChange}
                 disabled={!isEditing}
                 className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -94,8 +123,8 @@ const ViewProfile = () => {
               <label className="block text-gray-700">Phone</label>
               <input
                 type="text"
-                name="phone"
-                value={userData.userPhoneNumber}
+                name="userPhoneNumber"
+                value={formData.userPhoneNumber}
                 onChange={handleChange}
                 disabled={!isEditing}
                 className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -108,14 +137,12 @@ const ViewProfile = () => {
             >
               {isEditing ? "Save" : "Edit"}
             </button>
-            {isEditing && (
-              <button
-                type="submit"
-                className="w-full py-2 bg-green-600 text-white rounded"
-              >
-                Update Details
-              </button>
-            )}
+            <button
+              type="submit"
+              className="w-full py-2 bg-green-600 text-white rounded"
+            >
+              Update Details
+            </button>
           </form>
         </div>
       </main>

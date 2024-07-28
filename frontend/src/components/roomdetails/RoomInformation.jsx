@@ -8,8 +8,10 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 import UserModal from "./UserModal";
 import { BASE_URL } from "../../constant/constant";
+import { useUser } from "../../utils/Context/UserContext";
 
 const RoomInformation = ({ handleLogin }) => {
+  const { userDetails } = useUser();
   const { roomId } = useParams();
   const data = useSelector((store) => store.room?.availableRooms);
   const reqRoom = data?.find((room) => room.roomId === Number(roomId));
@@ -34,7 +36,7 @@ const RoomInformation = ({ handleLogin }) => {
     try {
       if (loginStatus) {
         const formData = new FormData();
-        formData.append("userEmail");
+        formData.append("userEmail", userDetails);
         const response = await fetch(`${BASE_URL}/send-message`, {
           method: "POST",
           body: formData,
@@ -83,9 +85,7 @@ const RoomInformation = ({ handleLogin }) => {
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="relative">
           <video className="w-full h-96 object-cover rounded-t-xl" controls>
-            <source src={roomVideoUrl}
-preload="metadata"
-            />
+            <source src={roomVideoUrl} preload="metadata" />
             Your browser does not support the video tag.
           </video>
         </div>
