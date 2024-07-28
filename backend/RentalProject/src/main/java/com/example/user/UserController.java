@@ -77,10 +77,10 @@ public class UserController {
 	}
 
 	@PutMapping("/update-user/{userEmail}")
-	public ResponseEntity<User> updateUser(@PathVariable String userEmail, @RequestParam("name") String name,
-			@RequestParam("userPassword") String userPassword,
+	public ResponseEntity<User> updateUser(@PathVariable String userEmail, @RequestParam(name= "name", required=false) String name,
+			@RequestParam(name="userPassword", required = false) String userPassword,
 			@RequestParam(name = "userProfile", required = false) MultipartFile file,
-			@RequestParam("userPhoneNumber") Long userPhoneNumber) throws IOException {
+			@RequestParam(name = "userPhoneNumber",required = false) Long userPhoneNumber) throws IOException {
 		User updatedUser = userService.updateUser(name, userEmail, userPassword, file, userPhoneNumber);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
