@@ -5,10 +5,12 @@ import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
-import { setIsLoggedIn, setUserDetails } from "../utils/storeSlices/userSlice";
+import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
+import { useUser } from "../utils/Context/UserContext";
 
 const Login = ({ handleLogin }) => {
   const dispatch = useDispatch();
+  const { setUserDetails } = useUser();
   const [alreadyUser, setAlreadyUser] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [otpStep, setOtpStep] = useState(false);
@@ -56,7 +58,7 @@ const Login = ({ handleLogin }) => {
       if (response.ok) {
         toast.success("Signed in successfully");
         dispatch(setIsLoggedIn());
-        dispatch(setUserDetails(user.userEmail));
+        setUserDetails(user.userEmail);
         handleLogin();
       } else {
         toast.error("Sign in fail");
@@ -74,7 +76,7 @@ const Login = ({ handleLogin }) => {
       toast.success("OTP verified successfully");
       const finalResponse = await addUser(user);
       if (finalResponse.ok) {
-        dispatch(setUserDetails(user.userEmail));
+        setUserDetails(user.userEmail);
         dispatch(setIsLoggedIn());
         handleLogin();
       } else {

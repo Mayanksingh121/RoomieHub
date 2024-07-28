@@ -1,13 +1,13 @@
 import { useState, Suspense, lazy } from "react";
-import Header from "./components/Header";
 import Login from "./components/Login";
-import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import MainLayout from "./components/MainLayout";
 import LoadingSpinner from "./components/LoadingSpinner";
+import { UserProvider } from "./utils/Context/UserContext";
 
-// Lazy load components
 const Body = lazy(() => import("./components/Body"));
+const ViewProfile = lazy(() => import("./components/ViewProfile"));
 const RoomInformation = lazy(() =>
   import("./components/roomdetails/RoomInformation")
 );
@@ -24,31 +24,29 @@ function App() {
   const appRouting = createBrowserRouter([
     {
       path: "/",
-      element: <Body />,
-    },
-    {
-      path: "/room/:roomId",
-      element: <RoomInformation handleLogin={handleShowLogin} />,
-    },
-    {
-      path: "/watchlist",
-      element: <WatchList />,
-    },
-    {
-      path: "/roommate/:roommateID",
-      element: <RoommateDetails />,
+      element: <MainLayout handleLogin={handleShowLogin} />,
+      children: [
+        { path: "/", element: <Body /> },
+        {
+          path: "/room/:roomId",
+          element: <RoomInformation handleLogin={handleShowLogin} />,
+        },
+        { path: "/watchlist", element: <WatchList /> },
+        { path: "/roommate/:roommateID", element: <RoommateDetails /> },
+        { path: "/profile", element: <ViewProfile /> },
+      ],
     },
   ]);
 
   return (
     <div className="flex flex-col min-h-screen">
       <Toaster position="top-center" reverseOrder={false} />
-      {showLogin && <Login handleLogin={handleShowLogin} />}
-      <Header handleLogin={handleShowLogin} />
-      <Suspense fallback={<LoadingSpinner />}>
-        <RouterProvider router={appRouting} />
-      </Suspense>
-      <Footer />
+      <UserProvider>
+        {showLogin && <Login handleLogin={handleShowLogin} />}
+        <Suspense fallback={<LoadingSpinner />}>
+          <RouterProvider router={appRouting} />
+        </Suspense>
+      </UserProvider>
     </div>
   );
 }

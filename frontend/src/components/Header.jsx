@@ -1,21 +1,27 @@
-import { useState } from "react";
-import SideBar from "./Sidebar";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { IoMenu } from "react-icons/io5";
-import { MdOutlineSearch } from "react-icons/md";
+import { useLocation } from "react-router-dom";
+import SideBar from "./Sidebar";
 
 const Header = ({ handleLogin }) => {
   const [showNavBar, setShowNavBar] = useState(false);
-
   const userLoginStatus = useSelector((store) => store.user.isLoggedIn);
+  const location = useLocation();
 
   const handleNavBar = () => {
     setShowNavBar(!showNavBar);
   };
 
+  useEffect(() => {
+    if (location.pathname === "/profile") {
+      setShowNavBar(false);
+    }
+  }, [location.pathname]);
+
   return (
     <>
-      <div className="font-roboto-slab  flex justify-between py-4 w-full shadow-sm">
+      <div className="font-roboto-slab flex justify-between py-4 w-full shadow-sm">
         <div className="flex w-[80%] items-center gap-5 ml-4 md:ml-14">
           <h1 className="font-semibold text-xl text-[#449ba2]">RoomieHub</h1>
         </div>
@@ -28,9 +34,14 @@ const Header = ({ handleLogin }) => {
               Sign in
             </button>
           )}
-          <div onClick={handleNavBar} className="cursor-pointer text-xl ml-10">
-            <IoMenu />
-          </div>
+          {location.pathname !== "/profile" && (
+            <div
+              onClick={handleNavBar}
+              className="cursor-pointer text-xl ml-10"
+            >
+              <IoMenu />
+            </div>
+          )}
         </div>
       </div>
       {showNavBar && <SideBar handleNavBar={handleNavBar} />}

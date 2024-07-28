@@ -7,14 +7,13 @@ import { MdBalcony } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 import UserModal from "./UserModal";
-import useGetRoomsData from "../../hooks/useGetRoomsData";
+import { BASE_URL } from "../../constant/constant";
 
 const RoomInformation = ({ handleLogin }) => {
   const { roomId } = useParams();
   const data = useSelector((store) => store.room?.availableRooms);
   const reqRoom = data?.find((room) => room.roomId === Number(roomId));
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
 
   const loginStatus = useSelector((store) => store.user.isLoggedIn);
   const { name, userPhoneNumber, userProfileUrl, userEmail } = reqRoom.user;
@@ -31,6 +30,29 @@ const RoomInformation = ({ handleLogin }) => {
     }
   };
 
+  const handleContactOwner = async () => {
+    try {
+      if (loginStatus) {
+        const formData = new FormData();
+        formData.append("userEmail");
+        const response = await fetch(`${BASE_URL}/send-message`, {
+          method: "POST",
+          body: formData,
+        });
+        if (response.ok) {
+          toast("send");
+        }
+      } else {
+        toast("To get owner's contact details login is required.", {
+          duration: 3000,
+          position: "top-right",
+        });
+        handleLogin();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   if (reqRoom === undefined) {
     return null;
   }
@@ -79,7 +101,7 @@ const RoomInformation = ({ handleLogin }) => {
                 Get Phone No.
               </button>
               <button
-                onClick={handleGetPhoneNo}
+                onClick={handleContactOwner}
                 className="bg-blue-500 text-white rounded-full px-6 py-2 transition-colors hover:bg-blue-600"
               >
                 Contact Owner

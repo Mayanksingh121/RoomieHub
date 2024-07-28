@@ -20,7 +20,7 @@ const AddRoommate = () => {
     description: "",
     preference: "",
     availableFrom: "",
-    userEmail:"bishtdeepak410@gmail.com",
+    userEmail: "bishtdeepak410@gmail.com",
   });
 
   const submitHandler = async (event) => {
@@ -70,29 +70,28 @@ const AddRoommate = () => {
         value={room.budget}
         onChange={onChangeHandler}
       />
-   Availability
+      Availability
       <input
         type="date"
-
         name="availableFrom"
         value={room.availableFrom}
         onChange={onChangeHandler}
       />
-        Description
+      Description
       <input
         type="text"
         name="description"
         value={room.description}
         onChange={onChangeHandler}
-      />   Prefernce
+      />{" "}
+      Prefernce
       <input
         type="text"
         name="preference"
         value={room.preference}
         onChange={onChangeHandler}
       />
-
-          Landmark
+      Landmark
       <input
         type="text"
         name="landmark"

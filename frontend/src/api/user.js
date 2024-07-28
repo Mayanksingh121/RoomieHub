@@ -1,4 +1,5 @@
 import { BASE_URL } from "../constant/constant";
+import { useUser } from "../utils/Context/UserContext";
 export const addUser = async (user) => {
   try {
     const formData = new FormData();
@@ -31,5 +32,20 @@ export const addUser = async (user) => {
 
     // Optionally, re-throw the error to handle it further up the chain
     // throw error;
+  }
+};
+
+export const getUser = async (userEmail) => {
+  try {
+    const response = await fetch(`${BASE_URL}/get-user/${userEmail}`);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch user details");
+    }
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.error("Error fetching user details:", e.message);
+    throw e;
   }
 };
