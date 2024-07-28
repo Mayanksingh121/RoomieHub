@@ -61,7 +61,9 @@ const RoomInformation = ({ handleLogin }) => {
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="relative">
           <video className="w-full h-96 object-cover rounded-t-xl" controls>
-            <source src={roomVideoUrl} />
+            <source src={roomVideoUrl}
+preload="metadata"
+            />
             Your browser does not support the video tag.
           </video>
         </div>

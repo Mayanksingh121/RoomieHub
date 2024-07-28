@@ -53,7 +53,7 @@ const RoommateDetails = ({ user }) => {
           />
         </div>
         <div className="h-48 aspect-w-4 aspect-h-3">
-          <video controls className="w-full h-full object-cover">
+          <video controls className="w-full h-full object-cover" preload="metadata">
             <source src={roommateData.roomVideoUrl}></source>
           </video>
         </div>
