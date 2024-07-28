@@ -28,7 +28,6 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-// @AllArgsConstructor
 public class Room {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,18 +89,12 @@ public class Room {
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private Boolean wifi;
 
-
-	// public Room() {
-	// 	// TODO Auto-generated constructor stub
-	// }
-
-	public Room(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
+	public Room( Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
 			String preference, String roomImageUrl, String roomImagePublicId, String roomVideoUrl,
 			String roomVideoPublicId, Double rent, Double securityDeposit, String description, String landmark,
 			String state, String city, String address, FurnishedStatus furnishedStatus, User user,
 			Boolean lift, Boolean reservedParking, Boolean security, Boolean gym,
 			Boolean maintainanceStaff, Boolean garden, Boolean wifi) {
-		this.roomId = roomId;
 		this.numberOfBalconies = numberOfBalconies;
 		this.bathRooms = bathRooms;
 		this.floorNumber = floorNumber;

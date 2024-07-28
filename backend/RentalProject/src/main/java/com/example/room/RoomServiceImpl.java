@@ -49,7 +49,7 @@ public class RoomServiceImpl implements RoomService {
 					userEmail);
 		}
 
-		Room room = new Room(null, numberOfBalconies, bathRooms, floorNumber, roomArea, preference, roomImageUrl,
+		Room room = new Room( numberOfBalconies, bathRooms, floorNumber, roomArea, preference, roomImageUrl,
 				imagePublicId, roomVideoUrl, videoPublicId, rent, securityDeposit, description, landmark, state, city,
 				address, furnishedStatus, user, lift, reservedParking, security, gym, maintainanceStaff, garden, wifi);
 
