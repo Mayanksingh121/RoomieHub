@@ -34,13 +34,13 @@ const RoomInformation = ({ handleLogin }) => {
     try {
       if (loginStatus) {
         const formData = new FormData();
-        formData.append("userEmail");
+        formData.append("userEmail",userEmail);
         const response = await fetch(`${BASE_URL}/send-message`, {
           method: "POST",
           body: formData,
         });
         if (response.ok) {
-          toast("send");
+          toast("Message sent Successfully");
         }
       } else {
         toast("To get owner's contact details login is required.", {
