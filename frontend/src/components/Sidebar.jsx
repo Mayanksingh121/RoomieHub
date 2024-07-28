@@ -39,9 +39,7 @@ const SideBar = ({ handleNavBar }) => {
 
     try {
       const response = await updateUserProfile(userDetails, selectedFile);
-      console.log(response);
-      alert(response.message);
-      handleNavBar();
+      if (response.ok) handleNavBar();
     } catch (error) {
       alert("Failed to upload photo.");
     }

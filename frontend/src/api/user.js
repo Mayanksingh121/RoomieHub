@@ -74,7 +74,6 @@ export const updateUser = async (userEmail, userData) => {
 };
 
 export const updateUserProfile = async (userEmail, userProfile) => {
-  console.log(userProfile, userEmail);
   const formData = new FormData();
   formData.append("userEmail", userEmail);
   formData.append("userProfile", userProfile);
@@ -84,9 +83,11 @@ export const updateUserProfile = async (userEmail, userProfile) => {
     body: formData,
   });
 
+  console.log(response);
+
   if (!response.ok) {
     throw new Error("Failed to update user profile");
   }
 
-  return response.json();
+  return response;
 };
