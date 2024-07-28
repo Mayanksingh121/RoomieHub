@@ -21,17 +21,69 @@ public class UserServiceImpl implements UserService {
 	private CloudinaryServiceImpl cloudinaryServiceImpl;
 
 	@Override
-	public User saveUser(String name, String userEmail, String userPassword, MultipartFile file, Long userPhoneNumber)
+	public String saveUser(String name, String userEmail, String userPassword,  Long userPhoneNumber)
 			throws IOException {
 		if (this.userRepository.existsByUserEmail(userEmail)) {
 			throw new UserAlreadyExistsException("User with given email is  already exists");
 		}
-		Map<String, Object> mediaObject = this.cloudinaryServiceImpl.uploadMedia(file);
+
+		User user = new User(name, userEmail, userPassword, userPhoneNumber);
+		this.userRepository.save(user);
+		return "User Added Successfully";
+	}
+
+	@Override
+	public String uploadProfile(MultipartFile userProfile, String userEmail) {
+
+		if (this.userRepository.existsByUserEmail(userEmail)) {
+			throw new UserAlreadyExistsException("User with given email is  already exists");
+		}
+		if (userProfile == null) {
+			throw new ResourceNotFoundException("Image file does not exist");
+		}
+		Map<String, Object> mediaObject = this.cloudinaryServiceImpl.uploadMedia(userProfile);
 		String userProfileUrl = (String) mediaObject.get("secure_url");
 		String userProfilePublicId = (String) mediaObject.get("public_id");
-		System.out.println("url=" + userProfileUrl + " public_id=" + userProfilePublicId);
-		User user = new User(name, userEmail, userPassword, userPhoneNumber, userProfileUrl, userProfilePublicId);
-		return userRepository.save(user);
+
+		User user = this.userRepository.findByUserEmail(userEmail);
+		user.setUserProfilePublicId(userProfilePublicId);
+		user.setUserProfileUrl(userProfileUrl);
+
+		return "Image Uploaded Successfully";
+	}
+
+	@Override
+	public String deleteProfile(String userEmail) {
+		User user = this.userRepository.findByUserEmail(userEmail);
+		if (user.getUserProfileUrl() == null) {
+			throw new ResourceNotFoundException("Sorry No Image Found");
+		}
+
+		this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(), "image");
+
+		user.setUserProfilePublicId(null);
+		user.setUserProfileUrl(null);
+
+		return "Profile Deleted Successfully";
+
+	}
+
+
+	@Override
+	public String updateProfile(MultipartFile userProfile, String userEmail) {
+		User user = this.userRepository.findByUserEmail(userEmail);
+		if (user.getUserProfileUrl() == null) {
+			throw new ResourceNotFoundException("Sorry No Image Found");
+		}
+		this.cloudinaryServiceImpl.deleteMedia(user.getUserProfilePublicId(), "image");
+		Map<String, Object> mediaObject = this.cloudinaryServiceImpl.uploadMedia(userProfile);
+		String userProfileUrl = (String) mediaObject.get("secure_url");
+		String userProfilePublicId = (String) mediaObject.get("public_id");
+
+		user.setUserProfilePublicId(userProfilePublicId);
+		user.setUserProfileUrl(userProfileUrl);
+
+		return "Profile Updated Successfully";
 	}
 
 	@Override
@@ -92,5 +144,7 @@ public class UserServiceImpl implements UserService {
 		this.userRepository.delete(user);
 		return "User deleted successfully";
 	}
+
+
 
 }

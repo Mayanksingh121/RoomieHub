@@ -19,7 +19,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Data
 @Getter
 @Setter
@@ -51,19 +50,13 @@ public class User {
 	@JsonIgnore
 	private List<Watchlist> watchlist;
 
-	public User(String name, String userEmail, String userPassword, Long userPhoneNumber, String userProfileUrl,
-			String userProfilePublicId
-
-	) {
+	public User(String name, String userEmail, String userPassword, Long userPhoneNumber) {
 		this.name = name;
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 		this.userPhoneNumber = userPhoneNumber;
-		this.userProfileUrl = userProfileUrl;
-		this.userProfilePublicId = userProfilePublicId;
+
 
 	}
-
-
 
 }

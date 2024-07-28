@@ -28,18 +28,40 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/add-user")
-	public ResponseEntity<User> addUser(
+	public ResponseEntity<String> addUser(
 			@RequestParam("userEmail") String userEmail,
 			@RequestParam(name = "name") String name,
 			@RequestParam("userPassword") String userPassword,
-			@RequestParam(name = "userProfile", required = false) MultipartFile userProfile,
 			@RequestParam("userPhoneNumber") Long userPhoneNumber,
 			HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
 		System.out.println(session.getId());
 		session.setAttribute("userEmail", userEmail);
-		User user = userService.saveUser(name, userEmail, userPassword, userProfile, userPhoneNumber);
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		String msg = userService.saveUser(name, userEmail, userPassword, userPhoneNumber);
+		return new ResponseEntity<>(msg, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/upload-user-profile")
+	public ResponseEntity<String> uploadUserProfile(@RequestParam("userEmail") String userEmail,
+			@RequestParam(name = "userProfile") MultipartFile userProfile) {
+		String msg = this.userService.uploadProfile(userProfile, userEmail);
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+
+	}
+
+	@PutMapping("/update-user-profile")
+	public ResponseEntity<String> updateUserProfile(@RequestParam("userEmail") String userEmail,
+			@RequestParam(name = "userProfile") MultipartFile userProfile) {
+		String msg = this.userService.updateProfile(userProfile, userEmail);
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+
+	}
+
+	@DeleteMapping("/delete-user-profile")
+	public ResponseEntity<String> deleteUserProfile(@RequestParam("userEmail") String userEmail) {
+		String msg = this.userService.deleteProfile( userEmail);
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+
 	}
 
 	@GetMapping("/get-user/{userEmail}")
