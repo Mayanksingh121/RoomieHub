@@ -8,36 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-// @CrossOrigin(origins = "http://localhost:5173/", allowCredentials = "true")
 @CrossOrigin("*")
 @RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     private AuthService authService;
-
-    // @PostMapping("/validate")
-    // public ResponseEntity<String> loginUser(@RequestParam("userEmail") String
-    // userEmail,
-    // @RequestParam("userPassword") String userPassword, HttpServletRequest
-    // request) {
-    // // Authentication is handled by Spring Security
-    // if (this.authService.validateUser(userEmail, userPassword)) {
-
-    // HttpSession session = request.getSession(true);
-    // session.setAttribute("userEmail", userEmail);
-    // if (session != null)
-    // System.out.println("session created");
-    // System.out.println(session);
-    // System.out.println("Session id: " + session.getId());
-
-    // String email = (String) session.getAttribute("userEmail");
-    // System.out.println(email);
-    // return new ResponseEntity<>("SuccessFully Logged in", HttpStatus.OK);
-    // } else {
-    // return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
-    // }
-    // }
 
     @PostMapping("/validate")
     public ResponseEntity<String> loginUser(@RequestParam("userEmail") String userEmail,

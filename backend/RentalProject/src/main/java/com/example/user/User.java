@@ -25,38 +25,37 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
-	@Column(nullable = false)
-	private String name;
-	@Column(nullable = false, unique = true)
-	private String userEmail;
-	@Column(nullable = false)
-	@JsonIgnore
-	private String userPassword;
-	@Column(nullable = false)
-	private Long userPhoneNumber;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false, unique = true)
+    private String userEmail;
+    @Column(nullable = false)
+    @JsonIgnore
+    private String userPassword;
+    @Column(nullable = false)
+    private Long userPhoneNumber;
 
-	@Column(length = 5000)
-	private String userProfileUrl;
-	@JsonIgnore
-	private String userProfilePublicId;
+    @Column(length = 5000)
+    private String userProfileUrl;
+    @JsonIgnore
+    private String userProfilePublicId;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
-	private List<Room> rooms;
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
-	private List<Watchlist> watchlist;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Room> rooms;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Watchlist> watchlist;
 
-	public User(String name, String userEmail, String userPassword, Long userPhoneNumber) {
-		this.name = name;
-		this.userEmail = userEmail;
-		this.userPassword = userPassword;
-		this.userPhoneNumber = userPhoneNumber;
+    public User(String name, String userEmail, String userPassword, Long userPhoneNumber) {
+        this.name = name;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userPhoneNumber = userPhoneNumber;
 
-
-	}
+    }
 
 }

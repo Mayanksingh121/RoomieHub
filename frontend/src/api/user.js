@@ -41,6 +41,7 @@ export const getUser = async (userEmail) => {
       throw new Error(errorData.message || "Failed to fetch user details");
     }
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (e) {
     console.error("Error fetching user details:", e.message);
@@ -73,21 +74,44 @@ export const updateUser = async (userEmail, userData) => {
   return response.json();
 };
 
+
 export const updateUserProfile = async (userEmail, userProfile) => {
   const formData = new FormData();
   formData.append("userEmail", userEmail);
   formData.append("userProfile", userProfile);
 
-  const response = await fetch(`${BASE_URL}/update-user-profile`, {
-    method: "PUT",
+  const response = await fetch(`${BASE_URL}/uploadOrUpdate`, {
+    method: "POST",
     body: formData,
   });
 
-  console.log(response);
+  // console.log(response);
 
   if (!response.ok) {
     throw new Error("Failed to update user profile");
   }
-
-  return response;
+  const data = await response.json();
+  console.log(data);
+  return data;
 };
+
+
+// export const updateUserProfile = async (userEmail, userProfile) => {
+//   const formData = new FormData();
+  // formData.append("userEmail", userEmail);
+//   formData.append("userProfile", userProfile);
+
+//   const response = await fetch(`${BASE_URL}/uploadOrUpdate`, {
+//     method: "POST",
+//     body: formData,
+//   });
+
+//   // console.log(response);
+
+//   if (!response.ok) {
+//     throw new Error("Failed to update user profile");
+//   }
+//   const data = await response.json();
+//   console.log(data);
+//   return data;
+// };

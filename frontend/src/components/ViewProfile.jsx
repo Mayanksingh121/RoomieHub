@@ -17,6 +17,7 @@ const ViewProfile = () => {
     const fetchUser = async () => {
       try {
         const data = await getUser(userDetails);
+        console.log(userData);
         setUserData(data);
         setFormData({
           name: data.name,
@@ -92,6 +93,7 @@ const ViewProfile = () => {
           <div className="flex flex-col items-center mb-8">
             <img
               src={userData.userProfileUrl}
+              loading="lazy"
               alt="Profile"
               className="w-32 h-32 rounded-full object-cover mb-4"
             />
