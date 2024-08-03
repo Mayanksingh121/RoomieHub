@@ -46,9 +46,11 @@ const Login = ({ handleLogin }) => {
       setOtpStep(true);
       const response = await sendOTP(user.userEmail);
       if (response.ok) {
-        toast.success("OTP sent to your email id");
+        const textMessage = await response.text();
+        toast.success(`${textMessage}`);
       } else {
-        toast.error("Can't send OTP");
+        const textMessage = await response.text();
+        toast.error(`${textMessage}`);
       }
     } else {
       const response = await signInWithEmailAndPassword(
@@ -56,13 +58,15 @@ const Login = ({ handleLogin }) => {
         user.userPassword
       );
       if (response.ok) {
-        toast.success("Signed in successfully");
+        const textMessage = await response.text();
+        toast.success(`${textMessage}`);
         dispatch(setIsLoggedIn());
         setUserDetails(user.userEmail);
         handleLogin();
       } else {
-        toast.error("Sign in fail");
-        setErrorMessage("Sign in failed");
+        const textMessage = await response.text();
+        toast.error(`${textMessage}`);
+        setErrorMessage(`${textMessage}`);
       }
     }
   };
@@ -70,10 +74,10 @@ const Login = ({ handleLogin }) => {
   const handleOtpSubmit = async (event) => {
     event.preventDefault();
     const response = await getOTP();
-
+    const textMessage = await response.text();
     // otp verify
     if (response == otp) {
-      toast.success("OTP verified successfully");
+      toast.success(`${textMessage}`);
       const finalResponse = await addUser(user);
       if (finalResponse.ok) {
         setUserDetails(user.userEmail);
@@ -85,19 +89,6 @@ const Login = ({ handleLogin }) => {
     } else {
       console.log("otp are not same");
     }
-
-    // if (response.ok) {
-    //   toast.success("OTP verified successfully");
-    //   const finalResponse = await addUser(user);
-    //   if (finalResponse.ok) {
-    //     dispatch(setIsLoggedIn());
-    //     handleLogin();
-    //   } else {
-    //     console.log("not registerd");
-    //   }
-    // } else {
-    //   console.log("otp are not same");
-    // }
   };
 
   return (

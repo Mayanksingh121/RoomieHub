@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getUser, updateUserProfile } from "../api/user";
 import { useUser } from "../utils/Context/UserContext";
+import toast from "react-hot-toast";
 
 const SideBar = ({ handleNavBar }) => {
   const [user, setUser] = useState(null);
@@ -32,15 +33,29 @@ const SideBar = ({ handleNavBar }) => {
   };
 
   const handleUploadPhoto = async () => {
-    if (!selectedFile) {
+    if (selectedFile === null) {
       alert("Please select a file first.");
       return;
     }
 
     try {
-      const response = await updateUserProfile(userDetails, selectedFile);
-      if (response.ok) handleNavBar();
+      toast
+        .promise(updateUserProfile(userDetails, selectedFile), {
+          loading: "Uploading...",
+          success: "File uploaded!",
+          error: "Could not upload.",
+        })
+        .then((response) => {
+          if (response.ok) {
+            handleNavBar();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("Failed to upload photo.");
+        });
     } catch (error) {
+      console.error(error);
       alert("Failed to upload photo.");
     }
   };

@@ -42,7 +42,11 @@ const RoomInformation = ({ handleLogin }) => {
           body: formData,
         });
         if (response.ok) {
-          toast("Message sent Successfully");
+          const textMessage = await response.text();
+          toast.success(`${textMessage}`);
+        } else {
+          const textMessage = await response.text();
+          toast.error(`${textMessage}`);
         }
       } else {
         toast("To get owner's contact details login is required.", {

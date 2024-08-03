@@ -33,45 +33,30 @@ const RoomCard = ({ room }) => {
     if (isBookmarked) {
       try {
         const response = await deleteFromWatchList(userDetails, room.roomId);
+        const textMessage = await response.text();
         if (response.ok) {
           setIsBookmarked(false);
-          toast.success("Room deleted from wishlist", {
-            duration: 3000,
-            position: "top-center",
-          });
+          console.log(response);
+          toast.success(`${textMessage}`);
         } else {
-          toast.error("Failed to delete room from wishlist. Try again later.", {
-            duration: 3000,
-            position: "top-center",
-          });
+          toast.error(`${textMessage}`);
         }
       } catch (error) {
-        toast.error("An error occurred. Please try again.", {
-          duration: 3000,
-          position: "top-center",
-        });
+        toast.error("An error occurred. Please try again.");
         console.error("Error deleting from wishlist:", error);
       }
     } else {
       try {
         const response = await addToWatchList(userDetails, room.roomId);
+        const textMessage = await response.text();
         if (response.ok) {
           setIsBookmarked(true);
-          toast("Room added to wishlist!", {
-            duration: 3000,
-            position: "top-center",
-          });
+          toast.success(`Successfully added`);
         } else {
-          toast("Failed to add room to wishlist. Try again later.", {
-            duration: 3000,
-            position: "top-center",
-          });
+          toast.error(`${textMessage}`);
         }
       } catch (error) {
-        toast("An error occurred. Please try again.", {
-          duration: 3000,
-          position: "top-center",
-        });
+        toast("An error occurred. Please try again.");
         console.error("Error adding to wishlist:", error);
       }
     }

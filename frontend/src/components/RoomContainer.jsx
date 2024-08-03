@@ -55,14 +55,14 @@ const RoomContainer = () => {
   };
 
   return (
-    <div className="px-10 py-10">
+    <div className="px-4 md:px-10 py-4 md:py-10">
       <div className="flex flex-col mb-5">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-montserrat font-semibold text-xl flex-grow">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-4 gap-4">
+          <h2 className="font-montserrat font-semibold text-lg md:text-xl flex-grow">
             Top rooms available
           </h2>
-          <div className="flex items-center gap-5">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-5 w-full md:w-auto">
+            <div className="flex items-center gap-3 w-full md:w-auto">
               <input
                 type="range"
                 min="0"
@@ -70,18 +70,18 @@ const RoomContainer = () => {
                 step="5000"
                 value={rentRange}
                 onChange={handleRentRangeChange}
-                className="w-48"
+                className="w-full md:w-48"
               />
               <span>{`Max: ₹${rentRange}`}</span>
             </div>
-            <div className="flex items-center rounded-full border overflow-hidden border-gray-300 flex-grow">
+            <div className="flex items-center w-full md:w-auto rounded-full border overflow-hidden border-gray-300 flex-grow">
               <span className="text-[#959595] px-1 border-r h-full border-gray-300 flex items-center">
                 <MdOutlineSearch />
               </span>
               <input
                 onChange={handleSearch}
                 value={userSearch}
-                className="px-2 py-1 font-roboto focus:outline-none flex-grow"
+                className="px-2 py-1 w-full font-roboto focus:outline-none flex-grow"
                 placeholder="Search for state or city"
               />
             </div>
@@ -103,7 +103,7 @@ const RoomContainer = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
         {loading ? (
           Array.from({ length: noOfShimmers }, (_, index) => (
             <Shimmer key={index} />
@@ -111,7 +111,7 @@ const RoomContainer = () => {
         ) : searchResult.length > 0 ? (
           searchResult.map((room) => <RoomCard room={room} key={room.roomId} />)
         ) : (
-          <div className="col-span-4 flex items-center justify-center font-roboto text-2xl text-gray-500 md:h-52">
+          <div className="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 flex items-center justify-center font-roboto text-2xl text-gray-500 md:h-52">
             <span className="text-[#959595] px-1 text-3xl h-full flex items-center">
               <MdOutlineSearch />
             </span>{" "}
