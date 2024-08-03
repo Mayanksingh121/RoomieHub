@@ -1,6 +1,8 @@
 package com.example.room;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,42 +26,154 @@ public class RoomController {
 	private RoomService roomService;
 
 	@PostMapping("/add-room")
-	public ResponseEntity<String> addRoom(
-			@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
-			@RequestParam(name = "bathRooms") Integer bathRooms,
-			@RequestParam(name = "floorNumber") String floorNumber,
-			@RequestParam(name = "roomArea") String roomArea,
-			@RequestParam(name = "roomImage") MultipartFile roomImage,
-			@RequestParam(name = "roomVideo") MultipartFile roomVideo,
-			@RequestParam(name = "rent") Double rent,
-			@RequestParam(name = "securityDeposit") Double securityDeposit,
-			@RequestParam(name = "description") String description,
-			@RequestParam(name = "landmark") String landmark,
-			@RequestParam(name = "state") String state,
-			@RequestParam(name = "city") String city,
-			@RequestParam(name = "address") String address,
-			@RequestParam(name = "furnishedStatus") FurnishedStatus furnishedStatus,
-			@RequestParam(name = "userEmail") String userEmail,
-			@RequestParam(name = "preference", required = false) String preference,
-			@RequestParam(name = "lift", required = false) Boolean lift,
-			@RequestParam(name = "reservedParking", required = false) Boolean reservedParking,
-			@RequestParam(name = "security", required = false) Boolean security,
-			@RequestParam(name = "gym", required = false) Boolean gym,
-			@RequestParam(name = "maintainanceStaff", required = false) Boolean maintainanceStaff,
-			@RequestParam(name = "garden", required = false) Boolean garden,
-			@RequestParam(name = "wifi", required = false) Boolean wifi) throws IOException {
+    public ResponseEntity<Map<String, Object>> addRoom(
+            @RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
+            @RequestParam(name = "bathRooms") Integer bathRooms,
+            @RequestParam(name = "floorNumber") String floorNumber,
+            @RequestParam(name = "roomArea") String roomArea,
+            @RequestParam(name = "roomImage") MultipartFile roomImage,
+            @RequestParam(name = "roomVideo") MultipartFile roomVideo,
+            @RequestParam(name = "rent") Double rent,
+            @RequestParam(name = "securityDeposit") Double securityDeposit,
+            @RequestParam(name = "description") String description,
+            @RequestParam(name = "landmark") String landmark,
+            @RequestParam(name = "state") String state,
+            @RequestParam(name = "city") String city,
+            @RequestParam(name = "address") String address,
+            @RequestParam(name = "furnishedStatus") FurnishedStatus furnishedStatus,
+            @RequestParam(name = "userEmail") String userEmail,
+            @RequestParam(name = "preference", required = false) String preference,
+            @RequestParam(name = "lift", required = false) Boolean lift,
+            @RequestParam(name = "reservedParking", required = false) Boolean reservedParking,
+            @RequestParam(name = "security", required = false) Boolean security,
+            @RequestParam(name = "gym", required = false) Boolean gym,
+            @RequestParam(name = "maintainanceStaff", required = false) Boolean maintainanceStaff,
+            @RequestParam(name = "garden", required = false) Boolean garden,
+            @RequestParam(name = "wifi", required = false) Boolean wifi) throws IOException {
 
-		try {
-			 String msg=this.roomService.saveRoom(numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage, rent,
-					securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
-					roomVideo, preference, lift, reservedParking, security, gym, maintainanceStaff, garden, wifi);
-			return new ResponseEntity<>(msg, HttpStatus.CREATED);
-		} catch (Exception ex) {
-			// Log the exception details
-			ex.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+        try {
+            String msg = this.roomService.saveRoom(numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage, rent,
+                    securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
+                    roomVideo, preference, lift, reservedParking, security, gym, maintainanceStaff, garden, wifi);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", msg);
+            response.put("statusCode", HttpStatus.CREATED.value());
+
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Internal Server Error");
+            // response.put("statusCode", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get-all-rooms")
+    public ResponseEntity<List<Room>> getAllRooms() {
+        List<Room> rooms = roomService.getAllRooms();
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-room/{id}")
+    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
+        Room room = roomService.getRoomById(id);
+        return new ResponseEntity<>(room, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-room/{roomId}")
+    public ResponseEntity<Map<String, Object>> updateRoom(
+            @RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
+            @RequestParam(name = "bathRooms", required = false) Integer bathRooms,
+            @RequestParam(name = "floorNumber", required = false) String floorNumber,
+            @RequestParam(name = "roomArea", required = false) String roomArea,
+            @RequestParam(name = "roomImage", required = false) MultipartFile roomImage,
+            @RequestParam(name = "roomVideo", required = false) MultipartFile roomVideo,
+            @RequestParam(name = "rent", required = false) Double rent,
+            @RequestParam(name = "securityDeposit", required = false) Double securityDeposit,
+            @RequestParam(name = "description", required = false) String description,
+            @RequestParam(name = "landmark", required = false) String landmark,
+            @RequestParam(name = "state", required = false) String state,
+            @RequestParam(name = "city", required = false) String city,
+            @RequestParam(name = "address", required = false) String address,
+            @RequestParam(name = "furnishedStatus", required = false) FurnishedStatus furnishedStatus,
+            @RequestParam(name = "userEmail", required = false) String userEmail,
+            @RequestParam(name = "preference", required = false) String preference, @PathVariable("roomId") Long roomId)
+            throws IOException {
+
+        try {
+            String msg = roomService.updateRoom(roomId, numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage,
+                    rent, securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
+                    roomVideo, preference);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", msg);
+            // response.put("statusCode", HttpStatus.OK.value());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Bad Request");
+            response.put("statusCode", HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Internal Server Error");
+            // response.put("statusCode", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete-room/{roomId}")
+    public ResponseEntity<Map<String, Object>> deleteRoom(@PathVariable Long roomId) {
+        String msg = roomService.deleteRoom(roomId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", msg);
+        // response.put("statusCode", HttpStatus.NO_CONTENT.value());
+
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    }
+
+	// @PostMapping("/add-room")
+	// public ResponseEntity<String> addRoom(
+	// 		@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
+	// 		@RequestParam(name = "bathRooms") Integer bathRooms,
+	// 		@RequestParam(name = "floorNumber") String floorNumber,
+	// 		@RequestParam(name = "roomArea") String roomArea,
+	// 		@RequestParam(name = "roomImage") MultipartFile roomImage,
+	// 		@RequestParam(name = "roomVideo") MultipartFile roomVideo,
+	// 		@RequestParam(name = "rent") Double rent,
+	// 		@RequestParam(name = "securityDeposit") Double securityDeposit,
+	// 		@RequestParam(name = "description") String description,
+	// 		@RequestParam(name = "landmark") String landmark,
+	// 		@RequestParam(name = "state") String state,
+	// 		@RequestParam(name = "city") String city,
+	// 		@RequestParam(name = "address") String address,
+	// 		@RequestParam(name = "furnishedStatus") FurnishedStatus furnishedStatus,
+	// 		@RequestParam(name = "userEmail") String userEmail,
+	// 		@RequestParam(name = "preference", required = false) String preference,
+	// 		@RequestParam(name = "lift", required = false) Boolean lift,
+	// 		@RequestParam(name = "reservedParking", required = false) Boolean reservedParking,
+	// 		@RequestParam(name = "security", required = false) Boolean security,
+	// 		@RequestParam(name = "gym", required = false) Boolean gym,
+	// 		@RequestParam(name = "maintainanceStaff", required = false) Boolean maintainanceStaff,
+	// 		@RequestParam(name = "garden", required = false) Boolean garden,
+	// 		@RequestParam(name = "wifi", required = false) Boolean wifi) throws IOException {
+
+	// 	try {
+	// 		 String msg=this.roomService.saveRoom(numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage, rent,
+	// 				securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
+	// 				roomVideo, preference, lift, reservedParking, security, gym, maintainanceStaff, garden, wifi);
+	// 		return new ResponseEntity<>(msg, HttpStatus.CREATED);
+	// 	} catch (Exception ex) {
+	// 		// Log the exception details
+	// 		ex.printStackTrace();
+	// 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	// 	}
+	// }
 
 	//
 	// @PostMapping("/add-room")
@@ -87,55 +201,55 @@ public class RoomController {
 	// return new ResponseEntity<>(room, HttpStatus.CREATED);
 	// }
 
-	@GetMapping("/get-all-rooms")
-	public ResponseEntity<List<Room>> getAllRooms() {
-		List<Room> rooms = roomService.getAllRooms();
-		return new ResponseEntity<>(rooms, HttpStatus.OK);
-	}
+	// @GetMapping("/get-all-rooms")
+	// public ResponseEntity<List<Room>> getAllRooms() {
+	// 	List<Room> rooms = roomService.getAllRooms();
+	// 	return new ResponseEntity<>(rooms, HttpStatus.OK);
+	// }
 
-	@GetMapping("/get-room/{id}")
-	public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
-		Room room = roomService.getRoomById(id);
-		return new ResponseEntity<>(room, HttpStatus.OK);
-	}
+	// @GetMapping("/get-room/{id}")
+	// public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
+	// 	Room room = roomService.getRoomById(id);
+	// 	return new ResponseEntity<>(room, HttpStatus.OK);
+	// }
 
-	@PutMapping("/update-room/{roomId}")
-	public ResponseEntity<String> updateRoom(
-			@RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
-			@RequestParam(name = "bathRooms", required = false) Integer bathRooms,
-			@RequestParam(name = "floorNumber", required = false) String floorNumber,
-			@RequestParam(name = "roomArea", required = false) String roomArea,
-			@RequestParam(name = "roomImage", required = false) MultipartFile roomImage,
-			@RequestParam(name = "roomVideo", required = false) MultipartFile roomVideo,
-			@RequestParam(name = "rent", required = false) Double rent,
-			@RequestParam(name = "securityDeposit", required = false) Double securityDeposit,
-			@RequestParam(name = "description", required = false) String description,
-			@RequestParam(name = "landmark", required = false) String landmark,
-			@RequestParam(name = "state", required = false) String state,
-			@RequestParam(name = "city", required = false) String city,
-			@RequestParam(name = "address", required = false) String address,
-			@RequestParam(name = "furnishedStatus", required = false) FurnishedStatus furnishedStatus,
-			@RequestParam(name = "userEmail", required = false) String userEmail,
-			@RequestParam(name = "preference", required = false) String preference, @PathVariable("roomId") Long roomId)
-			throws IOException {
+	// @PutMapping("/update-room/{roomId}")
+	// public ResponseEntity<String> updateRoom(
+	// 		@RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
+	// 		@RequestParam(name = "bathRooms", required = false) Integer bathRooms,
+	// 		@RequestParam(name = "floorNumber", required = false) String floorNumber,
+	// 		@RequestParam(name = "roomArea", required = false) String roomArea,
+	// 		@RequestParam(name = "roomImage", required = false) MultipartFile roomImage,
+	// 		@RequestParam(name = "roomVideo", required = false) MultipartFile roomVideo,
+	// 		@RequestParam(name = "rent", required = false) Double rent,
+	// 		@RequestParam(name = "securityDeposit", required = false) Double securityDeposit,
+	// 		@RequestParam(name = "description", required = false) String description,
+	// 		@RequestParam(name = "landmark", required = false) String landmark,
+	// 		@RequestParam(name = "state", required = false) String state,
+	// 		@RequestParam(name = "city", required = false) String city,
+	// 		@RequestParam(name = "address", required = false) String address,
+	// 		@RequestParam(name = "furnishedStatus", required = false) FurnishedStatus furnishedStatus,
+	// 		@RequestParam(name = "userEmail", required = false) String userEmail,
+	// 		@RequestParam(name = "preference", required = false) String preference, @PathVariable("roomId") Long roomId)
+	// 		throws IOException {
 
-		try {
-			String msg = roomService.updateRoom(roomId, numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage,
-					rent, securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
-					roomVideo, preference);
-			return new ResponseEntity<>(msg, HttpStatus.OK);
-		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+	// 	try {
+	// 		String msg = roomService.updateRoom(roomId, numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage,
+	// 				rent, securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
+	// 				roomVideo, preference);
+	// 		return new ResponseEntity<>(msg, HttpStatus.OK);
+	// 	} catch (IllegalArgumentException e) {
+	// 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	// 	}
+	// }
 
-	@DeleteMapping("/delete-room/{roomId}")
-	public ResponseEntity<String> deleteRoom(@PathVariable Long roomId) {
-		String msg=roomService.deleteRoom(roomId);
-		return new ResponseEntity<>(msg,HttpStatus.NO_CONTENT);
-	}
+	// @DeleteMapping("/delete-room/{roomId}")
+	// public ResponseEntity<String> deleteRoom(@PathVariable Long roomId) {
+	// 	String msg=roomService.deleteRoom(roomId);
+	// 	return new ResponseEntity<>(msg,HttpStatus.NO_CONTENT);
+	// }
 
 }
