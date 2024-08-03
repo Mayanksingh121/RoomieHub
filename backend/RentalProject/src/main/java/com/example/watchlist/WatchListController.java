@@ -1,5 +1,7 @@
 package com.example.watchlist;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +20,26 @@ import com.example.room.Room;
 public class WatchListController {
   @Autowired
   private WatchListService watchlistService;
+
   @PostMapping("/toggle-watchlist")
-  public ResponseEntity<String> addToWatchlist(@RequestParam String userEmail, @RequestParam Long roomId) {
-      String msg = watchlistService.toggleWatchlist(userEmail, roomId);
-      return ResponseEntity.ok(msg);
+  public ResponseEntity<Map<String, Object>> addToWatchlist(
+      @RequestParam String userEmail,
+      @RequestParam Long roomId) {
+
+    String msg = watchlistService.toggleWatchlist(userEmail, roomId);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("message", msg);
+    // response.put("statusCode", HttpStatus.OK.value());
+
+    return ResponseEntity.ok(response);
   }
 
+ 
   @GetMapping("/get-user-watchlist/{userEmail}")
   public ResponseEntity<List<Room>> getUserWatchlist(@PathVariable String userEmail) {
-      List<Room> watchlist = watchlistService.getUserWatchlist(userEmail);
-      return ResponseEntity.ok(watchlist);
+    List<Room> watchlist = watchlistService.getUserWatchlist(userEmail);
+    return ResponseEntity.ok(watchlist);
   }
+
 }
