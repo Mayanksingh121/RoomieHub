@@ -16,7 +16,7 @@ public interface RoommateService {
             String address, LocalDate availableFrom, User user);
 
     List<RoomMate> getAllRoommates();
-    // List<RoomMate> getRoommatesByRoomId(Long roomId);
+
 
     RoomMate getRoommateById(Long id);
 
