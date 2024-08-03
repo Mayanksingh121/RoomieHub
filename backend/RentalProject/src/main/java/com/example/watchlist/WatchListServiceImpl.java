@@ -25,34 +25,24 @@ public class WatchListServiceImpl implements WatchListService {
 
     @Override
     @Transactional
-    public Watchlist addToWatchlist(String userEmail, Long roomId) {
+    public String toggleWatchlist(String userEmail, Long roomId) {
         User user = userRepository.findByUserEmail(userEmail);
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with given id: "));
 
         Watchlist existingEntry = watchlistRepository.findByUserAndRoom(user, room);
         if (existingEntry == null) {
-            Watchlist watchlist = new Watchlist();
-            watchlist.setUser(user);
-            watchlist.setRoom(room);
-            return watchlistRepository.save(watchlist);
+        Watchlist watchlist = new Watchlist(user, room);
+        watchlistRepository.save(watchlist);
+        return "Added to Watchlist Successfully";
         } else {
-            return existingEntry;
+            this.watchlistRepository.delete(existingEntry);
+            return "Removed from Watchlist Successfully";
         }
+
     }
 
-    @Override
-    @Transactional
-    public void removeFromWatchlist(String userEmail, Long roomId) {
-        User user = userRepository.findByUserEmail(userEmail);
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found with given id: " ));
-
-        Watchlist watchlist = watchlistRepository.findByUserAndRoom(user, room);
-        if (watchlist != null) {
-            watchlistRepository.delete(watchlist);
-        }
-    }
+  
 
     @Override
     public List<Room> getUserWatchlist(String userEmail) {

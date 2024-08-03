@@ -29,7 +29,7 @@ public class RoommateController {
 	private UserService userService;
 
 	@PostMapping("/add-roommate")
-	public ResponseEntity<RoomMate> createRoommate(
+	public ResponseEntity<String> createRoommate(
 			@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
 			@RequestParam(name = "bathRooms") Integer bathRooms,
 			@RequestParam(name = "floorNumber") String floorNumber,
@@ -44,10 +44,10 @@ public class RoommateController {
 			@RequestParam(name = "userEmail") String userEmail,
 			@RequestParam(name = "preference", required = false) String preference) {
 		User user = this.userService.getUserByUserEmail(userEmail);
-		RoomMate roommate = roommateService.createRoomMate(numberOfBalconies, bathRooms, floorNumber, age, occupation,
+		String msg = roommateService.createRoomMate(numberOfBalconies, bathRooms, floorNumber, age, occupation,
 				preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark, state, city,
 				address, availableFrom, user);
-		return new ResponseEntity<>(roommate, HttpStatus.CREATED);
+		return new ResponseEntity<>(msg, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/get-all-roommates")
@@ -70,7 +70,7 @@ public class RoommateController {
 	}
 
 	@PutMapping("/update-roommate/{id}")
-	public ResponseEntity<RoomMate> updateRoommate(@PathVariable Long id,
+	public ResponseEntity<String> updateRoommate(@PathVariable Long id,
 			@RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
 			@RequestParam(name = "bathRooms", required = false) Integer bathRooms,
 			@RequestParam(name = "floorNumber", required = false) String floorNumber,
@@ -87,10 +87,10 @@ public class RoommateController {
 			@RequestParam(name = "availableFrom", required = false) LocalDate availableFrom,
 			@RequestParam(name = "userEmail", required = false) String userEmail,
 			@RequestParam(name = "preference", required = false) String preference) {
-		RoomMate updatedRoommate = this.roommateService.updateRoommate(id, numberOfBalconies, bathRooms, floorNumber,
+		String msg = this.roommateService.updateRoommate(id, numberOfBalconies, bathRooms, floorNumber,
 				age, occupation, preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark,
 				state, city, address, availableFrom);
-		return new ResponseEntity<>(updatedRoommate, HttpStatus.OK);
+		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete-roommate/{id}")

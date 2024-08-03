@@ -19,16 +19,10 @@ import com.example.room.Room;
 public class WatchListController {
   @Autowired
   private WatchListService watchlistService;
-  @PostMapping("/add-to-watchlist")
-  public ResponseEntity<Watchlist> addToWatchlist(@RequestParam String userEmail, @RequestParam Long roomId) {
-      Watchlist watchlist = watchlistService.addToWatchlist(userEmail, roomId);
-      return ResponseEntity.ok(watchlist);
-  }
-
-  @DeleteMapping("/delete-watchlist-item")
-  public ResponseEntity<String> removeFromWatchlist(@RequestParam String userEmail, @RequestParam Long roomId) {
-      watchlistService.removeFromWatchlist(userEmail, roomId);
-      return ResponseEntity.ok("Successfully removed");
+  @PostMapping("/toggle-watchlist")
+  public ResponseEntity<String> addToWatchlist(@RequestParam String userEmail, @RequestParam Long roomId) {
+      String msg = watchlistService.toggleWatchlist(userEmail, roomId);
+      return ResponseEntity.ok(msg);
   }
 
   @GetMapping("/get-user-watchlist/{userEmail}")

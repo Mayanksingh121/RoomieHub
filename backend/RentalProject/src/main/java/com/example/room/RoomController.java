@@ -100,7 +100,7 @@ public class RoomController {
 	}
 
 	@PutMapping("/update-room/{roomId}")
-	public ResponseEntity<Room> updateRoom(
+	public ResponseEntity<String> updateRoom(
 			@RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
 			@RequestParam(name = "bathRooms", required = false) Integer bathRooms,
 			@RequestParam(name = "floorNumber", required = false) String floorNumber,
@@ -120,10 +120,10 @@ public class RoomController {
 			throws IOException {
 
 		try {
-			Room room = roomService.updateRoom(roomId, numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage,
+			String msg = roomService.updateRoom(roomId, numberOfBalconies, bathRooms, floorNumber, roomArea, roomImage,
 					rent, securityDeposit, description, landmark, state, city, address, furnishedStatus, userEmail,
 					roomVideo, preference);
-			return new ResponseEntity<>(room, HttpStatus.OK);
+			return new ResponseEntity<>(msg, HttpStatus.OK);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
@@ -133,9 +133,9 @@ public class RoomController {
 	}
 
 	@DeleteMapping("/delete-room/{roomId}")
-	public ResponseEntity<Void> deleteRoom(@PathVariable Long roomId) {
-		roomService.deleteRoom(roomId);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> deleteRoom(@PathVariable Long roomId) {
+		String msg=roomService.deleteRoom(roomId);
+		return new ResponseEntity<>(msg,HttpStatus.NO_CONTENT);
 	}
 
 }

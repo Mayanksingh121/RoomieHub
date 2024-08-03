@@ -7,12 +7,17 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.example.cloudinary.CloudinaryServiceImpl;
+
+import com.example.cloudinary.CloudinaryService;
+import com.example.exception.MediaNotUploadException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.user.User;
 import com.example.user.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class RoomServiceImpl implements RoomService {
 
 	@Autowired
@@ -20,7 +25,7 @@ public class RoomServiceImpl implements RoomService {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private CloudinaryServiceImpl cloudinaryServiceImpl;
+	private CloudinaryService cloudinaryService;
 
 	@Override
 	public String saveRoom(Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
@@ -28,38 +33,39 @@ public class RoomServiceImpl implements RoomService {
 			String state, String city, String address, FurnishedStatus furnishedStatus, String userEmail,
 			MultipartFile roomVideo, String preference, Boolean lift, Boolean reservedParking, Boolean security,
 			Boolean gym, Boolean maintainanceStaff, Boolean garden,
-			Boolean wifi)
-			throws IOException {
-		// Upload the image and video
-		Map<String, Object> imageObject = this.cloudinaryServiceImpl.uploadMedia(roomImage);
-		Map<String, Object> videoObject = this.cloudinaryServiceImpl.uploadMedia(roomVideo);
-		String roomImageUrl = (String) imageObject.get("secure_url");
-		String imagePublicId = (String) imageObject.get("public_id");
-		String roomVideoUrl = (String) videoObject.get("secure_url");
-		String videoPublicId = (String) videoObject.get("public_id");
+			Boolean wifi) {
+		try {
+			Map<String, Object> imageObject = this.cloudinaryService.uploadMedia(roomImage);
+			Map<String, Object> videoObject = this.cloudinaryService.uploadMedia(roomVideo);
+			String roomImageUrl = (String) imageObject.get("secure_url");
+			String imagePublicId = (String) imageObject.get("public_id");
+			String roomVideoUrl = (String) videoObject.get("secure_url");
+			String videoPublicId = (String) videoObject.get("public_id");
 
-  System.out.println(videoPublicId+" video url "+roomVideoUrl);
+			// Fetch the user by email
+			User user = this.userRepository.findByUserEmail(userEmail);
 
-		// Fetch the user by email
-		User user = this.userRepository.findByUserEmail(userEmail);
+			if (user == null) {
+				throw new ResourceNotFoundException("User not found with email: " +
+						userEmail);
+			}
 
+			Room room = new Room(numberOfBalconies, bathRooms, floorNumber, roomArea, preference, roomImageUrl,
+					imagePublicId, roomVideoUrl, videoPublicId, rent, securityDeposit, description, landmark, state,
+					city,
+					address, furnishedStatus, user, lift, reservedParking, security, gym, maintainanceStaff, garden,
+					wifi);
 
-		if (user == null) {
-			throw new ResourceNotFoundException("User not found with email: " +
-					userEmail);
+			this.roomRepository.save(room);
+		} catch (Exception e) {
+			log.error("Error Occurred while uploading media ", e.getMessage(), e.getCause());
+			throw new MediaNotUploadException("Failed to upload media" + e.getStackTrace() + e.getMessage());
+			// TODO: handle exception
+
 		}
 
-		Room room = new Room( numberOfBalconies, bathRooms, floorNumber, roomArea, preference, roomImageUrl,
-				imagePublicId, roomVideoUrl, videoPublicId, rent, securityDeposit, description, landmark, state, city,
-				address, furnishedStatus, user, lift, reservedParking, security, gym, maintainanceStaff, garden, wifi);
-
-		this.roomRepository.save(room);
-
-
-	return "Room created successfully";
+		return "Room created successfully";
 	}
-
-
 
 	@Override
 	public List<Room> getAllRooms() {
@@ -72,9 +78,8 @@ public class RoomServiceImpl implements RoomService {
 				.orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
 	}
 
-
 	@Override
-	public Room updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber,
+	public String updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber,
 			String roomArea, MultipartFile roomImage, Double rent, Double securityDeposit, String description,
 			String landmark, String state, String city, String address, FurnishedStatus furnishedStatus,
 			String userEmail, MultipartFile roomVideo, String preference) throws IOException {
@@ -82,23 +87,22 @@ public class RoomServiceImpl implements RoomService {
 
 		if (room.getRoomImageUrl() != null) {
 
-			if (roomImage!=null && room.getRoomImagePublicId() != null) {
-				this.cloudinaryServiceImpl.deleteMedia(room.getRoomImagePublicId(),"image");
-				Map<String, Object> uploadResult = this.cloudinaryServiceImpl.uploadMedia(roomImage);
+			if (roomImage != null && room.getRoomImagePublicId() != null) {
+				this.cloudinaryService.deleteMedia(room.getRoomImagePublicId(), "image");
+				Map<String, Object> uploadResult = this.cloudinaryService.uploadMedia(roomImage);
 				room.setRoomImageUrl(uploadResult.get("secure_url").toString());
 				room.setRoomImagePublicId(uploadResult.get("public_id").toString());
 			}
 		}
 
 		if (room.getRoomVideoUrl() != null) {
-			if (roomVideo!=null && room.getRoomVideoPublicId() != null) {
-				this.cloudinaryServiceImpl.deleteMedia(room.getRoomVideoPublicId(),"video");
-				Map<String, Object> uploadResult = this.cloudinaryServiceImpl.uploadMedia(roomVideo);
+			if (roomVideo != null && room.getRoomVideoPublicId() != null) {
+				this.cloudinaryService.deleteMedia(room.getRoomVideoPublicId(), "video");
+				Map<String, Object> uploadResult = this.cloudinaryService.uploadMedia(roomVideo);
 				room.setRoomVideoUrl(uploadResult.get("secure_url").toString());
 				room.setRoomVideoPublicId(uploadResult.get("public_id").toString());
 			}
 		}
-
 
 		room.setNumberOfBalconies(numberOfBalconies);
 		room.setBathRooms(bathRooms);
@@ -114,20 +118,21 @@ public class RoomServiceImpl implements RoomService {
 		room.setSecurityDeposit(securityDeposit);
 		room.setFurnishedStatus(furnishedStatus);
 
-
-		return roomRepository.save(room);
+		roomRepository.save(room);
+		return "Room Updated Successfully";
 	}
 
 	@Override
-	public void deleteRoom(Long roomId) {
+	public String deleteRoom(Long roomId) {
 		Room room = getRoomById(roomId);
-		if (room.getRoomImagePublicId() != null) {
-			this.cloudinaryServiceImpl.deleteMedia(room.getRoomImagePublicId(),"image");
+		if (room.getRoomImagePublicId() != null && room.getRoomImageUrl() != null) {
+			this.cloudinaryService.deleteMedia(room.getRoomImagePublicId(), "image");
 		}
-		if (room.getRoomVideoPublicId() != null) {
-			this.cloudinaryServiceImpl.deleteMedia(room.getRoomVideoPublicId(),"video");
+		if (room.getRoomVideoPublicId() != null && room.getRoomVideoUrl() != null) {
+			this.cloudinaryService.deleteMedia(room.getRoomVideoPublicId(), "video");
 		}
 		roomRepository.delete(room);
+		return "Room Deleted Successfully";
 	}
 
 }

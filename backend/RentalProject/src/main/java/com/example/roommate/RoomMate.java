@@ -3,7 +3,6 @@ package com.example.roommate;
 import java.time.LocalDate;
 
 import com.example.user.User;
-// import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

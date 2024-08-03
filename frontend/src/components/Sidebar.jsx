@@ -32,6 +32,7 @@ const SideBar = ({ handleNavBar }) => {
   };
 
   const handleUploadPhoto = async () => {
+    console.log(selectedFile);
     if (!selectedFile) {
       alert("Please select a file first.");
       return;
@@ -70,6 +71,7 @@ const SideBar = ({ handleNavBar }) => {
               src={user.userProfileUrl}
               alt="User Avatar"
               className="w-12 h-12 rounded-full"
+              loading="lazy"
             />
             <div>
               <h3 className="text-xl font-bold">{user.name}</h3>
@@ -80,8 +82,11 @@ const SideBar = ({ handleNavBar }) => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <input
-              type="file"
+
+ <input
+                type="file"
+
+                name="selectedFile"
               id="upload-photo"
               onChange={handleFileChange}
               className="hidden"
@@ -93,11 +98,14 @@ const SideBar = ({ handleNavBar }) => {
               Choose a file
             </label>
             <button
-              onClick={handleUploadPhoto}
+                onClick={handleUploadPhoto }
+                type="submit"
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
             >
               Upload Photo
             </button>
+
+
           </div>
         </div>
       </motion.div>
