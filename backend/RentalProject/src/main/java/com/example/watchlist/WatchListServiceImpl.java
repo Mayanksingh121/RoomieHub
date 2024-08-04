@@ -1,5 +1,6 @@
 package com.example.watchlist;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,14 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.exception.ResourceNotFoundException;
+import com.example.exception.UserNotFoundException;
 import com.example.room.Room;
 import com.example.room.RoomRepository;
 import com.example.user.User;
 import com.example.user.UserRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class WatchListServiceImpl implements WatchListService {
     @Autowired
     private WatchListRepository watchlistRepository;
@@ -42,12 +46,28 @@ public class WatchListServiceImpl implements WatchListService {
 
     }
 
-  
-
     @Override
     public List<Room> getUserWatchlist(String userEmail) {
+        if (userEmail == null) {
+            log.warn("Null Value Found");
+            throw new IllegalArgumentException("Null Value Found");
+        }
+
         User user = userRepository.findByUserEmail(userEmail);
+        if (user == null) {
+            log.warn("User not found for email: {}", userEmail);
+            throw new UserNotFoundException("User not found for given email: " );
+        }
+
         List<Watchlist> watchlistEntries = watchlistRepository.findByUser(user);
-        return watchlistEntries.stream().map(Watchlist::getRoom).collect(Collectors.toList());
+        List<Room> rooms=new ArrayList<Room>();
+        for (Watchlist entry : watchlistEntries) {
+            Room room = this.roomRepository.findById(entry.getRoom().getRoomId()).orElse(null);
+            if (room != null) {
+                rooms.add(room);
+            }
+        }
+
+        return rooms;
     }
 }
