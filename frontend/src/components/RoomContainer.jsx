@@ -3,16 +3,35 @@ import { useSelector } from "react-redux";
 import RoomCard from "./RoomCard";
 import { MdOutlineSearch } from "react-icons/md";
 import { useState, useEffect } from "react";
+import { useUser } from "../utils/Context/UserContext";
+import { getWatchList } from "../api/watchList";
 
 const RoomContainer = () => {
   const roomInfo = useSelector((store) => store.room.availableRooms);
+  const { isLoggedIn } = useSelector((store) => store.user);
   const [userSearch, setUserSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [watchList, setWatchList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortAndFilter, setSortAndFilter] = useState("default");
   const [rentRange, setRentRange] = useState(50000);
+  const { userDetails } = useUser();
   const noOfShimmers = 20;
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      const getData = async () => {
+        console.log(userDetails);
+        const response = getWatchList(userDetails);
+        if (response.ok) {
+          console.log("printed");
+          const json = await response.json();
+          setWatchList(json);
+        }
+      };
+      getData();
+    }
+  }, [isLoggedIn]);
   useEffect(() => {
     let results = [...roomInfo];
 
@@ -109,7 +128,9 @@ const RoomContainer = () => {
             <Shimmer key={index} />
           ))
         ) : searchResult.length > 0 ? (
-          searchResult.map((room) => <RoomCard room={room} key={room.roomId} />)
+          searchResult.map((room) => (
+            <RoomCard watchList={watchList} room={room} key={room.roomId} />
+          ))
         ) : (
           <div className="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 flex items-center justify-center font-roboto text-2xl text-gray-500 md:h-52">
             <span className="text-[#959595] px-1 text-3xl h-full flex items-center">

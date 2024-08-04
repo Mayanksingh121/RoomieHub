@@ -3,15 +3,11 @@ import { Link } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-import { addToWatchList, deleteFromWatchList } from "../api/watchList";
-import useGetWatchListData from "../hooks/useGetWatchListData";
+import { toggleWatchList } from "../api/watchList";
 import { motion } from "framer-motion";
 
-const RoomCard = ({ room }) => {
-  useGetWatchListData();
-  const { isLoggedIn, userDetails, watchList } = useSelector(
-    (store) => store.user
-  );
+const RoomCard = ({ room, watchList }) => {
+  const { isLoggedIn, userDetails } = useSelector((store) => store.user);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
@@ -23,42 +19,21 @@ const RoomCard = ({ room }) => {
 
   const handleBookmark = async () => {
     if (!isLoggedIn) {
-      toast("To add wishlist room login is required.", {
-        duration: 3000,
-        position: "top-center",
-      });
+      toast("To add wishlist room login is required.");
       return;
     }
-
-    if (isBookmarked) {
-      try {
-        const response = await deleteFromWatchList(userDetails, room.roomId);
-        const textMessage = await response.text();
-        if (response.ok) {
-          setIsBookmarked(false);
-          console.log(response);
-          toast.success(`${textMessage}`);
-        } else {
-          toast.error(`${textMessage}`);
-        }
-      } catch (error) {
-        toast.error("An error occurred. Please try again.");
-        console.error("Error deleting from wishlist:", error);
+    try {
+      const response = await toggleWatchList(userDetails, room.roomId);
+      const textMessage = await response.text();
+      if (response.ok) {
+        setIsBookmarked(!isBookmarked);
+        toast.success(`${textMessage}`);
+      } else {
+        toast.error(`${textMessage}`);
       }
-    } else {
-      try {
-        const response = await addToWatchList(userDetails, room.roomId);
-        const textMessage = await response.text();
-        if (response.ok) {
-          setIsBookmarked(true);
-          toast.success(`Successfully added`);
-        } else {
-          toast.error(`${textMessage}`);
-        }
-      } catch (error) {
-        toast("An error occurred. Please try again.");
-        console.error("Error adding to wishlist:", error);
-      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+      console.error("Error deleting from wishlist:", error);
     }
   };
 

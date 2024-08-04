@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useUser } from "../utils/Context/UserContext";
-import { getUser, updateUser } from "../api/user"; // Ensure updateUser is imported
+import { getUser, updateUser } from "../api/user";
 
 const ViewProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -12,6 +12,7 @@ const ViewProfile = () => {
     userEmail: "",
     userPhoneNumber: "",
   });
+  console.log(userDetails);
 
   useEffect(() => {
     const fetchUser = async () => {
