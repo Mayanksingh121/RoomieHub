@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
 import LoadingSpinner from "./components/LoadingSpinner";
-import { UserProvider } from "./utils/Context/UserContext";
 
 const Body = lazy(() => import("./components/Body"));
 const ViewProfile = lazy(() => import("./components/ViewProfile"));
@@ -14,6 +13,7 @@ const RoomInformation = lazy(() =>
 const WatchList = lazy(() => import("./components/WatchList"));
 const RoommateDetails = lazy(() => import("./components/RoommateDetails"));
 const RoomListing = lazy(() => import("./components/RoomListing/RoomListing"));
+const RoommateRegistry = lazy(() => import("./components/RoommateRegistry"));
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -36,6 +36,7 @@ function App() {
         { path: "/roommate/:roommateID", element: <RoommateDetails /> },
         { path: "/profile", element: <ViewProfile /> },
         { path: "/room-listing", element: <RoomListing /> },
+        { path: "/roommate-registry", element: <RoommateRegistry /> },
       ],
     },
   ]);
@@ -43,12 +44,10 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Toaster position="top-center" reverseOrder={false} />
-      <UserProvider>
-        {showLogin && <Login handleLogin={handleShowLogin} />}
-        <Suspense fallback={<LoadingSpinner />}>
-          <RouterProvider router={appRouting} />
-        </Suspense>
-      </UserProvider>
+      {showLogin && <Login handleLogin={handleShowLogin} />}
+      <Suspense fallback={<LoadingSpinner />}>
+        <RouterProvider router={appRouting} />
+      </Suspense>
     </div>
   );
 }

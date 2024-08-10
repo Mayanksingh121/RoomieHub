@@ -8,10 +8,9 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 import UserModal from "./UserModal";
 import { BASE_URL } from "../../constant/constant";
-import { useUser } from "../../utils/Context/UserContext";
 
 const RoomInformation = ({ handleLogin }) => {
-  const { userDetails } = useUser();
+  const userDetails = localStorage.getItem("email");
   const { roomId } = useParams();
   const data = useSelector((store) => store.room?.availableRooms);
   const reqRoom = data?.find((room) => room.roomId === Number(roomId));

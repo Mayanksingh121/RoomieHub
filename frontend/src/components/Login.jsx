@@ -6,11 +6,9 @@ import { motion } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
-import { useUser } from "../utils/Context/UserContext";
 
 const Login = ({ handleLogin }) => {
   const dispatch = useDispatch();
-  const { setUserDetails } = useUser();
   const [alreadyUser, setAlreadyUser] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [otpStep, setOtpStep] = useState(false);
@@ -61,7 +59,7 @@ const Login = ({ handleLogin }) => {
         const textMessage = await response.text();
         toast.success(`${textMessage}`);
         dispatch(setIsLoggedIn());
-        setUserDetails(user.userEmail);
+        localStorage.setItem("email", user.userEmail);
         handleLogin();
       } else {
         const textMessage = await response.text();

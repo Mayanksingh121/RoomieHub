@@ -3,13 +3,12 @@ import { FaXmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getUser, updateUserProfile } from "../api/user";
-import { useUser } from "../utils/Context/UserContext";
 import toast from "react-hot-toast";
 
 const SideBar = ({ handleNavBar }) => {
   const [user, setUser] = useState(null);
-  const { userDetails } = useUser();
   const [selectedFile, setSelectedFile] = useState(null);
+  const userDetails = localStorage.getItem("email");
 
   useEffect(() => {
     const fetchUser = async () => {

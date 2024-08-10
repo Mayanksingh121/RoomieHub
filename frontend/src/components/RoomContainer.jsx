@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import RoomCard from "./RoomCard";
 import { MdOutlineSearch } from "react-icons/md";
 import { useState, useEffect } from "react";
-import { useUser } from "../utils/Context/UserContext";
 import { getWatchList } from "../api/watchList";
+import { LuSearch } from "react-icons/lu";
+import "../Style.css";
 
 const RoomContainer = () => {
   const roomInfo = useSelector((store) => store.room.availableRooms);
@@ -15,12 +16,12 @@ const RoomContainer = () => {
   const [loading, setLoading] = useState(true);
   const [sortAndFilter, setSortAndFilter] = useState("default");
   const [rentRange, setRentRange] = useState(50000);
-  const { userDetails } = useUser();
   const noOfShimmers = 20;
 
   useEffect(() => {
     if (isLoggedIn) {
       const getData = async () => {
+        const userDetails = localStorage.getItem("email");
         console.log(userDetails);
         const response = getWatchList(userDetails);
         if (response.ok) {
@@ -32,6 +33,7 @@ const RoomContainer = () => {
       getData();
     }
   }, [isLoggedIn]);
+
   useEffect(() => {
     let results = [...roomInfo];
 
@@ -81,44 +83,50 @@ const RoomContainer = () => {
             Top rooms available
           </h2>
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-5 w-full md:w-auto">
-            <div className="flex items-center gap-3 w-full md:w-auto">
-              <input
-                type="range"
-                min="0"
-                max="50000"
-                step="5000"
-                value={rentRange}
-                onChange={handleRentRangeChange}
-                className="w-full md:w-48"
-              />
-              <span>{`Max: ₹${rentRange}`}</span>
-            </div>
-            <div className="flex items-center w-full md:w-auto rounded-full border overflow-hidden border-gray-300 flex-grow">
-              <span className="text-[#959595] px-1 border-r h-full border-gray-300 flex items-center">
-                <MdOutlineSearch />
-              </span>
-              <input
-                onChange={handleSearch}
-                value={userSearch}
-                className="px-2 py-1 w-full font-roboto focus:outline-none flex-grow"
-                placeholder="Search for state or city"
-              />
+            <div className="wrap-input-17">
+              <div className="search-box">
+                <button className="btn-search">
+                  <LuSearch className="text-2xl ml-4" />
+                </button>
+                <input
+                  onChange={handleSearch}
+                  value={userSearch}
+                  type="text"
+                  className="input-search"
+                  placeholder="Search state or city"
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="font-roboto-slab">Sort & Filter:</span>
-          <select
-            onChange={handleSortAndFilter}
-            className="shadow-sm focus:outline-none border px-2 py-1"
-          >
-            <option value="default">Select</option>
-            <option value="low-to-high">Rent (low to high)</option>
-            <option value="high-to-low">Rent (high to low)</option>
-            <option value="FULLYFURNISHED">Furnished: Fully Furnished</option>
-            <option value="SEMIFURNISHED">Furnished: Semi Furnished</option>
-            <option value="UNFURNISHED">Furnished: Unfurnished</option>
-          </select>
+        <div className="flex justify-between items-center gap-3">
+          <div>
+            <span className="font-roboto-slab">Sort & Filter:</span>
+            <select
+              onChange={handleSortAndFilter}
+              className="shadow-sm focus:outline-none border px-2 py-1"
+            >
+              <option value="default">Select</option>
+              <option value="low-to-high">Rent (low to high)</option>
+              <option value="high-to-low">Rent (high to low)</option>
+              <option value="FULLYFURNISHED">Furnished: Fully Furnished</option>
+              <option value="SEMIFURNISHED">Furnished: Semi Furnished</option>
+              <option value="UNFURNISHED">Furnished: Unfurnished</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <input
+              type="range"
+              min="0"
+              max="50000"
+              step="5000"
+              value={rentRange}
+              onChange={handleRentRangeChange}
+              className="w-full md:w-48"
+            />
+            <span>{`Max: ₹${rentRange}`}</span>
+          </div>
         </div>
       </div>
 

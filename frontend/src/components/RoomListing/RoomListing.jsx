@@ -5,12 +5,11 @@ import CheckboxGroup from "./CheckboxGroup";
 import FileInput from "./FileInput";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../utils/Context/UserContext";
 
 const RoomListing = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
-  const { userDetails } = useUser();
+  const userEmail = localStorage.getItem("email");
   const [room, setRoom] = useState({
     rent: "",
     landmark: "",
@@ -41,7 +40,7 @@ const RoomListing = () => {
     event.preventDefault();
     const roomInfo = {
       ...room,
-      userEmail: "geetika@gmail.com",
+      userEmail: userEmail,
     };
     toast
       .promise(addRoom(roomInfo), {

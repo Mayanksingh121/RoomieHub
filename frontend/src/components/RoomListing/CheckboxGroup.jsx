@@ -18,6 +18,7 @@ const CheckboxGroup = ({ amenities, room, onChange }) => {
       ))}
     </div>
   );
+
 };
 
 export default CheckboxGroup;

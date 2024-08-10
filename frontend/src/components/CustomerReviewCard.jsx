@@ -1,5 +1,5 @@
 import React from "react";
-import Marquee from "./Marquee"; // Adjust the import path as necessary
+import Marquee from "./Marquee"; 
 import { customerReviews } from "../constant/constant";
 
 const firstRow = customerReviews.slice(0, customerReviews.length / 2);
@@ -34,8 +34,6 @@ const CustomerReviewCard = () => (
         <ReviewCard key={review.username} {...review} />
       ))}
     </Marquee>
-    <div className="pointer-events-none absolute inset-y-0 left-0 w-[2%] bg-gradient-to-r from-white"></div>
-    <div className="pointer-events-none absolute inset-y-0 right-0 w-[2%] bg-gradient-to-l from-white"></div>
   </div>
 );
 

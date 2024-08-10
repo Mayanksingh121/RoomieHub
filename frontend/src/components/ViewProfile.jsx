@@ -1,24 +1,21 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import { useUser } from "../utils/Context/UserContext";
 import { getUser, updateUser } from "../api/user";
 
 const ViewProfile = () => {
   const [userData, setUserData] = useState(null);
-  const { userDetails } = useUser();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     userEmail: "",
     userPhoneNumber: "",
   });
-  console.log(userDetails);
 
+  const userDetails = localStorage.getItem("email");
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const data = await getUser(userDetails);
-        console.log(userData);
         setUserData(data);
         setFormData({
           name: data.name,
