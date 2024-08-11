@@ -14,6 +14,7 @@ const WatchList = lazy(() => import("./components/WatchList"));
 const RoommateDetails = lazy(() => import("./components/RoommateDetails"));
 const RoomListing = lazy(() => import("./components/RoomListing/RoomListing"));
 const RoommateRegistry = lazy(() => import("./components/RoommateRegistry"));
+const ListedRooms = lazy(() => import("./components/ListedRooms"));
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -37,6 +38,7 @@ function App() {
         { path: "/profile", element: <ViewProfile /> },
         { path: "/room-listing", element: <RoomListing /> },
         { path: "/roommate-registry", element: <RoommateRegistry /> },
+        { path: "/listed-rooms", element: <ListedRooms /> },
       ],
     },
   ]);

@@ -4,6 +4,7 @@ import { IoMenu } from "react-icons/io5";
 import { useLocation, Link } from "react-router-dom";
 import SideBar from "./Sidebar";
 
+
 const Header = ({ handleLogin }) => {
   const [showNavBar, setShowNavBar] = useState(false);
   const userLoginStatus = useSelector((store) => store.user.isLoggedIn);
@@ -14,7 +15,10 @@ const Header = ({ handleLogin }) => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/profile") {
+    if (
+      location.pathname === "/profile" ||
+      location.pathname === "/listed-rooms"
+    ) {
       setShowNavBar(false);
     }
   }, [location.pathname]);

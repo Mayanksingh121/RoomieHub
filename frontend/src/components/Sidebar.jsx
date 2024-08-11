@@ -3,6 +3,8 @@ import { FaXmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getUser, updateUserProfile } from "../api/user";
+import { MdAccountCircle } from "react-icons/md";
+import { FaRegListAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 const SideBar = ({ handleNavBar }) => {
@@ -14,6 +16,7 @@ const SideBar = ({ handleNavBar }) => {
     const fetchUser = async () => {
       try {
         const data = await getUser(userDetails);
+        console.log(data);
         setUser(data);
       } catch (e) {
         console.error(e.message);
@@ -65,34 +68,43 @@ const SideBar = ({ handleNavBar }) => {
       transition={{ delay: 0.2 }}
     >
       <motion.div
-        className="font-body bg-white h-full w-[25%]"
+        className="font-body bg-white h-full w-[22%]"
         initial={{ x: 400 }}
         animate={{ x: 0 }}
         transition={{ delay: 0.2, type: "tween" }}
       >
-        <div className="h-16 border-b border-black flex items-center justify-between px-4">
-          <h2 className="font-bold text-xl">Hey!</h2>
-          <span onClick={handleNavBar} className="cursor-pointer">
-            <FaXmark />
-          </span>
-        </div>
         <div className="flex flex-col gap-4 px-4 py-4 overflow-y-scroll hide-scrollbar">
-          <div className="flex items-center gap-4">
-            <img
-              src={user.userProfileUrl}
-              alt="User Avatar"
-              className="w-12 h-12 rounded-full"
-              loading="lazy"
-            />
-            <div>
-              <h3 className="text-xl font-bold">{user.name}</h3>
-              <Link to="/profile" className="text-sm text-blue-500">
-                View Profile
-              </Link>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex gap-4">
+              <img
+                src={user.userProfileUrl}
+                alt="User Avatar"
+                className="w-12 h-12 rounded-full"
+                loading="lazy"
+              />
+              <div>
+                <h3 className="text-xl font-bold">{user.name}</h3>
+                <p className="text-sm font-bold">{userDetails}</p>
+              </div>
             </div>
+            <span onClick={handleNavBar} className="cursor-pointer">
+              <FaXmark />
+            </span>
           </div>
 
           <div className="flex flex-col gap-4">
+            <Link to="/profile">
+              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
+                <MdAccountCircle className="text-3xl" />
+                View Profile
+              </div>
+            </Link>
+            <Link to="/listed-rooms">
+              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
+                <FaRegListAlt className="text-3xl" />
+                <p>Listed rooms</p>
+              </div>
+            </Link>
             <input
               type="file"
               name="selectedFile"
