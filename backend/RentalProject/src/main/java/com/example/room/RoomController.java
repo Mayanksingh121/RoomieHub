@@ -1,9 +1,9 @@
 package com.example.room;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,11 +76,17 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @GetMapping("/get-room/{id}")
+    @GetMapping("/get-room/{roomid}")
     public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
         Room room = roomService.getRoomById(id);
         return new ResponseEntity<>(room, HttpStatus.OK);
     }
+
+	@GetMapping("/get-room-id/{userEmail}")
+	public ResponseEntity<List<Room>> getRoomByUser(@PathVariable String userEmail) {
+		List<Room> room = roomService.getRoomByUser(userEmail);
+		return new ResponseEntity<>(room, HttpStatus.OK);
+	}
 
     @PutMapping("/update-room/{roomId}")
     public ResponseEntity<Map<String, Object>> updateRoom(

@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 	List<Room> findByUserUserId(Long userId);
+	List<Room> findByUserUserEmail(String userEmail);
 }
+
+

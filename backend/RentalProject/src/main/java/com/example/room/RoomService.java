@@ -14,6 +14,7 @@ public interface RoomService {
 	List<Room> getAllRooms();
 
 	Room getRoomById(Long roomId);
+	List<Room> getRoomByUser(String userEmail);
 
 	String updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber, String roomArea,
 			MultipartFile roomImage, Double rent, Double securityDeposit, String description, String landmark,

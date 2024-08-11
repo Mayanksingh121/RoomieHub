@@ -73,6 +73,11 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
+	public List<Room> getRoomByUser(String userEmail) {
+		return roomRepository.findByUserUserEmail(userEmail);
+	}
+
+	@Override
 	public Room getRoomById(Long roomId) {
 		return roomRepository.findById(roomId)
 				.orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
