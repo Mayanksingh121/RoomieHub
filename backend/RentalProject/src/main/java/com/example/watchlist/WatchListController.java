@@ -35,7 +35,7 @@ public class WatchListController {
     return ResponseEntity.ok(response);
   }
 
- 
+
   @GetMapping("/get-user-watchlist/{userEmail}")
   public ResponseEntity<List<Room>> getUserWatchlist(@PathVariable String userEmail) {
     List<Room> watchlist = watchlistService.getUserWatchlist(userEmail);

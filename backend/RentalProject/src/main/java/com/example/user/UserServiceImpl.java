@@ -58,6 +58,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public String uploadOrUpdateProfile(MultipartFile userProfile, String userEmail) {
+        if (userEmail == null) {
+            log.error("User email is null");
+            throw new IllegalArgumentException("User email is null");
+        }
+
+    if (userProfile == null || userProfile.isEmpty()) {
+        log.error("Profile file is empty or null for email: {}", userEmail);
+        throw new ResourceNotFoundException("Profile file is empty or null");
+    }
         User user = this.userRepository.findByUserEmail(userEmail);
         if (user == null) {
             log.error("User not found with email: " + userEmail);
@@ -66,19 +75,17 @@ public class UserServiceImpl implements UserService {
         boolean isUpdated = false;
         if (user.getUserProfileUrl() != null && user.getUserProfilePublicId() != null && userProfile != null) {
 
-            this.cloudinaryService.updateMedia(userProfile, user.getUserProfilePublicId());
+            Map<String, Object> mediaUploadResponse = this.cloudinaryService.updateMedia(userProfile, user.getUserProfilePublicId());
+            user.setUserProfileUrl(mediaUploadResponse.get("secure_url").toString());
             isUpdated = true;
 
         } else {
             Map<String, Object> mediaUploadResponse = this.cloudinaryService.uploadMedia(userProfile);
-            String userProfileUrl = (String) mediaUploadResponse.get("secure_url");
-            String userProfilePublicId = (String) mediaUploadResponse.get("public_id");
+            user.setUserProfilePublicId(mediaUploadResponse.get("public_id").toString());
+            user.setUserProfileUrl(mediaUploadResponse.get("secure_url").toString());
 
-            user.setUserProfilePublicId(userProfilePublicId);
-            user.setUserProfileUrl(userProfileUrl);
-            this.userRepository.save(user);
         }
-
+        this.userRepository.save(user);
         return isUpdated ? "Profile Updated Successfully" : "Profile Uploaded Successfully";
     }
 

@@ -138,13 +138,18 @@ public class RoomServiceImpl implements RoomService {
 			log.info("Image is present");
 			System.out.println("Image is present");
 
-			this.cloudinaryService.updateMedia(roomImage, room.getRoomImagePublicId());
+			Map<String, Object> mediaResponse = this.cloudinaryService.updateMedia(roomImage,
+					room.getRoomImagePublicId());
+			room.setRoomImageUrl(mediaResponse.get("secure_url").toString());
 
 		}
 
 		if (roomVideo != null && room.getRoomVideoPublicId() != null && room.getRoomVideoUrl() != null) {
 			log.info("video is present");
-			this.cloudinaryService.updateMedia(roomVideo, room.getRoomVideoPublicId());
+
+			Map<String, Object> mediaResponse = this.cloudinaryService.updateMedia(roomVideo,
+					room.getRoomVideoPublicId());
+			room.setRoomVideoUrl(mediaResponse.get("secure_url").toString());
 		}
 
 		room.setNumberOfBalconies(numberOfBalconies);

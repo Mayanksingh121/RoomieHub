@@ -99,11 +99,13 @@ public class RoommateServiceImpl implements RoommateService {
 				.orElseThrow(() -> new ResourceNotFoundException("Roommate not found with given id: "));
 
 		if (roomImage != null && roomMate.getRoomImageUrl() != null && roomMate.getRoomImagePublicId() != null) {
-			this.cloudinaryService.updateMedia(roomImage, roomMate.getRoomImagePublicId());
+			Map<String, Object> mediaResponse =this.cloudinaryService.updateMedia(roomImage, roomMate.getRoomImagePublicId());
+			roomMate.setRoomImageUrl(mediaResponse.get("secure_url").toString());
 		}
 
 		if (roomVideo != null && roomMate.getRoomVideoUrl() != null && roomMate.getRoomVideoPublicId() != null) {
-			this.cloudinaryService.updateMedia(roomVideo, roomMate.getRoomVideoPublicId());
+			Map<String, Object> mediaResponse =	this.cloudinaryService.updateMedia(roomVideo, roomMate.getRoomVideoPublicId());
+				roomMate.setRoomVideoUrl(mediaResponse.get("secure_url").toString());
 		}
 
 		if (numberOfBalconies != null) {
