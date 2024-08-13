@@ -17,7 +17,6 @@ const RoomListing = () => {
     state: "",
     city: "",
     numberOfBalconies: "",
-    roommates: null,
     bathRooms: "",
     floorNumber: "",
     roomArea: "",

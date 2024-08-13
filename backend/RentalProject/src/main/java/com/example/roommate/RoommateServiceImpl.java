@@ -9,7 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.cloudinary.CloudinaryService;
 import com.example.exception.ResourceNotFoundException;
+import com.example.exception.UserNotFoundException;
 import com.example.user.User;
+import com.example.user.UserRepository;
 
 @Service
 public class RoommateServiceImpl implements RoommateService {
@@ -20,36 +22,49 @@ public class RoommateServiceImpl implements RoommateService {
 	@Autowired
 	private CloudinaryService cloudinaryService;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@Override
 	public String createRoomMate(Integer numberOfBalconies, Integer bathRooms, String floorNumber, Integer age,
 			String occupation,
-			String preference, MultipartFile roomImage, String roomImagePublicId, MultipartFile roomVideo,
-			String roomVideoPublicId, Double budget, String description, String landmark, String state, String city,
+			String preference, MultipartFile roomImage,  MultipartFile roomVideo,
+			 Double budget, String description, String landmark, String state, String city,
 			String address, LocalDate availableFrom, User user) {
-		// TODO Auto-generated method stub
-		String roomImageUrl = "", roomVideoUrl = "";
+		String roomImageUrl = "", roomVideoUrl = "", roomImagePublicId="", roomVideoPublicId="";
 		if (roomImage != null) {
-			Map<String, Object> uploadMap = this.cloudinaryService.uploadMedia(roomImage);
-			roomImageUrl = (String) uploadMap.get("secure_url");
-			roomImagePublicId = (String) uploadMap.get("public_id");
+			Map<String, Object> mediaUploadResponse = this.cloudinaryService.uploadMedia(roomImage);
+			roomImageUrl = (String) mediaUploadResponse.get("secure_url");
+			roomImagePublicId = (String) mediaUploadResponse.get("public_id");
 		}
 		if (roomVideo != null) {
-			Map<String, Object> uploadMap = this.cloudinaryService.uploadMedia(roomVideo);
-			roomVideoUrl = (String) uploadMap.get("secure_url");
-			roomVideoPublicId = (String) uploadMap.get("public_id");
+			Map<String, Object> mediaUploadResponse = this.cloudinaryService.uploadMedia(roomVideo);
+			roomVideoUrl = (String) mediaUploadResponse.get("secure_url");
+			roomVideoPublicId = (String) mediaUploadResponse.get("public_id");
 		}
 		RoomMate roomMate = new RoomMate(numberOfBalconies, bathRooms, floorNumber, age, occupation, preference,
 				roomImageUrl, roomImagePublicId, roomVideoUrl, roomVideoPublicId, budget, description, landmark, state,
 				city, address, availableFrom, user);
 		this.roommateRepository.save(roomMate);
 
-		return "RoomMate Added Seccessfully";
+		return "RoomMate Added Successfully";
+	}
+
+	public List<RoomMate> getRoommatesByUserEmail(String userEmail) {
+		if (userEmail == null)
+			throw new IllegalArgumentException("Null Value Found");
+		User user = this.userRepository.findByUserEmail(userEmail);
+		if (user == null)
+			throw new UserNotFoundException("User Not Found with given email");
+		return roommateRepository.findByUserUserEmail(userEmail);
+
 	}
 
 	@Override
 	public List<RoomMate> getAllRoommates() {
 		return this.roommateRepository.findAll();
-	 }
+	}
+
 	@Override
 	public RoomMate getRoommateById(Long id) {
 		return roommateRepository.findById(id)
@@ -60,6 +75,10 @@ public class RoommateServiceImpl implements RoommateService {
 	public String deleteRoommate(Long id) {
 
 		RoomMate roommate = getRoommateById(id);
+
+		if (roommate == null) {
+			throw new ResourceNotFoundException("Roommate not found with given id: ");
+		}
 		if (roommate.getRoomImageUrl() != null) {
 			this.cloudinaryService.deleteMedia(roommate.getRoomImagePublicId(), "image");
 		}
@@ -72,28 +91,19 @@ public class RoommateServiceImpl implements RoommateService {
 
 	@Override
 	public String updateRoommate(Long id, Integer numberOfBalconies, Integer bathRooms, String floorNumber,
-			Integer age, String occupation, String preference, MultipartFile roomImage, String roomImagePublicId,
-			MultipartFile roomVideo, String roomVideoPublicId, Double budget, String description, String landmark,
+			Integer age, String occupation, String preference, MultipartFile roomImage,
+			MultipartFile roomVideo, Double budget, String description, String landmark,
 			String state, String city, String address, LocalDate availableFrom) {
+
 		RoomMate roomMate = this.roommateRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Roommate not found with given id: "));
 
-		if (roomImage != null) {
-			if (roomMate.getRoomImageUrl() != null) {
-				this.cloudinaryService.deleteMedia(roomImagePublicId, "image");
-			}
-			Map<String, Object> uploadMap = this.cloudinaryService.uploadMedia(roomImage);
-			roomMate.setRoomImageUrl(uploadMap.get("secure_url").toString());
-			roomMate.setRoomImagePublicId(uploadMap.get("public_id").toString());
+		if (roomImage != null && roomMate.getRoomImageUrl() != null && roomMate.getRoomImagePublicId() != null) {
+			this.cloudinaryService.updateMedia(roomImage, roomMate.getRoomImagePublicId());
 		}
 
-		if (roomVideo != null) {
-			if (roomMate.getRoomVideoUrl() != null) {
-				this.cloudinaryService.deleteMedia(roomVideoPublicId, "video");
-			}
-			Map<String, Object> uploadMap = this.cloudinaryService.uploadMedia(roomVideo);
-			roomMate.setRoomVideoUrl(uploadMap.get("secure_url").toString());
-			roomMate.setRoomVideoPublicId(uploadMap.get("public_id").toString());
+		if (roomVideo != null && roomMate.getRoomVideoUrl() != null && roomMate.getRoomVideoPublicId() != null) {
+			this.cloudinaryService.updateMedia(roomVideo, roomMate.getRoomVideoPublicId());
 		}
 
 		if (numberOfBalconies != null) {
@@ -152,7 +162,4 @@ public class RoommateServiceImpl implements RoommateService {
 
 		return "RoomMate updated successfully";
 	}
-
-
-
 }

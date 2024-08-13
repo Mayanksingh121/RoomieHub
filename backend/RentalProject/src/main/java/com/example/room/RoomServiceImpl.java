@@ -83,30 +83,68 @@ public class RoomServiceImpl implements RoomService {
 				.orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
 	}
 
+	// @Override
+	// public String updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber,
+	// 		String roomArea, MultipartFile roomImage, Double rent, Double securityDeposit, String description,
+	// 		String landmark, String state, String city, String address, FurnishedStatus furnishedStatus,
+	// 		String userEmail, MultipartFile roomVideo, String preference) throws IOException {
+	// 	Room room = getRoomById(roomId);
+
+	// 	if (room.getRoomImageUrl() != null) {
+
+	// 		if (roomImage != null && room.getRoomImagePublicId() != null) {
+	// 			this.cloudinaryService.deleteMedia(room.getRoomImagePublicId(), "image");
+	// 			Map<String, Object> uploadResult = this.cloudinaryService.uploadMedia(roomImage);
+	// 			room.setRoomImageUrl(uploadResult.get("secure_url").toString());
+	// 			room.setRoomImagePublicId(uploadResult.get("public_id").toString());
+	// 		}
+	// 	}
+
+	// 	if (room.getRoomVideoUrl() != null) {
+	// 		if (roomVideo != null && room.getRoomVideoPublicId() != null) {
+	// 			this.cloudinaryService.deleteMedia(room.getRoomVideoPublicId(), "video");
+	// 			Map<String, Object> uploadResult = this.cloudinaryService.uploadMedia(roomVideo);
+	// 			room.setRoomVideoUrl(uploadResult.get("secure_url").toString());
+	// 			room.setRoomVideoPublicId(uploadResult.get("public_id").toString());
+	// 		}
+	// 	}
+
+	// 	room.setNumberOfBalconies(numberOfBalconies);
+	// 	room.setBathRooms(bathRooms);
+	// 	room.setFloorNumber(floorNumber);
+	// 	room.setRoomArea(roomArea);
+	// 	room.setRent(rent);
+	// 	room.setState(state);
+	// 	room.setCity(city);
+	// 	room.setAddress(address);
+	// 	room.setDescription(description);
+	// 	room.setLandmark(landmark);
+	// 	room.setPreference(preference);
+	// 	room.setSecurityDeposit(securityDeposit);
+	// 	room.setFurnishedStatus(furnishedStatus);
+
+	// 	roomRepository.save(room);
+	// 	return "Room Updated Successfully";
+	// }
+
 	@Override
 	public String updateRoom(Long roomId, Integer numberOfBalconies, Integer bathRooms, String floorNumber,
 			String roomArea, MultipartFile roomImage, Double rent, Double securityDeposit, String description,
 			String landmark, String state, String city, String address, FurnishedStatus furnishedStatus,
 			String userEmail, MultipartFile roomVideo, String preference) throws IOException {
-		Room room = getRoomById(roomId);
+		Room room = this.roomRepository.findByRoomId(roomId);
 
-		if (room.getRoomImageUrl() != null) {
+		if (roomImage != null && room.getRoomImagePublicId() != null && room.getRoomImageUrl() != null) {
+			log.info("Image is present");
+			System.out.println("Image is present");
 
-			if (roomImage != null && room.getRoomImagePublicId() != null) {
-				this.cloudinaryService.deleteMedia(room.getRoomImagePublicId(), "image");
-				Map<String, Object> uploadResult = this.cloudinaryService.uploadMedia(roomImage);
-				room.setRoomImageUrl(uploadResult.get("secure_url").toString());
-				room.setRoomImagePublicId(uploadResult.get("public_id").toString());
-			}
+			this.cloudinaryService.updateMedia(roomImage, room.getRoomImagePublicId());
+
 		}
 
-		if (room.getRoomVideoUrl() != null) {
-			if (roomVideo != null && room.getRoomVideoPublicId() != null) {
-				this.cloudinaryService.deleteMedia(room.getRoomVideoPublicId(), "video");
-				Map<String, Object> uploadResult = this.cloudinaryService.uploadMedia(roomVideo);
-				room.setRoomVideoUrl(uploadResult.get("secure_url").toString());
-				room.setRoomVideoPublicId(uploadResult.get("public_id").toString());
-			}
+		if (roomVideo != null && room.getRoomVideoPublicId() != null && room.getRoomVideoUrl() != null) {
+			log.info("video is present");
+			this.cloudinaryService.updateMedia(roomVideo, room.getRoomVideoPublicId());
 		}
 
 		room.setNumberOfBalconies(numberOfBalconies);
@@ -126,6 +164,7 @@ public class RoomServiceImpl implements RoomService {
 		roomRepository.save(room);
 		return "Room Updated Successfully";
 	}
+
 
 	@Override
 	public String deleteRoom(Long roomId) {

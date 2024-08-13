@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public String deleteProfile(String userEmail) {
         User user = this.userRepository.findByUserEmail(userEmail);
         if (user.getUserProfileUrl() == null) {
-            log.warn("No USer with given email address"+userEmail);
+            log.warn("No USer with given email address" + userEmail);
             throw new ResourceNotFoundException("Sorry No Image Found");
         }
 
@@ -63,29 +63,56 @@ public class UserServiceImpl implements UserService {
             log.error("User not found with email: " + userEmail);
             throw new UserNotFoundException("User not found with email: " + userEmail);
         }
+        boolean isUpdated = false;
+        if (user.getUserProfileUrl() != null && user.getUserProfilePublicId() != null && userProfile != null) {
 
-        boolean isUpdate = false;
-        if (user.getUserProfileUrl() != null && user.getUserProfilePublicId() != null) {
-            this.cloudinaryService.deleteMedia(user.getUserProfilePublicId(), "image");
-            isUpdate = true;
+            this.cloudinaryService.updateMedia(userProfile, user.getUserProfilePublicId());
+            isUpdated = true;
+
+        } else {
+            Map<String, Object> mediaUploadResponse = this.cloudinaryService.uploadMedia(userProfile);
+            String userProfileUrl = (String) mediaUploadResponse.get("secure_url");
+            String userProfilePublicId = (String) mediaUploadResponse.get("public_id");
+
+            user.setUserProfilePublicId(userProfilePublicId);
+            user.setUserProfileUrl(userProfileUrl);
+            this.userRepository.save(user);
         }
 
-        Map<String, Object> mediaObject = this.cloudinaryService.uploadMedia(userProfile);
-        String userProfileUrl = (String) mediaObject.get("secure_url");
-        String userProfilePublicId = (String) mediaObject.get("public_id");
-
-        user.setUserProfilePublicId(userProfilePublicId);
-        user.setUserProfileUrl(userProfileUrl);
-        this.userRepository.save(user);
-
-        return isUpdate ? "Profile Updated Successfully" : "Profile Uploaded Successfully";
+        return isUpdated ? "Profile Updated Successfully" : "Profile Uploaded Successfully";
     }
+
+    // @Transactional
+    // @Override
+    // public String uploadOrUpdateProfile(MultipartFile userProfile, String userEmail) {
+    //     User user = this.userRepository.findByUserEmail(userEmail);
+    //     if (user == null) {
+    //         log.error("User not found with email: " + userEmail);
+    //         throw new UserNotFoundException("User not found with email: " + userEmail);
+    //     }
+
+    //     boolean isUpdate = false;
+    //     if (user.getUserProfileUrl() != null && user.getUserProfilePublicId() != null) {
+    //         this.cloudinaryService.deleteMedia(user.getUserProfilePublicId(), "image");
+    //         isUpdate = true;
+    //     }
+
+    //     Map<String, Object> mediaObject = this.cloudinaryService.uploadMedia(userProfile);
+    //     String userProfileUrl = (String) mediaObject.get("secure_url");
+    //     String userProfilePublicId = (String) mediaObject.get("public_id");
+
+    //     user.setUserProfilePublicId(userProfilePublicId);
+    //     user.setUserProfileUrl(userProfileUrl);
+    //     this.userRepository.save(user);
+
+    //     return isUpdate ? "Profile Updated Successfully" : "Profile Uploaded Successfully";
+    // }
 
     @Override
     public User getUserByUserEmail(String userEmail) {
         User user = userRepository.findByUserEmail(userEmail);
         if (user == null) {
-            throw new ResourceNotFoundException("User not found with provided email: ");
+            throw new UserNotFoundException("User not found with provided email: ");
         }
         return user;
     }
@@ -99,15 +126,10 @@ public class UserServiceImpl implements UserService {
     public String updateUser(String name, String userEmail, String userPassword, MultipartFile userProfile,
             Long userPhoneNumber) throws IOException {
         User user = this.userRepository.findByUserEmail(userEmail);
-        if (user.getUserProfileUrl() != null) {
-            if (userProfile != null && user.getUserProfilePublicId() != null) {
-                this.cloudinaryService.deleteMedia(user.getUserProfilePublicId(), "image");
-                Map<String, Object> uploadMap = this.cloudinaryService.uploadMedia(userProfile);
-                user.setUserProfileUrl(uploadMap.get("secure_url").toString());
-                user.setUserProfilePublicId(uploadMap.get("public_id").toString());
-
-            }
+        if (userProfile != null && user.getUserProfilePublicId() != null && user.getUserProfileUrl() != null) {
+            this.cloudinaryService.updateMedia(userProfile, user.getUserProfilePublicId());
         }
+
 
         if (name != null) {
             user.setName(name);

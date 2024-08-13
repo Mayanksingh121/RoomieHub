@@ -51,14 +51,20 @@ public class RoommateController {
 
         User user = this.userService.getUserByUserEmail(userEmail);
         String msg = roommateService.createRoomMate(numberOfBalconies, bathRooms, floorNumber, age, occupation,
-                preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark, state, city,
-                address, availableFrom, user);
+                preference, roomImage, roomVideo, budget, description, landmark, state, city, address, availableFrom,
+                user);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", msg);
         // response.put("statusCode", HttpStatus.CREATED.value());
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/get-roommate/{userEmail}")
+    public ResponseEntity<List<RoomMate>> getRoommatesByUser(@PathVariable String userEmail) {
+        List<RoomMate> roommates = roommateService.getRoommatesByUserEmail(userEmail);
+        return new ResponseEntity<>(roommates, HttpStatus.OK);
     }
 
     @GetMapping("/get-all-roommates")
@@ -93,8 +99,7 @@ public class RoommateController {
             @RequestParam(name = "preference", required = false) String preference) {
 
         String msg = this.roommateService.updateRoommate(id, numberOfBalconies, bathRooms, floorNumber, age, occupation,
-                preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark, state, city,
-                address, availableFrom);
+                preference, roomImage, roomVideo, budget, description, landmark, state, city, address, availableFrom);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", msg);

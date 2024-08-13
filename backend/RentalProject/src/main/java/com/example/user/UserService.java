@@ -19,6 +19,7 @@ public interface UserService {
 
     User getUserByUserEmail(String userEmail);
 
+    
     List<User> getAllUsers();
 
     String updateUser(String name, String userEmail, String userPassword, MultipartFile userProfile,
