@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 import { toast } from "react-hot-toast";
-import { updateRoomData } from "../api/room";
+import { updateRoommateData } from "../api/roommate";
 
-const RoomDetailsModal = ({ room, onClose, onUpload }) => {
-  const [formData, setFormData] = useState({ ...room });
+const RoommateDetailsModal = ({ roommate, onClose, onUpload }) => {
+  const [formData, setFormData] = useState({ ...roommate });
   const [isEditing, setIsEditing] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
   const hasChanges = () => {
-    return JSON.stringify(formData) !== JSON.stringify(room);
+    return JSON.stringify(formData) !== JSON.stringify(roommate);
   };
 
   const handleEditing = () => {
@@ -26,7 +26,7 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
   const uploadChanges = () => {
     try {
       toast
-        .promise(updateRoomData(formData, room.roomId), {
+        .promise(updateRoommateData(formData, roommate.id), {
           loading: "Uploading...",
           success: "Changes updated",
           error: "Could not upload.",
@@ -140,7 +140,7 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
               id="rent"
               name="rent"
               type="number"
-              value={formData.rent}
+              value={formData.budget}
               onChange={handleChange}
               disabled={!isEditing}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
@@ -148,35 +148,32 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
           </div>
           <div>
             <label
-              htmlFor="securityDeposit"
+              htmlFor="occupation"
               className="block font-medium text-gray-700"
             >
-              Security Deposit
+              Occupation
             </label>
             <input
               required
-              id="securityDeposit"
-              name="securityDeposit"
-              type="number"
-              value={formData.securityDeposit}
+              id="occupation"
+              name="occupation"
+              type="text"
+              value={formData.occupation}
               onChange={handleChange}
               disabled={!isEditing}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             />
           </div>
           <div>
-            <label
-              htmlFor="roomArea"
-              className="block font-medium text-gray-700"
-            >
-              Room Area (sq. ft.)
+            <label htmlFor="age" className="block font-medium text-gray-700">
+              Age
             </label>
             <input
               required
-              id="roomArea"
-              name="roomArea"
+              id="age"
+              name="age"
               type="number"
-              value={formData.roomArea}
+              value={formData.age}
               onChange={handleChange}
               disabled={!isEditing}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2"
@@ -202,27 +199,6 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
           </div>
           <div>
             <label
-              htmlFor="furnishedStatus"
-              className="block font-medium text-gray-700"
-            >
-              Furnished Status
-            </label>
-            <select
-              required
-              id="furnishedStatus"
-              name="furnishedStatus"
-              value={formData.furnishedStatus}
-              onChange={handleChange}
-              disabled={!isEditing}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-            >
-              <option value="FULLYFURNISHED">Fully Furnished</option>
-              <option value="SEMIFURNISHED">Semi Furnished</option>
-              <option value="UNFURNISHED">Unfurnished</option>
-            </select>
-          </div>
-          <div>
-            <label
               htmlFor="numberOfBalconies"
               className="block font-medium text-gray-700"
             >
@@ -240,90 +216,51 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
             />
           </div>
           <div>
-            <label htmlFor="garden" className="block font-medium text-gray-700">
-              Garden
+            <label
+              htmlFor="floorNumber"
+              className="block font-medium text-gray-700"
+            >
+              Floor
             </label>
             <input
-              id="garden"
-              name="garden"
-              type="checkbox"
-              checked={formData.garden}
+              id="floorNumber"
+              name="floor"
+              type="number"
+              value={formData.floorNumber}
               onChange={handleChange}
               disabled={!isEditing}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <label htmlFor="gym" className="block font-medium text-gray-700">
-              Gym
-            </label>
-            <input
-              id="gym"
-              name="gym"
-              type="checkbox"
-              checked={formData.gym}
-              onChange={handleChange}
-              disabled={!isEditing}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <label htmlFor="lift" className="block font-medium text-gray-700">
-              Lift
-            </label>
-            <input
-              id="lift"
-              name="lift"
-              type="checkbox"
-              checked={formData.lift}
-              onChange={handleChange}
-              disabled={!isEditing}
-              className="mt-1"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             />
           </div>
           <div>
             <label
-              htmlFor="reservedParking"
+              htmlFor="landmark"
               className="block font-medium text-gray-700"
             >
-              Reserved Parking
+              Landmark
             </label>
             <input
-              id="reservedParking"
-              name="reservedParking"
-              type="checkbox"
-              checked={formData.reservedParking}
+              id="landmark"
+              name="landmark"
+              type="text"
+              value={formData.landmark}
               onChange={handleChange}
               disabled={!isEditing}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <label htmlFor="wifi" className="block font-medium text-gray-700">
-              WiFi
-            </label>
-            <input
-              id="wifi"
-              name="wifi"
-              type="checkbox"
-              checked={formData.wifi}
-              onChange={handleChange}
-              disabled={!isEditing}
-              className="mt-1"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             />
           </div>
           <div>
             <label
-              htmlFor="security"
+              htmlFor="availableFrom"
               className="block font-medium text-gray-700"
             >
-              Security
+              Available from
             </label>
             <input
-              id="security"
-              name="security"
-              type="checkbox"
-              checked={formData.security}
+              id="availableFrom"
+              name="availableFrom"
+              type="date"
+              value={formData.availableFrom}
               onChange={handleChange}
               disabled={!isEditing}
               className="mt-1"
@@ -404,4 +341,4 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
   );
 };
 
-export default RoomDetailsModal;
+export default RoommateDetailsModal;

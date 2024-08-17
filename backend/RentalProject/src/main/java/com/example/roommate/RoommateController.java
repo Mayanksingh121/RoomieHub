@@ -2,8 +2,9 @@ package com.example.roommate;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +62,7 @@ public class RoommateController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get-roommate/{userEmail}")
+    @GetMapping("/get-roommie/{userEmail}")
     public ResponseEntity<List<RoomMate>> getRoommatesByUser(@PathVariable String userEmail) {
         List<RoomMate> roommates = roommateService.getRoommatesByUserEmail(userEmail);
         return new ResponseEntity<>(roommates, HttpStatus.OK);

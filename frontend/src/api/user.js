@@ -41,7 +41,6 @@ export const getUser = async (userEmail) => {
       throw new Error(errorData.message || "Failed to fetch user details");
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (e) {
     console.error("Error fetching user details:", e.message);
@@ -74,7 +73,6 @@ export const updateUser = async (userEmail, userData) => {
   return response.json();
 };
 
-
 export const updateUserProfile = async (userEmail, userProfile) => {
   const formData = new FormData();
   formData.append("userEmail", userEmail);
@@ -95,10 +93,9 @@ export const updateUserProfile = async (userEmail, userProfile) => {
   return data;
 };
 
-
 // export const updateUserProfile = async (userEmail, userProfile) => {
 //   const formData = new FormData();
-  // formData.append("userEmail", userEmail);
+// formData.append("userEmail", userEmail);
 //   formData.append("userProfile", userProfile);
 
 //   const response = await fetch(`${BASE_URL}/uploadOrUpdate`, {

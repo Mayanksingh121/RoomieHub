@@ -4,7 +4,6 @@ import { IoMenu } from "react-icons/io5";
 import { useLocation, Link } from "react-router-dom";
 import SideBar from "./Sidebar";
 
-
 const Header = ({ handleLogin }) => {
   const [showNavBar, setShowNavBar] = useState(false);
   const userLoginStatus = useSelector((store) => store.user.isLoggedIn);
@@ -17,7 +16,8 @@ const Header = ({ handleLogin }) => {
   useEffect(() => {
     if (
       location.pathname === "/profile" ||
-      location.pathname === "/listed-rooms"
+      location.pathname === "/listed-rooms" ||
+      location.pathname === "/roomie-listing"
     ) {
       setShowNavBar(false);
     }
@@ -25,7 +25,7 @@ const Header = ({ handleLogin }) => {
 
   return (
     <>
-      <div className="font-roboto-slab flex justify-between py-4 w-full shadow-sm">
+      <div className="font-roboto-slab  flex justify-between py-4 w-full shadow-sm">
         <div className="flex w-[70%] items-center gap-5 ml-4 md:ml-14">
           <h1 className="font-semibold text-xl text-[#449ba2]">RoomieHub</h1>
         </div>

@@ -60,7 +60,6 @@ const ViewProfile = () => {
     try {
       const response = await updateUser(userData.userEmail, updates);
       setUserData(response);
-      console.log(response);
       setFormData({
         name: response.name,
         userEmail: response.userEmail,

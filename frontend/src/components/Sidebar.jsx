@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getUser, updateUserProfile } from "../api/user";
 import { MdAccountCircle } from "react-icons/md";
 import { FaRegListAlt } from "react-icons/fa";
+import { LuClipboardList } from "react-icons/lu";
 import toast from "react-hot-toast";
 
 const SideBar = ({ handleNavBar }) => {
@@ -16,7 +17,6 @@ const SideBar = ({ handleNavBar }) => {
     const fetchUser = async () => {
       try {
         const data = await getUser(userDetails);
-        console.log(data);
         setUser(data);
       } catch (e) {
         console.error(e.message);
@@ -103,6 +103,12 @@ const SideBar = ({ handleNavBar }) => {
               <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
                 <FaRegListAlt className="text-3xl" />
                 <p>Listed rooms</p>
+              </div>
+            </Link>
+            <Link to="/roomie-listing">
+              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
+                <LuClipboardList className="text-3xl" />
+                <p>Roomie Listing</p>
               </div>
             </Link>
             <input

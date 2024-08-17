@@ -10,6 +10,9 @@ export default {
     },
 
     extend: {
+      backgroundImage: {
+        "banner-image": "url('./src/assets/House.jpg')",
+      },
       animation: {
         marquee: "marquee var(--duration) linear infinite",
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",

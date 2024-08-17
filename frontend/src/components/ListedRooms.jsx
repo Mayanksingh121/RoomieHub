@@ -39,7 +39,7 @@ const ListedRooms = () => {
             <h2 className="text-xl font-semibold mt-2">{room.city}</h2>
             <p className="text-gray-500">{room.address}</p>
             <p className="text-gray-500">{`Rent: ₹${room.rent}`}</p>
-            <p className="text-gray-500">{`Bedrooms: ${room.bathRooms}`}</p>
+            <p className="text-gray-500">{`Bathrooms: ${room.bathRooms}`}</p>
           </div>
         ))
       ) : (

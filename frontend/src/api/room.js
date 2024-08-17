@@ -88,6 +88,7 @@ export const updateRoomData = async (room, roomID) => {
     if (room.roomImage) {
       formData.append("roomImage", room.roomImage);
     }
+
     if (room.roomVideo) {
       formData.append("roomVideo", room.roomVideo);
     }

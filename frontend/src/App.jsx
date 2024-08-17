@@ -15,6 +15,7 @@ const RoommateDetails = lazy(() => import("./components/RoommateDetails"));
 const RoomListing = lazy(() => import("./components/RoomListing/RoomListing"));
 const RoommateRegistry = lazy(() => import("./components/RoommateRegistry"));
 const ListedRooms = lazy(() => import("./components/ListedRooms"));
+const RoomieListing = lazy(() => import("./components/RoomieListing"));
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -39,6 +40,7 @@ function App() {
         { path: "/room-listing", element: <RoomListing /> },
         { path: "/roommate-registry", element: <RoommateRegistry /> },
         { path: "/listed-rooms", element: <ListedRooms /> },
+        { path: "/roomie-listing", element: <RoomieListing /> },
       ],
     },
   ]);
