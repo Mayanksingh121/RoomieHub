@@ -85,25 +85,29 @@ const RoomListing = () => {
   const prevStep = () => setStep(step - 1);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-50">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">Add New Room</h1>
+    <div className="w-[70rem] mx-auto p-6 bg-gray-50">
+      <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
+        Add New Room
+      </h1>
       <form
         onSubmit={submitHandler}
-        className="bg-white shadow-md rounded-lg p-8"
+        className="bg-white shadow-md rounded-lg p-8 border"
       >
         {step === 1 && (
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <FormField
                 label="Rent"
                 name="rent"
                 type="number"
+                placeholder="Enter Rent"
                 value={room.rent}
                 onChange={onChangeHandler}
               />
               <FormField
                 label="Security Deposit"
                 name="securityDeposit"
+                placeholder="Enter Deposit"
                 type="number"
                 value={room.securityDeposit}
                 onChange={onChangeHandler}
@@ -112,6 +116,7 @@ const RoomListing = () => {
                 label="Description"
                 name="description"
                 type="text"
+                placeholder="Enter Description"
                 value={room.description}
                 onChange={onChangeHandler}
               />
@@ -119,6 +124,7 @@ const RoomListing = () => {
                 label="Preference"
                 name="preference"
                 type="text"
+                placeholder="Enter Preference"
                 value={room.preference}
                 onChange={onChangeHandler}
               />
@@ -126,6 +132,7 @@ const RoomListing = () => {
                 label="Landmark"
                 name="landmark"
                 type="text"
+                placeholder="Enter Landmark"
                 value={room.landmark}
                 onChange={onChangeHandler}
               />
@@ -133,6 +140,7 @@ const RoomListing = () => {
                 label="State"
                 name="state"
                 type="text"
+                placeholder="Enter State"
                 value={room.state}
                 onChange={onChangeHandler}
               />
@@ -140,6 +148,7 @@ const RoomListing = () => {
                 label="City"
                 name="city"
                 type="text"
+                placeholder="Enter City"
                 value={room.city}
                 onChange={onChangeHandler}
               />
@@ -147,6 +156,7 @@ const RoomListing = () => {
                 label="Number of Balconies"
                 name="numberOfBalconies"
                 type="number"
+                placeholder="Number of Balconies"
                 value={room.numberOfBalconies}
                 onChange={onChangeHandler}
               />
@@ -154,6 +164,7 @@ const RoomListing = () => {
                 label="Bathrooms"
                 name="bathRooms"
                 type="number"
+                placeholder="Number of Bathrooms"
                 value={room.bathRooms}
                 onChange={onChangeHandler}
               />
@@ -161,6 +172,7 @@ const RoomListing = () => {
                 label="Floor Number"
                 name="floorNumber"
                 type="text"
+                placeholder="Enter Floor"
                 value={room.floorNumber}
                 onChange={onChangeHandler}
               />
@@ -168,6 +180,7 @@ const RoomListing = () => {
                 label="Room Area"
                 name="roomArea"
                 type="text"
+                placeholder="Enter Room Area"
                 value={room.roomArea}
                 onChange={onChangeHandler}
               />
@@ -175,6 +188,7 @@ const RoomListing = () => {
                 label="Address"
                 name="address"
                 type="text"
+                placeholder="Enter Address"
                 value={room.address}
                 onChange={onChangeHandler}
               />
@@ -186,7 +200,7 @@ const RoomListing = () => {
                   name="furnishedStatus"
                   value={room.furnishedStatus}
                   onChange={onChangeHandler}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                  className="mt-1 block p-2 w-full border focus:outline-none border-gray-300 rounded-md shadow-sm"
                 >
                   <option value="">Select</option>
                   <option value="FULLYFURNISHED">Fully Furnished</option>

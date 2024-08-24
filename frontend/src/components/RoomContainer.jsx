@@ -76,10 +76,10 @@ const RoomContainer = () => {
   };
 
   return (
-    <div className="px-4 md:px-10 py-4 md:py-10">
+    <div className="px-4 md:px-10 py-4 md:py-10 bg-[#f4f4f4]">
       <div className="flex flex-col mb-5">
         <div className="flex flex-col md:flex-row items-center justify-between mb-4 gap-4">
-          <h2 className="font-montserrat font-semibold text-lg md:text-xl flex-grow">
+          <h2 className="font-montserrat font-semibold text-lg md:text-xl flex-grow underline decoration-[#f4511e]">
             Top rooms available
           </h2>
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-5 w-full md:w-auto">

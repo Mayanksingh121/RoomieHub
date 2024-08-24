@@ -1,90 +1,80 @@
-import React from "react";
-import {
-  FaPhone,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaFacebook,
-  FaTwitter,
-  FaInstagram,
-} from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { FaInstagram, FaLocationDot, FaPhone } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="bg-gray-800 text-white py-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="text-center">
-          <h3 className="text-xl font-bold">Contact Us</h3>
-          <div className="flex mt-2 items-center justify-center">
-            <FaMapMarkerAlt className="mr-2" />
-            <p>XYZ Avenue, New Delhi</p>
+    <footer className="bg-white py-8">
+      <div className="mx-16 border-b-2  border-[#f4511e]"></div>
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap justify-between items-center">
+          <div className="w-full sm:w-auto px-20 flex items-center mb-4 sm:mb-0">
+            <h1 className="text-3xl font-bold">Logo</h1>
           </div>
-          <div className="flex mt-2 items-center justify-center">
-            <FaPhone className="mr-2" />
-            <p>+91 4436781</p>
+          <div className="flex flex-col py-10 px-10">
+          <div className="w-full sm:w-auto flex flex-col gap-2 sm:text-left ">
+            <p className="flex  items-center text-gray-700">
+              <span className="text-[#f4511e] mr-2">
+                <FaLocationDot />
+              </span>
+              xyz avenue, lodhi road, New Delhi 110003
+            </p>
+            <p className="flex items-center text-gray-700">
+              <span className="text-[#f4511e] mr-2">
+                <FaPhone />
+              </span>
+              (+91) 456-7890
+            </p>
           </div>
-          <div className="flex mt-2 items-center justify-center">
-            <FaEnvelope className="mr-2" />
-            <p>RoomieHub@gmail.com</p>
+          <div className="flex flex-wrap justify-between items-center mt-6">
+            <div className="w-full sm:w-auto flex items-center">
+              <span className="text-gray-500 mr-4">Social Media</span>
+              <div className="flex space-x-4">
+                <Link className="text-[#f4511e]">
+                  <FaFacebook />
+                </Link>
+                <Link className="text-[#f4511e]">
+                  <FaTwitter />
+                </Link>
+                <Link className="text-[#f4511e]">
+                  <FaLinkedin />
+                </Link>
+                <Link className="text-[#f4511e]">
+                  <FaYoutube />
+                </Link>
+                <Link className="text-[#f4511e]">
+                  <FaInstagram />
+                </Link>
+              </div>
+            </div>
+          </div>
+          
           </div>
         </div>
-        <div className="text-center">
-          <h3 className="text-xl font-bold">Follow Us</h3>
-          <div className="flex mt-2 justify-center">
-            <a href="#" className="mr-4">
-              <FaFacebook className="text-2xl hover:text-blue-500 transition duration-300" />
+        <div className="border-t border-gray-200 mt-8 px-12 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
+          <nav className="flex flex-wrap justify-center sm:justify-start space-x-4 mb-4 sm:mb-0">
+            <a href="#" className="hover:text-gray-800">
+              ABOUT US
             </a>
-            <a href="#" className="mr-4">
-              <FaTwitter className="text-2xl hover:text-blue-500 transition duration-300" />
+            <a href="#" className="hover:text-gray-800">
+              CONTACT US
             </a>
-            <a href="#">
-              <FaInstagram className="text-2xl hover:text-blue-500 transition duration-300" />
+            <a href="#" className="hover:text-gray-800">
+              HELP
             </a>
+            <a href="#" className="hover:text-gray-800">
+              PRIVACY POLICY
+            </a>
+            <a href="#" className="hover:text-gray-800">
+              DISCLAIMER
+            </a>
+          </nav>
+          <div className="text-center sm:text-left">
+            <p>Copyright © 2020 RoomieHub. All rights reserved</p>
           </div>
-        </div>
-        <div className="text-center">
-          <h3 className="text-xl font-bold">Services</h3>
-          <ul className="mt-2">
-            <li className="mb-2">
-              <a
-                href="#"
-                className="hover:text-blue-500 transition duration-300"
-              >
-                Rooms Availability
-              </a>
-            </li>
-            <li className="mb-2">
-              <a
-                href="#"
-                className="hover:text-blue-500 transition duration-300"
-              >
-                Roommate Availability
-              </a>
-            </li>
-            <li className="mb-2">
-              <a
-                href="#"
-                className="hover:text-blue-500 transition duration-300"
-              >
-                Easy Connections
-              </a>
-            </li>
-            <li className="mb-2">
-              <a
-                href="#"
-                className="hover:text-blue-500 transition duration-300"
-              >
-                Flexible searches
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="text-center mt-8 md:mt-0 col-span-3">
-          <p className="text-gray-400 text-sm">
-            &copy; 2024 RoomieHub. All rights reserved.
-          </p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

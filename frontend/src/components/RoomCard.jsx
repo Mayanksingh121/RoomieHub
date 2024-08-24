@@ -38,7 +38,7 @@ const RoomCard = ({ room, watchList }) => {
   };
 
   return (
-    <div className="font-roboto relative rounded-sm w-92 shadow-lg border overflow-hidden">
+    <div className="font-roboto relative rounded-2xl w-92 shadow-lg border overflow-hidden border-gray-300">
       <div className="h-48 aspect-w-4 aspect-h-3 relative">
         <img
           className="w-full h-full object-cover"
@@ -59,27 +59,27 @@ const RoomCard = ({ room, watchList }) => {
       </div>
       <div className="px-3 py-2 font-body">
         <div className="flex text-xs gap-2 ">
-          <p className="rounded-sm bg-[#449ba2] py-1 px-3 text-white">
+          <p className="rounded-sm bg-[#f4511e] py-1 px-3 text-white">
             Balconies {room.numberOfBalconies}
           </p>
-          <p className="rounded-sm bg-[#449ba2] py-1 px-3 text-white">
+          <p className="rounded-sm bg-[#f4511e] py-1 px-3 text-white">
             Floor {room.floorNumber}
           </p>
         </div>
         <div className="flex justify-between items-center mt-2">
-          <p className="text-sm">
+          <p className="text-sm font-bold">
             {room.address}, {room.landmark}
           </p>
         </div>
         <div className="flex flex-col justify-between mt-2 font-roboto-condensed">
           <p className="text-xs">Rent</p>
-          <h2 className="text-lg font-bold -mt-2">₹{room.rent}/month</h2>
+          <h2 className="text-lg text-[#f4511e] font-bold -mt-2">₹{room.rent}/month</h2>
         </div>
       </div>
       <div className="px-3 py-2 flex justify-between">
         <button
           onClick={handleBookmark}
-          className="flex items-center gap-2 text-sm text-[#449ba2] hover:text-red-500 transition-colors duration-300"
+          className="flex items-center gap-2 text-sm  hover:text-red-500 transition-colors duration-300"
         >
           {isBookmarked ? (
             <FaHeart className="text-red-500" />
@@ -90,7 +90,7 @@ const RoomCard = ({ room, watchList }) => {
         </button>
         <Link
           to={`/room/${room.roomId}`}
-          className="text-sm text-[#449ba2] hover:text-gray-500 transition-colors duration-300"
+          className="text-sm  hover:text-gray-500 transition-colors duration-300"
         >
           Visit
         </Link>

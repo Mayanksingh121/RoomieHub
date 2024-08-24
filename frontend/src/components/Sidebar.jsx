@@ -62,7 +62,7 @@ const SideBar = ({ handleNavBar }) => {
 
   return (
     <motion.div
-      className="z-10 fixed top-0 flex justify-end h-full w-full bg-black bg-opacity-30"
+      className="z-30 fixed top-0 flex justify-end h-full w-full bg-black bg-opacity-30"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.2 }}
@@ -109,6 +109,11 @@ const SideBar = ({ handleNavBar }) => {
               <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
                 <LuClipboardList className="text-3xl" />
                 <p>Roomie Listing</p>
+              </div>
+            </Link>
+            <Link to="/roommate-registry">
+              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
+                Roomie Registry
               </div>
             </Link>
             <input
