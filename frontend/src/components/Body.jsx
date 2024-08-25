@@ -12,8 +12,9 @@ const Body = () => {
   return (
     <div className="w-full">
       <Banner />
-      <OurOfferings />
       <About />
+      <OurOfferings />
+
       <RoomContainer />
       <RoommateContainer />
       <CustomerReviews />

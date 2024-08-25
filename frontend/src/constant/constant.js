@@ -20,21 +20,21 @@ export const CHOOSE_US =
 
 export const customerReviews = [
   {
-    name: "Alice",
+    name: "Alice Pain",
     username: "@alice",
     body: "I can't say enough good things about RoomieHub! As someone new to the city, I was struggling to find a decent room within my budget. This website was a lifesaver! The interface is super user-friendly, and I was able to filter through listings to find exactly what I was looking for. Within a week, I found a fantastic room in a great neighborhood. The best part? The roommate I found through the site has turned out to be a great friend. RoomieHub made what could have been a stressful process so easy and hassle-free. Highly recommend!",
     img: Alice,
     roomImg: AliceRoom,
   },
   {
-    name: "Bob",
+    name: "Bob Wilson",
     username: "@bob",
     body: "RoomieHub has been an amazing platform for finding not just rooms but also the right roommates. I recently moved into a new city and was nervous about sharing a space with someone new. The website's feature that lets you view detailed profiles and preferences of potential roommates made it so much easier to make an informed choice. I found a roommate who shares my lifestyle and preferences, making the transition smooth and comfortable.",
     img: Bob,
     roomImg: BobRoom,
   },
   {
-    name: "Charlie",
+    name: "Charlie Holand",
     username: "@charlie",
     body: "RoomieHub made my room search so much simpler and quicker! I had been searching on various platforms with little success, but once I started using RoomieHub, I found a room within days. The platform offers a vast range of options, whether you're looking for a single room, a shared space, or even if you need help finding a roommate. I also appreciate how transparent the listings are with plenty of photos and detailed descriptions, so I knew exactly what I was getting before I even visited the place.",
     img: charlieImage,

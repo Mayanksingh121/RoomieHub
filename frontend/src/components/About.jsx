@@ -12,20 +12,20 @@ const About = () => {
           {ABOUT_US}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-          <div className="p-3 md:p-6 text-center shadow-lg border rounded-lg">
-            <h3 className="text-xl md:text-2xl font-semibold text-[#449ba2] mb-4">
+          <div className="p-3 md:p-6 text-center shadow-lg border rounded-lg ">
+            <h3 className="text-xl md:text-2xl font-semibold  mb-4">
               Our Vision
             </h3>
             <p className="text-gray-600 text-sm md:text-md">{VISION}</p>
           </div>
-          <div className="p-3 md:p-6 text-center  shadow-lg border rounded-lg">
-            <h3 className="text-xl md:text-2xl font-semibold text-[#449ba2] mb-4">
+          <div className="p-3 md:p-6 text-center  shadow-lg border rounded-lg ">
+            <h3 className="text-xl md:text-2xl font-semibold mb-4">
               Our Mission
             </h3>
             <p className="text-gray-600 text-sm md:text-md">{MISSION}</p>
           </div>
-          <div className="p-3 md:p-6 text-center border shadow-lg rounded-lg">
-            <h3 className="text-xl md:text-2xl font-semibold text-[#449ba2] mb-4">
+          <div className="p-3 md:p-6 text-center border shadow-lg rounded-lg ">
+            <h3 className="text-xl md:text-2xl  font-semibold mb-4">
               Why Choose Us
             </h3>
             <p className="text-gray-600 text-sm md:text-md">{CHOOSE_US}</p>

@@ -94,7 +94,7 @@ const SideBar = ({ handleNavBar }) => {
 
           <div className="flex flex-col gap-4">
             <Link to="/profile">
-              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
+              <div className="flex hover:bg-[#007aff] hover:text-white gap-3 items-center px-3 py-1 rounded-lg">
                 <MdAccountCircle className="text-3xl" />
                 View Profile
               </div>

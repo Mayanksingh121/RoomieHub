@@ -34,6 +34,12 @@ const Header = ({ handleLogin }) => {
         <div className="flex items-center gap-5 ml-4 md:ml-14">
           <h1 className="font-semibold text-xl text-white">RoomieHub</h1>
         </div>
+        <div className="flex text-white">
+          <div className="mx-8">About us</div>
+          <div className="mx-8">Available Rooms</div>
+          <div className="mx-8">Roommates</div>
+          <div className="mx-8">Contacts</div>
+        </div>
         <div className="flex gap-4  items-center mr-10">
           {!userLoginStatus && (
             <button
