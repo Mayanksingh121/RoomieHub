@@ -1,39 +1,69 @@
-import React from "react";
 import { ABOUT_US, MISSION, VISION, CHOOSE_US } from "../constant/constant";
+import { FaBullseye, FaEye, FaThumbsUp } from "react-icons/fa";
 
-const About = () => {
+export default function About() {
   return (
-    <section id="about-us" className="py-8 md:py-12 font-roboto">
-      <div className="mx-auto px-4 md:px-12 lg:px-24">
-        <h2 className="text-xl md:text-4xl text-center font-bold text-[#333333] mb-2 md:mb-8">
-          About Us
-        </h2>
-        <p className="md:text-xl font-roboto-condensed text-gray-700 mb-8">
-          {ABOUT_US}
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-          <div className="p-3 md:p-6 text-center shadow-lg border rounded-lg ">
-            <h3 className="text-xl md:text-2xl font-semibold  mb-4">
-              Our Vision
-            </h3>
-            <p className="text-gray-600 text-sm md:text-md">{VISION}</p>
+    <div className="flex flex-col">
+      <main className="flex-1 bg-gray-50">
+        <section className="w-full py-12 md:py-24 lg:py-10">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-xl md:text-4xl text-center font-bold text-[#333333] mb-2 md:mb-8">
+              About Us
+            </h2>
+            <div className="flex flex-col lg:flex-row gap-6 w-full">
+              <div className="space-y-4 w-full">
+                <h2 className="text-3xl font-bold tracking-tighter">
+                  Who We Are
+                </h2>
+                <p className="w-full text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  {ABOUT_US}
+                </p>
+              </div>
+              <img
+                src="/placeholder.svg"
+                width="550"
+                height="310"
+                alt="About Us"
+                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+              />
+            </div>
           </div>
-          <div className="p-3 md:p-6 text-center  shadow-lg border rounded-lg ">
-            <h3 className="text-xl md:text-2xl font-semibold mb-4">
-              Our Mission
-            </h3>
-            <p className="text-gray-600 text-sm md:text-md">{MISSION}</p>
+        </section>
+        <section className="w-full py-12">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+              <div className="bg-gray-100 rounded-lg p-6 space-y-4 shadow-md">
+                <div className="bg-primary text-white rounded-md p-3 flex items-center justify-center">
+                  <FaBullseye className="text-2xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">Our Mission</h3>
+                <p className="text-gray-600">
+                  {MISSION}
+                </p>
+              </div>
+              <div className="bg-gray-100 rounded-lg p-6 space-y-4 shadow-md">
+                <div className="bg-secondary text-white rounded-md p-3 flex items-center justify-center">
+                  <FaEye className="text-2xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">Our Vision</h3>
+                <p className="text-gray-600">
+                  {VISION}
+                </p>
+              </div>
+              <div className="bg-gray-100 rounded-lg p-6 space-y-4 shadow-md">
+                <div className="bg-accent text-white rounded-md p-3 flex items-center justify-center">
+                  <FaThumbsUp className="text-2xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">Why Choose Us</h3>
+                <p className="text-gray-600">
+                  {CHOOSE_US}
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="p-3 md:p-6 text-center border shadow-lg rounded-lg ">
-            <h3 className="text-xl md:text-2xl  font-semibold mb-4">
-              Why Choose Us
-            </h3>
-            <p className="text-gray-600 text-sm md:text-md">{CHOOSE_US}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
+      </main>
+    </div>
   );
-};
+}
 
-export default About;

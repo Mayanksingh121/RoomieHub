@@ -102,3 +102,14 @@ export const updateRoomData = async (room, roomID) => {
     throw e;
   }
 };
+
+export const deleteRoom = async (roomID) => {
+  try {
+    const response = await fetch(`${BASE_URL}/delete-room/${roomID}`, {
+      method: "DELETE",
+    });
+    return response;
+  } catch (e) {
+    throw e;
+  }
+};

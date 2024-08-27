@@ -1,10 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useGetListedRooms from "../hooks/useGetListedRooms";
 import RoomDetailsModal from "./RoomDetailsModal";
 
 const ListedRooms = () => {
   const { listedRooms, setListedRooms } = useGetListedRooms();
   const [selectedRoom, setSelectedRoom] = useState(null);
+
+  const [sortBy, setSortBy] = useState("price");
+  const [filterLocation, setFilterLocation] = useState("");
+  const [filteredRooms, setFilteredRooms] = useState(listedRooms);
+
+  useEffect(() => {
+    let rooms = [...listedRooms];
+
+    rooms.sort((a, b) => {
+      if (sortBy === "price") {
+        return a.rent - b.rent;
+      } else if (sortBy === "size") {
+        return parseInt(a.roomArea) - parseInt(b.roomArea);
+      } else {
+        return 0;
+      }
+    });
+
+    if (filterLocation) {
+      rooms = rooms.filter(
+        (room) => room.city.toLowerCase() === filterLocation.toLowerCase()
+      );
+    }
+
+    setFilteredRooms(rooms);
+  }, [sortBy, filterLocation, listedRooms]);
 
   const handleCardClick = (room) => {
     setSelectedRoom(room);
@@ -18,38 +44,78 @@ const ListedRooms = () => {
     );
   };
 
+  const handleDeleteRoom = (roomID) => {
+    setListedRooms((prevRooms) =>
+      prevRooms.filter((room) => room.roomId !== roomID)
+    );
+  };
+
   const handleCloseModal = () => {
     setSelectedRoom(null);
   };
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 p-4">
-      {listedRooms.length > 0 ? (
-        listedRooms.map((room) => (
-          <div
-            key={room.roomId}
-            className="w-72 bg-white rounded shadow-lg p-4 cursor-pointer"
-            onClick={() => handleCardClick(room)}
+    <div className="container mx-auto px-4 md:px-6 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold">Your Room Listings</h1>
+        <div className="flex items-center gap-4">
+          <label htmlFor="sort-by">Sort by:</label>
+          <select
+            id="sort-by"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-40"
           >
-            <img
-              src={room.roomImageUrl}
-              alt="Room"
-              className="w-full h-48 object-cover rounded"
-            />
-            <h2 className="text-xl font-semibold mt-2">{room.city}</h2>
-            <p className="text-gray-500">{room.address}</p>
-            <p className="text-gray-500">{`Rent: ₹${room.rent}`}</p>
-            <p className="text-gray-500">{`Bathrooms: ${room.bathRooms}`}</p>
-          </div>
-        ))
-      ) : (
-        <p>No data available</p>
-      )}
+            <option value="price">Price</option>
+            <option value="size">Size</option>
+          </select>
+          <label htmlFor="filter-location">Filter by location:</label>
+          <input
+            id="filter-location"
+            type="text"
+            placeholder="Filter by location"
+            value={filterLocation}
+            onChange={(e) => setFilterLocation(e.target.value)}
+            className="w-40"
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filteredRooms.length > 0 ? (
+          filteredRooms.map((room) => (
+            <div
+              key={room.roomId}
+              className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer"
+              onClick={() => handleCardClick(room)}
+            >
+              <img
+                src={room.roomImageUrl || "/placeholder.svg"}
+                alt={room.title || "Room"}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-bold mb-2">{room.city}</h3>
+                <p className="text-gray-600 mb-4">{room.address}</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-lg font-bold">₹{room.rent}/month</div>
+                    <div className="text-gray-600">{room.size}</div>
+                  </div>
+                  <div className="text-gray-600">{room.city}</div>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No rooms available</p>
+        )}
+      </div>
       {selectedRoom && (
         <RoomDetailsModal
           room={selectedRoom}
           onClose={handleCloseModal}
           onUpload={handleSaveChanges}
+          onDelete={handleDeleteRoom}
         />
       )}
     </div>

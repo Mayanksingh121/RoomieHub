@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 import { toast } from "react-hot-toast";
-import { updateRoomData } from "../api/room";
+import { deleteRoom, updateRoomData } from "../api/room";
 
-const RoomDetailsModal = ({ room, onClose, onUpload }) => {
+const RoomDetailsModal = ({ room, onClose, onUpload, onDelete }) => {
   const [formData, setFormData] = useState({ ...room });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -44,6 +44,28 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
     }
   };
 
+  const handleDelete = ()=>{
+    try {
+      toast
+        .promise(deleteRoom(room.roomId), {
+          loading: "Deleting...",
+          success: "Changes updated",
+          error: "Could not delete.",
+        })
+        .then(() => {
+          onClose();
+          onUpload(room.roomId);
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("Failed to delete data.");
+        });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     if (name === "roomImage") {
@@ -384,7 +406,7 @@ const RoomDetailsModal = ({ room, onClose, onUpload }) => {
             >
               {isEditing ? "Save" : "Edit"}
             </button>
-            <button className="bg-red-500 rounded-md py-1 px-3 text-white hover:bg-red-400">
+            <button onClick={handleDelete} className="bg-red-500 rounded-md py-1 px-3 text-white hover:bg-red-400">
               Delete
             </button>
           </div>
