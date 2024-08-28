@@ -8,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.exception.InvalidPasswordException;
-import com.example.exception.UserNotFoundException;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -37,7 +34,7 @@ public class AuthController {
 
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
 
-        // Handle exceptions and return error messages
+    
 
     }
 

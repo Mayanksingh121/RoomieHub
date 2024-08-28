@@ -31,7 +31,7 @@ public class SecurityConfig {
         return http
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/","/add-user", "/api/auth/validate").permitAll() // permit all
+                        .requestMatchers("/","/get-otp","/get-all-roommates","/get-all-rooms","/add-user","/send-otp", "/api/auth/validate").permitAll() // permit all
                                                                                                       // requests to the
                         // root URL and login/register
                         // endpoints
