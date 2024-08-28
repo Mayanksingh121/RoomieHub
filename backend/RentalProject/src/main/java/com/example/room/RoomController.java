@@ -58,7 +58,7 @@ public class RoomController {
 
             Map<String, Object> response = new HashMap<>();
             response.put("message", msg);
-            response.put("statusCode", HttpStatus.CREATED.value());
+            // response.put("statusCode", HttpStatus.CREATED.value());
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception ex) {

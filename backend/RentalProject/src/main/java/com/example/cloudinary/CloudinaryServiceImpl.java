@@ -16,12 +16,41 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 	@Autowired
 	private Cloudinary cloudinary;
 
+	private boolean isValidMediaSize(MultipartFile file) {
+
+		try {
+			byte fileSize[] = file.getBytes();
+			return (fileSize.length <= 10 * 1024 * 1024);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+
+	@SuppressWarnings("null")
+	private boolean isValidMediaType(MultipartFile file) {
+
+		return file != null && file.getContentType() != null
+				&& (file.getContentType().startsWith("image") || file.getContentType().startsWith("video"));
+
+	}
+
+	// write method to check media type which must be other than image or video
+
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> uploadMedia(MultipartFile file) {
 		try {
+
 			Map<String, Object> mediaUploadResponse = new HashMap<>();
 			String fileType = file.getContentType();
-
+			if (!isValidMediaSize(file)) {
+				throw new MediaSizeExceededException("File Size Cannot be greater than 10 mb");
+			}
+			if (!isValidMediaType(file)) {
+				throw new InvalidMediaTypeException("File Type cannot be other than image or video");
+			}
 			if (fileType != null && fileType.startsWith("video")) {
 				// Handling video upload
 				mediaUploadResponse = this.cloudinary.uploader().upload(file.getBytes(),
@@ -43,7 +72,8 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 		try {
 			Map<String, Object> mediaUploadResponse = new HashMap<>();
 			String fileType = file.getContentType();
-
+			if (!isValidMediaSize(file))
+				throw new MediaSizeExceededException("File Size Cannot be greater than 10 mb");
 			Map<String, Object> mediaOverrideParams = ObjectUtils.emptyMap();
 			if (publicId != null) {
 				mediaOverrideParams = ObjectUtils.asMap(

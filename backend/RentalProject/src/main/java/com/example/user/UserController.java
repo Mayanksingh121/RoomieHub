@@ -1,5 +1,5 @@
 package com.example.user;
-
+// import org.springframework.security.annotation.csrf.CsrfIgnore;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +24,8 @@ import jakarta.servlet.http.HttpSession;
 
 public class UserController {
 
-
     @Autowired
     private UserService userService;
-
 
 
     @PostMapping("/add-user")

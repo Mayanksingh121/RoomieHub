@@ -33,9 +33,18 @@ export const addUser = async (user) => {
   }
 };
 
+
+
 export const getUser = async (userEmail) => {
+    const token = localStorage.getItem('token');  // Assuming you stored the token in localStorage after login
+
   try {
-    const response = await fetch(`${BASE_URL}/get-user/${userEmail}`);
+   const response = await fetch(`${BASE_URL}/get-user`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "Failed to fetch user details");
