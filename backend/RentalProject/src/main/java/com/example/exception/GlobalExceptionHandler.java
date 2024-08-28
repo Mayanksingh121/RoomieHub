@@ -43,4 +43,14 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+@ExceptionHandler(MediaSizeExceededException.class)
+	public ResponseEntity<String> handleMediaSizeExceededException(MediaSizeExceededException ex) {
+	  return new ResponseEntity<>(ex.getMessage(),HttpStatus.PAYLOAD_TOO_LARGE);
+	}
+
+	@ExceptionHandler(InvalidMediaTypeException.class)
+	public ResponseEntity<String> handleInvalidMediaTypeException(InvalidMediaTypeException ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+	}
+
 }

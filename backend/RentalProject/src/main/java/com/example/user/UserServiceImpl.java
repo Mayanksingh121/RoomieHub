@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CloudinaryService cloudinaryService;
 
+      private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+
     @Override
     public String saveUser(String name, String userEmail, String userPassword, Long userPhoneNumber)
             throws IOException {
@@ -31,7 +35,9 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("User with given email is  already exists");
         }
 
-        User user = new User(name, userEmail, userPassword, userPhoneNumber);
+        User user = new User(name, userEmail, encoder.encode(userPassword), userPhoneNumber);
+        // User user = new User(name, userEmail, userPassword, userPhoneNumber);
+// User user2 = new User
         this.userRepository.save(user);
         return "User Added Successfully";
     }
@@ -47,10 +53,11 @@ public class UserServiceImpl implements UserService {
         }
 
         this.cloudinaryService.deleteMedia(user.getUserProfilePublicId(), "image");
-
+  log.info("Setting url and id null");
         user.setUserProfilePublicId(null);
         user.setUserProfileUrl(null);
-
+        System.out.println("Successfully deleted");
+        this.userRepository.save(user);
         return "Profile Deleted Successfully";
 
     }

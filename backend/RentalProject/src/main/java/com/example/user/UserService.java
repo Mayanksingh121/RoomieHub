@@ -7,24 +7,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 
-    String saveUser(String name, String userEmail, String userPassword,
-            Long userPhoneNumber)
-            throws IOException;
-    // not needed
-    // String uploadProfile(MultipartFile userProfile, String userEmail);
+        String saveUser(String name, String userEmail, String userPassword,
+                        Long userPhoneNumber)
+                        throws IOException;
 
-    String uploadOrUpdateProfile(MultipartFile userProfile, String userEmail);
+        String uploadOrUpdateProfile(MultipartFile userProfile, String userEmail);
 
-    String deleteProfile(String userEmail);
+        String deleteProfile(String userEmail);
 
-    User getUserByUserEmail(String userEmail);
+        User getUserByUserEmail(String userEmail);
 
-    
-    List<User> getAllUsers();
+        List<User> getAllUsers();
 
-    String updateUser(String name, String userEmail, String userPassword, MultipartFile userProfile,
-            Long userPhoneNumber)
-            throws IOException;
+        String updateUser(String name, String userEmail, String userPassword, MultipartFile userProfile,
+                        Long userPhoneNumber)
+                        throws IOException;
 
-    String deleteUser(String userEmail);
+        String deleteUser(String userEmail);
 }

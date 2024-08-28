@@ -1,9 +1,16 @@
 package com.example.auth;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.exception.InvalidPasswordException;
+import com.example.exception.UserNotFoundException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -16,17 +23,22 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/validate")
-    public ResponseEntity<String> loginUser(@RequestParam("userEmail") String userEmail,
-            @RequestParam("userPassword") String userPassword, HttpServletRequest request) {
-        if (this.authService.validateUser(userEmail, userPassword)) {
-            HttpSession session = request.getSession(true);
+    public ResponseEntity<Map<String, String>> loginUser(@RequestParam("userEmail") String userEmail,
+            @RequestParam("userPassword") String userPassword,
+            HttpServletRequest request) {
+        Map<String, String> responseMap = new HashMap<>();
 
-            session.setAttribute("userEmail", userEmail);
-            System.out.println("Session created: " + session.getId());
-            return new ResponseEntity<>("Successfully Logged in", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
-        }
+        // Validate the user and generate the JWT token
+        String jwtToken = authService.validateUser(userEmail, userPassword);
+        System.out.println("Token" + jwtToken);
+        // Add success message and token to the response map
+        responseMap.put("message", "Successfully Logged in");
+        responseMap.put("token", jwtToken);
+
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+
+        // Handle exceptions and return error messages
+
     }
 
     @GetMapping("/get-session-data")
