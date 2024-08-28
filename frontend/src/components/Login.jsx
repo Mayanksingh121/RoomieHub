@@ -44,11 +44,11 @@ const Login = ({ handleLogin }) => {
       setOtpStep(true);
       const response = await sendOTP(user.userEmail);
       if (response.ok) {
-        const textMessage = await response.text();
-        toast.success(`${textMessage}`);
+        const text = await response.text();
+        toast.success(`${text}`);
       } else {
-        const textMessage = await response.text();
-        toast.error(`${textMessage}`);
+        const text = await response.text();
+        toast.error(`${text}`);
       }
     } else {
       const response = await signInWithEmailAndPassword(
@@ -56,15 +56,16 @@ const Login = ({ handleLogin }) => {
         user.userPassword
       );
       if (response.ok) {
-        const textMessage = await response.text();
-        toast.success(`${textMessage}`);
+        const json = await response.json();
+        console.log(json);
+        toast.success(`${json.message}`);
         dispatch(setIsLoggedIn());
         localStorage.setItem("email", user.userEmail);
         handleLogin();
       } else {
-        const textMessage = await response.text();
-        toast.error(`${textMessage}`);
-        setErrorMessage(`${textMessage}`);
+        const json = await response.json();
+        toast.error(`${json.message}`);
+        setErrorMessage(`${json.message}`);
       }
     }
   };
@@ -72,13 +73,12 @@ const Login = ({ handleLogin }) => {
   const handleOtpSubmit = async (event) => {
     event.preventDefault();
     const response = await getOTP();
-    const textMessage = await response.text();
     // otp verify
     if (response == otp) {
-      toast.success(`${textMessage}`);
+      toast.success(`Done`);
       const finalResponse = await addUser(user);
+      console.log(finalResponse);
       if (finalResponse.ok) {
-        setUserDetails(user.userEmail);
         dispatch(setIsLoggedIn());
         handleLogin();
       } else {
