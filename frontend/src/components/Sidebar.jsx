@@ -3,9 +3,11 @@ import { FaXmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getUser, updateUserProfile } from "../api/user";
-import { MdAccountCircle } from "react-icons/md";
-import { FaRegListAlt } from "react-icons/fa";
-import { LuClipboardList } from "react-icons/lu";
+import { RxAvatar } from "react-icons/rx";
+import { GoChecklist } from "react-icons/go";
+import { LiaRegistered } from "react-icons/lia";
+import { AiOutlineTeam } from "react-icons/ai";
+import { LiaSignOutAltSolid } from "react-icons/lia";
 import toast from "react-hot-toast";
 
 const SideBar = ({ handleNavBar }) => {
@@ -68,23 +70,23 @@ const SideBar = ({ handleNavBar }) => {
       transition={{ delay: 0.2 }}
     >
       <motion.div
-        className="font-body bg-white h-full w-[22%]"
+        className="font-body bg-gray-200 h-full rounded-s-2xl w-[22%]"
         initial={{ x: 400 }}
         animate={{ x: 0 }}
         transition={{ delay: 0.2, type: "tween" }}
       >
         <div className="flex flex-col gap-4 px-4 py-4 overflow-y-scroll hide-scrollbar">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <img
                 src={user.userProfileUrl}
                 alt="User Avatar"
-                className="w-12 h-12 rounded-full"
+                className="w-12 h-12 rounded-full border border-orange-600"
                 loading="lazy"
               />
               <div>
-                <h3 className="text-xl font-bold">{user.name}</h3>
-                <p className="text-sm font-bold">{userDetails}</p>
+                <h3 className="text-lg font-semibold">{user.name}</h3>
+                <p className="text-sm font-semibold -mt-2">{userDetails}</p>
               </div>
             </div>
             <span onClick={handleNavBar} className="cursor-pointer">
@@ -94,48 +96,59 @@ const SideBar = ({ handleNavBar }) => {
 
           <div className="flex flex-col gap-4">
             <Link to="/profile">
-              <div className="flex hover:bg-[#007aff] hover:text-white gap-3 items-center px-3 py-1 rounded-lg">
-                <MdAccountCircle className="text-3xl" />
+              <div className="flex hover:bg-[#007aff] hover:text-white gap-3 items-center px-3 py-2 rounded-lg">
+                <RxAvatar className="text-2xl" />
                 View Profile
               </div>
             </Link>
-            <Link to="/listed-rooms">
-              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
-                <FaRegListAlt className="text-3xl" />
-                <p>Listed rooms</p>
-              </div>
-            </Link>
             <Link to="/roomie-listing">
-              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
-                <LuClipboardList className="text-3xl" />
+              <div className="flex gap-3 items-center px-3 py-2 rounded-lg hover:bg-[#007aff] hover:text-white">
+                <AiOutlineTeam className="text-2xl" />
                 <p>Roomie Listing</p>
               </div>
             </Link>
-            <Link to="/roommate-registry">
-              <div className="flex hover:bg-gray-200 gap-3 items-center px-3 py-1 rounded-lg">
-                Roomie Registry
+            <Link to="/listed-rooms">
+              <div className="flex  gap-3 items-center px-3 py-2  rounded-lg hover:bg-[#007aff] hover:text-white">
+                <GoChecklist className="text-2xl" />
+                <p>Listed rooms</p>
               </div>
             </Link>
-            <input
-              type="file"
-              name="selectedFile"
-              id="upload-photo"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            <label
-              htmlFor="upload-photo"
-              className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-center"
-            >
-              Choose a file
-            </label>
-            <button
-              onClick={handleUploadPhoto}
-              type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-            >
-              Upload Photo
-            </button>
+
+            <Link to="/roommate-registry">
+              <div className="flex  gap-3 items-center px-3 py-2 rounded-lg hover:bg-[#007aff] hover:text-white">
+                <LiaRegistered className="text-2xl" />
+                <p>Roomie Registry</p>
+              </div>
+            </Link>
+            <div className="flex  gap-3 items-center px-3 py-2 rounded-lg hover:bg-[#007aff] hover:text-white">
+              <LiaSignOutAltSolid className="text-2xl" />
+              <p>Sign Out</p>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="upload-photo"
+                className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-center"
+              >
+                {selectedFile ? "File Selected" : "Choose a file"}
+              </label>
+              <input
+                type="file"
+                name="selectedFile"
+                id="upload-photo"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              {selectedFile && (
+                <button
+                  onClick={handleUploadPhoto}
+                  type="submit"
+                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                >
+                  Upload Photo
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </motion.div>

@@ -13,7 +13,9 @@ const RoomInformation = lazy(() =>
 const WatchList = lazy(() => import("./components/WatchList"));
 const RoommateDetails = lazy(() => import("./components/RoommateDetails"));
 const RoomListing = lazy(() => import("./components/RoomListing/RoomListing"));
-const RoommateRegistry = lazy(() => import("./components/RoommateRegistry"));
+const RoommateRegistry = lazy(() =>
+  import("./components/RoomieRegistry/RoommateRegistry")
+);
 const ListedRooms = lazy(() => import("./components/ListedRooms"));
 const RoomieListing = lazy(() => import("./components/RoomieListing"));
 

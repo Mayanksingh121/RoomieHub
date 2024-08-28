@@ -32,14 +32,22 @@ const Header = ({ handleLogin }) => {
         } z-20 font-roboto-slab flex justify-between py-6 w-full border-b`}
       >
         <div className="flex items-center gap-5 ml-4 md:ml-14">
-          <h1 className="font-semibold text-xl text-white">RoomieHub</h1>
+          <h1
+            className={`font-semibold text-xl ${
+              location.pathname !== "/" ? "text-black" : "text-white"
+            }`}
+          >
+            RoomieHub
+          </h1>
         </div>
-        <div className="flex text-white">
-          <div className="mx-8">About us</div>
-          <div className="mx-8">Available Rooms</div>
-          <div className="mx-8">Roommates</div>
-          <div className="mx-8">Contacts</div>
-        </div>
+        {location.pathname === "/" && (
+          <div className="flex text-white">
+            <div className="mx-8">About us</div>
+            <div className="mx-8">Available Rooms</div>
+            <div className="mx-8">Roommates</div>
+            <div className="mx-8">Contacts</div>
+          </div>
+        )}
         <div className="flex gap-4  items-center mr-10">
           {!userLoginStatus && (
             <button
@@ -51,7 +59,11 @@ const Header = ({ handleLogin }) => {
           )}
           {location.pathname !== "/profile" && (
             <div onClick={handleNavBar} className="cursor-pointer text-xl">
-              <IoMenu className="text-white" />
+              <IoMenu
+                className={`${
+                  location.pathname !== "/" ? "text-black" : "text-white"
+                } text-white"`}
+              />
             </div>
           )}
         </div>
