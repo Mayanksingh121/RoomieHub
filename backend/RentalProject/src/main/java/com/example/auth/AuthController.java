@@ -34,23 +34,26 @@ public class AuthController {
 
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
 
-    
+
 
     }
 
     @GetMapping("/get-session-data")
-    public ResponseEntity<String> getData(HttpServletRequest request) {
+    public ResponseEntity<Map<String,String>> getData(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        System.out.println("session" + session);
+        Map<String,String> responseMap = new HashMap<String,String>();
         if (session != null) {
             String userEmail = (String) session.getAttribute("userEmail");
             if (userEmail != null) {
-                return ResponseEntity.ok(userEmail);
+                responseMap.put("userEmail", userEmail);
+                return ResponseEntity.ok(responseMap);
             } else {
-                return new ResponseEntity<>("No user logged in", HttpStatus.NOT_FOUND);
+                responseMap.put("message", "No user logged in");
+                return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
             }
         } else {
-            return new ResponseEntity<>("No active session found", HttpStatus.NOT_FOUND);
+            responseMap.put("message", "No active session found");
+            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -66,13 +69,16 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
+        Map<String, String> responseMap = new HashMap<String, String>();
         if (session != null) {
+            responseMap.put("message", "Logout successful");
             session.invalidate();
-            return ResponseEntity.ok("Logout successful");
+            return ResponseEntity.ok(responseMap);
         } else {
-            return new ResponseEntity<>("No active session found", HttpStatus.NOT_FOUND);
+            responseMap.put("message", "No active session found");
+            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
         }
     }
 
