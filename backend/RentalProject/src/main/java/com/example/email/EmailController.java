@@ -1,5 +1,8 @@
 package com.example.email;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +23,25 @@ public class EmailController {
 
 
     @PostMapping("/send-otp")
-    public ResponseEntity<String> sendOtpMailToUser(@RequestParam("userEmail") String userEmail) {
+    public ResponseEntity<Map<String,String>> sendOtpMailToUser(@RequestParam("userEmail") String userEmail) {
         OTP = this.emailService.generateOtp();
-        System.out.println("OTP=" + OTP);
-        String response = this.emailService.sendOtpMail(userEmail, OTP);
+   Map<String, String> response = new HashMap<>();
+         response.put("message",this.emailService.sendOtpMail(userEmail, OTP)) ;
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
 
     @GetMapping("/get-otp")
-    public int getOtp() {
-        return OTP;
+    public ResponseEntity<Map<String, Integer>> getOtp() {
+        Map<String, Integer> response = new HashMap<>();
+        response.put("otp", OTP);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
     @PostMapping("/send-message")
-    public ResponseEntity<String> sendMessageMailToUser(@RequestParam("userEmail") String userEmail) {
-        String message = this.emailService.sendMessageMailString(userEmail);
-        return new ResponseEntity<>(message,HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> sendMessageMailToUser(@RequestParam("userEmail") String userEmail) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", this.emailService.sendMessageMailString(userEmail)) ;
+        return new ResponseEntity<>(response,HttpStatus.OK);
 
     }
 }

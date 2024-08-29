@@ -10,7 +10,11 @@ export const addUser = async (user) => {
       formData.append("userProfile", user.userProfile);
     }
 
+    const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/add-user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "POST",
       body: formData,
     });
@@ -33,17 +37,14 @@ export const addUser = async (user) => {
   }
 };
 
-
-
 export const getUser = async (userEmail) => {
-    const token = localStorage.getItem('token');  // Assuming you stored the token in localStorage after login
-
+  const token = localStorage.getItem("token");
   try {
-   const response = await fetch(`${BASE_URL}/get-user`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+    const response = await fetch(`${BASE_URL}/get-user/${userEmail}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) {
       const errorData = await response.json();

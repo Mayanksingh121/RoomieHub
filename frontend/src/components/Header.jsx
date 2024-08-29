@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { IoMenu } from "react-icons/io5";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SideBar from "./Sidebar";
 
 const Header = ({ handleLogin }) => {
@@ -28,41 +28,52 @@ const Header = ({ handleLogin }) => {
     <>
       <div
         className={`${
-          location.pathname === "/" ? "absolute " : "relative"
-        } z-20 font-roboto-slab flex justify-between py-6 w-full border-b`}
+          location.pathname === "/" ? "absolute" : "relative"
+        } z-20 font-roboto flex justify-between items-center py-4 px-6 md:px-14 w-full bg-black bg-opacity-20 shadow-lg`}
       >
-        <div className="flex items-center gap-5 ml-4 md:ml-14">
+        <div className="flex items-center gap-5">
           <h1
-            className={`font-semibold text-xl ${
-              location.pathname !== "/" ? "text-black" : "text-white"
-            }`}
+            className={`font-bold text-2xl ${
+              location.pathname !== "/" ? "text-gray-900" : "text-white"
+            } transition-colors duration-300`}
           >
             RoomieHub
           </h1>
         </div>
-        {location.pathname === "/" && (
-          <div className="flex text-white">
-            <div className="mx-8">About us</div>
-            <div className="mx-8">Available Rooms</div>
-            <div className="mx-8">Roommates</div>
-            <div className="mx-8">Contacts</div>
-          </div>
-        )}
-        <div className="flex gap-4  items-center mr-10">
+        <div className="flex gap-6 items-center">
+          {location.pathname === "/" && (
+            <div className="flex text-white space-x-6">
+              {["About us", "Available Rooms", "Roommates", "Contacts"].map(
+                (item, index) => (
+                  <div
+                    key={index}
+                    className="relative cursor-pointer text-lg font-medium hover:text-gray-400 transition-colors duration-300"
+                  >
+                    {item}
+                    <div className="absolute left-0 bottom-[-2px] w-full h-[2px] bg-transparent hover:bg-white transition-all duration-300 transform hover:scale-x-100 scale-x-0 origin-left"></div>
+                  </div>
+                )
+              )}
+            </div>
+          )}
+
           {!userLoginStatus && (
             <button
               onClick={handleLogin}
-              className="font-roboto bg-black bg-opacity-5 hover:bg-opacity-20 text-white text-xs px-3 rounded-sm py-1"
+              className="bg-white text-gray-900 text-sm font-semibold px-5 py-2 rounded-full shadow-md hover:bg-gray-100 transition-all duration-300"
             >
               Sign in
             </button>
           )}
           {location.pathname !== "/profile" && (
-            <div onClick={handleNavBar} className="cursor-pointer text-xl">
+            <div
+              onClick={handleNavBar}
+              className="cursor-pointer text-2xl p-2 rounded-full hover:bg-gray-700 transition-all duration-300"
+            >
               <IoMenu
                 className={`${
-                  location.pathname !== "/" ? "text-black" : "text-white"
-                } text-white"`}
+                  location.pathname !== "/" ? "text-gray-900" : "text-white"
+                } transition-colors duration-300`}
               />
             </div>
           )}

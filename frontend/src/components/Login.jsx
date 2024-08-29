@@ -61,6 +61,7 @@ const Login = ({ handleLogin }) => {
         toast.success(`${json.message}`);
         dispatch(setIsLoggedIn());
         localStorage.setItem("email", user.userEmail);
+        localStorage.setItem("token", json.token);
         handleLogin();
       } else {
         const json = await response.json();
