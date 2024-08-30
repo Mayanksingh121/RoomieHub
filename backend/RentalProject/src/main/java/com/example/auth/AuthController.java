@@ -6,7 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.jwt.JWTService;
+import com.example.user.MyUserDetailsService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +23,10 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+    @Autowired
+    private JWTService jwtService;
     @PostMapping("/validate")
     public ResponseEntity<Map<String, String>> loginUser(@RequestParam("userEmail") String userEmail,
             @RequestParam("userPassword") String userPassword,
@@ -34,39 +42,59 @@ public class AuthController {
 
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
 
-
-
     }
 
-    @GetMapping("/get-session-data")
-    public ResponseEntity<Map<String,String>> getData(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        Map<String,String> responseMap = new HashMap<String,String>();
-        if (session != null) {
-            String userEmail = (String) session.getAttribute("userEmail");
-            if (userEmail != null) {
-                responseMap.put("userEmail", userEmail);
-                return ResponseEntity.ok(responseMap);
+    // @GetMapping("/validate-token")
+    // public ResponseEntity<Map<String, String>> validateToken(HttpServletRequest request) {
+    //     String authorizationHeader = request.getHeader("Authorization");
+    //     String bearerToken = authorizationHeader.replace("Bearer ", "");
+
+    //     Map<String, String> responseMap = new HashMap<>();
+    //     responseMap.put("token", bearerToken);
+    //     return jwtService.validateToken(bearerToken, null)
+    //     // return ResponseEntity.ok(responseMap);
+
+    // }
+
+
+    @GetMapping("/validate-token")
+    public ResponseEntity<Map<String, String>> validateToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            // Invalid or missing Authorization header
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Invalid or missing Authorization header"));
+        }
+
+        try {
+            String bearerToken = authorizationHeader.replace("Bearer ", "");
+
+            // Assuming you have a way to get UserDetails, such as from a UserDetailsService
+            UserDetails userDetails = myUserDetailsService.loadUserByUsername(jwtService.extractUserEmail(bearerToken));
+
+            boolean isValid = jwtService.validateToken(bearerToken, userDetails);
+
+            if (isValid) {
+                return ResponseEntity.ok(Map.of(
+                        "isValid", "true",
+                        "message", "Token is valid and matched with the user."));
             } else {
-                responseMap.put("message", "No user logged in");
-                return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of(
+                                "isValid", "false",
+                                "message", "Token is invalid or does not match the user."));
             }
-        } else {
-            responseMap.put("message", "No active session found");
-            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // Handle any unexpected errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "error", "An error occurred while validating the token",
+                            "details", e.getMessage()));
         }
     }
 
-    @GetMapping("/check-session-status")
-    public ResponseEntity<String> getSessionStatus(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        System.out.println("session" + session);
-        if (session != null) {
-            return ResponseEntity.ok("Session is active");
-        } else {
-            return new ResponseEntity<>("Session is not active", HttpStatus.NOT_FOUND);
-        }
-    }
+
 
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpServletRequest request) {

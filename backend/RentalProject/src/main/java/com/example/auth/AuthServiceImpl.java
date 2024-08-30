@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import com.example.exception.InvalidPasswordException;
 import com.example.exception.UserNotFoundException;
-import com.example.jwt.JWTService;
+import com.example.jwt.JWTServiceImpl;
 import com.example.user.User;
 import com.example.user.UserRepository;
 
@@ -18,7 +18,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private JWTService jwtService;
+    private JWTServiceImpl jwtService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -42,14 +42,6 @@ public class AuthServiceImpl implements AuthService {
         return token;
     }
 
-    // @Scheduled(fixedRate = 10000)
-    // public void isUserIdle() {
-    //     HttpServletRequest request;
-    //     HttpSession session = request.getSession(false);
-    //     if (session == null) {
-    //         System.out.println("session is over");
-    //     }
-    // }
 
 
 
