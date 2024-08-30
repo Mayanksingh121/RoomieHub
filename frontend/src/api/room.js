@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 const BASE_URL = "http://localhost:8080";
 export const addRoom = async (room) => {
   try {
@@ -33,7 +35,11 @@ export const addRoom = async (room) => {
       formData.append("roomVideo", room.roomVideo);
     }
 
+    const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/add-room`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "POST",
       body: formData,
     });
@@ -93,7 +99,11 @@ export const updateRoomData = async (room, roomID) => {
       formData.append("roomVideo", room.roomVideo);
     }
 
+    const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/update-room/${roomID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "PUT",
       body: formData,
     });
@@ -103,9 +113,29 @@ export const updateRoomData = async (room, roomID) => {
   }
 };
 
+export const getRoomById = async (roomID) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await fetch(`${BASE_URL}/get-room/${Number(roomID)}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (e) {
+    toast.error("Getting error in fetching room data");
+    return null;
+  }
+};
+
 export const deleteRoom = async (roomID) => {
+  const token = localStorage.getItem("token");
   try {
     const response = await fetch(`${BASE_URL}/delete-room/${roomID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "DELETE",
     });
     return response;

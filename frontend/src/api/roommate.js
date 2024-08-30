@@ -26,7 +26,11 @@ export const addRoommate = async (room) => {
       formData.append("roomVideo", room.roomVideo);
     }
 
+    const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/add-roommate`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "POST",
       body: formData,
     });
@@ -75,7 +79,11 @@ export const updateRoommateData = async (roommate, roommateID) => {
       formData.append("roomVideo", roommate.roomVideo);
     }
 
+    const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/update-roommate/${roommateID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "PUT",
       body: formData,
     });

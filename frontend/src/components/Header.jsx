@@ -1,16 +1,27 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoMenu } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 import SideBar from "./Sidebar";
+import toast from "react-hot-toast";
+import { isAuthUser } from "../api/validate";
+import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
 
 const Header = ({ handleLogin }) => {
+  const dispatch = useDispatch();
   const [showNavBar, setShowNavBar] = useState(false);
   const userLoginStatus = useSelector((store) => store.user.isLoggedIn);
   const location = useLocation();
 
   const handleNavBar = () => {
     setShowNavBar(!showNavBar);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    dispatch(setIsLoggedIn(false));
+    toast.success("Successfully signed out");
   };
 
   useEffect(() => {
@@ -22,7 +33,22 @@ const Header = ({ handleLogin }) => {
     ) {
       setShowNavBar(false);
     }
-  }, [location.pathname]);
+
+    const checkIfAuthUser = async () => {
+      try {
+        const response = await isAuthUser();
+        if (response && response.ok) {
+          dispatch(setIsLoggedIn(true));
+        } else {
+          dispatch(setIsLoggedIn(false));
+        }
+      } catch (e) {
+        toast.error("Please sign in again");
+        dispatch(setIsLoggedIn(false));
+      }
+    };
+    checkIfAuthUser();
+  }, [location.pathname, userLoginStatus]);
 
   return (
     <>
@@ -57,14 +83,22 @@ const Header = ({ handleLogin }) => {
             </div>
           )}
 
-          {!userLoginStatus && (
+          {!userLoginStatus ? (
             <button
               onClick={handleLogin}
               className="bg-white text-gray-900 text-sm font-semibold px-5 py-2 rounded-full shadow-md hover:bg-gray-100 transition-all duration-300"
             >
               Sign in
             </button>
+          ) : (
+            <button
+              onClick={handleSignOut}
+              className="bg-white text-gray-900 text-sm font-semibold px-5 py-2 rounded-full shadow-md hover:bg-gray-100 transition-all duration-300"
+            >
+              Sign out
+            </button>
           )}
+
           {location.pathname !== "/profile" && (
             <div
               onClick={handleNavBar}

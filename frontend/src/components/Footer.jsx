@@ -1,81 +1,80 @@
-import { FaFacebook, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
-import { FaInstagram, FaLocationDot, FaPhone } from "react-icons/fa6";
+import toast from "react-hot-toast";
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaMapPin, FaPhone, FaEnvelope } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 
-const Footer = () => {
+const handleSubmit = () => {
+  toast.success("Thank you for subscribing");
+};
+
+export default function Footer() {
   return (
-    <footer className="bg-white py-8">
-      <div className="mx-16 border-b-2  border-[#f4511e]"></div>
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap justify-between items-center">
-          <div className="w-full sm:w-auto px-20 flex items-center mb-4 sm:mb-0">
-            <h1 className="text-3xl font-bold">Logo</h1>
-          </div>
-          <div className="flex flex-col py-10 px-10">
-          <div className="w-full sm:w-auto flex flex-col gap-2 sm:text-left ">
-            <p className="flex  items-center text-gray-700">
-              <span className="text-[#f4511e] mr-2">
-                <FaLocationDot />
-              </span>
-              xyz avenue, lodhi road, New Delhi 110003
-            </p>
-            <p className="flex items-center text-gray-700">
-              <span className="text-[#f4511e] mr-2">
-                <FaPhone />
-              </span>
-              (+91) 456-7890
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-between items-center mt-6">
-            <div className="w-full sm:w-auto flex items-center">
-              <span className="text-gray-500 mr-4">Social Media</span>
-              <div className="flex space-x-4">
-                <Link className="text-[#f4511e]">
-                  <FaFacebook />
-                </Link>
-                <Link className="text-[#f4511e]">
-                  <FaTwitter />
-                </Link>
-                <Link className="text-[#f4511e]">
-                  <FaLinkedin />
-                </Link>
-                <Link className="text-[#f4511e]">
-                  <FaYoutube />
-                </Link>
-                <Link className="text-[#f4511e]">
-                  <FaInstagram />
-                </Link>
-              </div>
-            </div>
-          </div>
-          
+    <footer className="bg-gray-900 text-gray-300 py-12 px-10">
+      <div className="container max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold text-white font-roboto-slab">
+            Subscribe to our newsletter
+          </h4>
+          <p className="text-sm font-roboto">
+            Get the latest updates and news from our company.
+          </p>
+          <div className="flex gap-2">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <Button variant="contained">Send</Button>
           </div>
         </div>
-        <div className="border-t border-gray-200 mt-8 px-12 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
-          <nav className="flex flex-wrap justify-center sm:justify-start space-x-4 mb-4 sm:mb-0">
-            <a href="#" className="hover:text-gray-800">
-              ABOUT US
-            </a>
-            <a href="#" className="hover:text-gray-800">
-              CONTACT US
-            </a>
-            <a href="#" className="hover:text-gray-800">
-              HELP
-            </a>
-            <a href="#" className="hover:text-gray-800">
-              PRIVACY POLICY
-            </a>
-            <a href="#" className="hover:text-gray-800">
-              DISCLAIMER
-            </a>
-          </nav>
-          <div className="text-center sm:text-left">
-            <p>Copyright © 2020 RoomieHub. All rights reserved</p>
+        <div className="space-y-4 px-12">
+          <h4 className="text-lg font-semibold text-white font-roboto-slab">Connect with us</h4>
+          <div className="flex gap-4">
+            <Link to="#" aria-label="Facebook">
+              <FaFacebook className="w-6 h-6 text-blue-600" />
+            </Link>
+            <Link to="#" aria-label="Twitter">
+              <FaTwitter className="w-6 h-6 text-blue-400" />
+            </Link>
+            <Link to="#" aria-label="Instagram">
+              <FaInstagram className="w-6 h-6 text-pink-600" />
+            </Link>
+            <Link to="#" aria-label="LinkedIn">
+              <FaLinkedin className="w-6 h-6 text-blue-700" />
+            </Link>
           </div>
+        </div>
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold text-white font-roboto-slab">Contact Us</h4>
+          <div className="space-y-2 text-sm font-roboto">
+            <p>
+              <FaMapPin className="w-4 h-4 mr-2 inline-block align-middle text-gray-400" />
+              XYZ Avenue, New Delhi, India
+            </p>
+            <p>
+              <FaPhone className="w-4 h-4 mr-2 inline-block align-middle text-gray-400" />
+              (91) 456-7890
+            </p>
+            <p>
+              <FaEnvelope className="w-4 h-4 mr-2 inline-block align-middle text-gray-400" />
+              info@gmail.com
+            </p>
+          </div>
+        </div>
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold text-white font-roboto-slab">About RoomieHub</h4>
+          <p className="text-sm font-roboto">
+            RoomieHub is your go-to platform for finding the perfect room or
+            roommate. Whether you're looking for a cozy space or a compatible
+            roommate, we offer a range of options to suit your needs. Our
+            mission is to make room finding simple and effective for everyone.
+          </p>
+          <Link to="#" className="text-sm underline text-blue-400">
+            Learn more
+          </Link>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

@@ -18,14 +18,14 @@ const CustomerReviews = () => {
           <div key={index} className="bg-[#fef3ef] flex">
             <div className="relative w-[80%] px-20 py-16 flex flex-col gap-4">
               <span className="absolute text-5xl text-[#fbc2b0] top-12 left-12"><RiDoubleQuotesL/></span>
-              <p className="relative z-10 text-start">{review.body}</p>
+              <p className="relative z-10 text-start font-roboto">{review.body}</p>
               <div className="flex gap-4">
                 <div className="w-16 h-16 rounded-full border-2 border-[#f4511e] overflow-hidden">
                 <img className="w-16 h-16 rounded-full" src={review.img} alt="cus-img" />
                 </div>
                 <div className="flex flex-col">
-                  <p className="font-bold text-[#f4511e]">{review.name}</p>
-                  <p className="text-start">{review.username}</p>
+                  <p className="font-bold text-[#f4511e] font-roboto-slab">{review.name}</p>
+                  <p className="text-start font-semibold font-roboto-condensed">{review.username}</p>
                 </div>
               </div>
             </div>

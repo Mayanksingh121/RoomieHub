@@ -87,8 +87,12 @@ export const updateUserProfile = async (userEmail, userProfile) => {
   const formData = new FormData();
   formData.append("userEmail", userEmail);
   formData.append("userProfile", userProfile);
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/uploadOrUpdate`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     method: "POST",
     body: formData,
   });

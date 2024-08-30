@@ -5,7 +5,11 @@ export const toggleWatchList = async (userEmail, roomId) => {
     const formData = new FormData();
     formData.append("userEmail", userEmail);
     formData.append("roomId", roomId);
+    const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/toggle-watchlist`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "POST",
       body: formData,
     });

@@ -8,12 +8,20 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaHandshake } from "react-icons/fa";
 import { FaGlobeAsia } from "react-icons/fa";
 import { MdFmdGood } from "react-icons/md";
+import Aos from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 const OurOfferings = () => {
+  useEffect(() => {
+    Aos.init({
+      duration: 500,
+    });
+  }, []);
   return (
     <div className="px-20 pt-10 pb-20 flex flex-col gap-10">
       <h2 className="text-2xl font-bold">
-        <span className="border-b-2 border-[#f4511e]">
+        <span className="border-b-2 border-[#f4511e] font-montserrat">
           All-Inclusive Room Rates:
         </span>{" "}
         Everything You Need
@@ -21,8 +29,11 @@ const OurOfferings = () => {
       <div className="px-5 flex w-full">
         <div className="flex flex-col gap-4  w-[50%]">
           <div className="flex relative">
-            <div className="relative shadow-xl rounded-2xl">
-              <div className="bg-black rounded-2xl absolute bottom-0 h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
+            <div
+              data-aos="fade-down"
+              className="relative shadow-xl rounded-2xl"
+            >
+              <div className="bg-black font-roboto rounded-2xl absolute bottom-0 h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
                 A cozy, home-like atmosphere
               </div>
               <img
@@ -31,16 +42,22 @@ const OurOfferings = () => {
                 className="h-64 rounded-2xl"
               />
             </div>
-            <div className="absolute bottom-0 left-56 shadow-lg rounded-2xl">
-              <div className="bg-black rounded-2xl absolute bottom-0 h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
+            <div
+              data-aos="fade-left"
+              className="absolute bottom-0 left-56 shadow-lg rounded-2xl"
+            >
+              <div className="font-roboto bg-black rounded-2xl absolute bottom-0 h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
                 Find you own happiness
               </div>
               <img src={HAPPY} alt="room-image" className="h-52 rounded-2xl" />
             </div>
           </div>
           <div className="flex relative">
-            <div className="relative shadow-xl rounded-2xl">
-              <div className="bg-black rounded-2xl absolute h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
+            <div
+              data-aos="fade-right"
+              className="relative shadow-xl rounded-2xl"
+            >
+              <div className="font-roboto bg-black rounded-2xl absolute h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
                 Save more, live better.
               </div>
               <img
@@ -49,8 +66,11 @@ const OurOfferings = () => {
                 className="h-60 rounded-2xl  shadow-2xl"
               />
             </div>
-            <div className="absolute top-0 left-44 shadow-lg rounded-2xl">
-              <div className="bg-black rounded-2xl absolute h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
+            <div
+              data-aos="fade-up"
+              className="absolute top-0 left-44 shadow-lg rounded-2xl"
+            >
+              <div className="font-roboto bg-black rounded-2xl absolute h-full w-full bg-opacity-20 text-white font-bold py-3 text-center">
                 Choose your own roommate
               </div>
               <img
@@ -67,7 +87,7 @@ const OurOfferings = () => {
             comfortable, and stress-free with us. Enjoy our happiness guarantee
             and selective roommate matching, all with the flexibility you crave.
           </p>
-          <div className="flex flex-col gap-10 py-4">
+          <div className="flex flex-col gap-10 py-4 font-montserrat">
             <div className="flex gap-8">
               <div className="w-40 flex gap-2 flex-col">
                 <div className="text-[#f4511e] text-4xl p-2 shadow-lg w-12 rounded-lg">
