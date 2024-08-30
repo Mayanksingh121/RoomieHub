@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/", "/get-otp", "/get-all-roommates", "/get-all-rooms", "/add-user",
-                                "/send-otp", "/api/auth/validate")
+                                "/send-otp", "/api/auth/validate","/get-room/*","/get-roommie/*")
                         .permitAll() // permit all
                         // requests to the
                         // root URL and login/register
