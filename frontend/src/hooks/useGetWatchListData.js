@@ -5,15 +5,21 @@ import { setWatchList } from "../utils/storeSlices/userSlice";
 
 const useGetWatchListData = () => {
   const dispatch = useDispatch();
-  const userEmail = useSelector((store) => store.user.userDetails);
   useEffect(() => {
     getWatchListData();
   }, []);
 
   const getWatchListData = async () => {
     try {
+      const token = localStorage.getItem("token");
+      const userEmail = localStorage.getItem("email");
       const response = await fetch(
-        `${BASE_URL}/get-user-watchlist/${userEmail}`
+        `${BASE_URL}/get-user-watchlist/${userEmail}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const json = await response.json();
       dispatch(setWatchList(json));

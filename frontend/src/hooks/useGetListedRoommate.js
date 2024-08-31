@@ -11,7 +11,12 @@ const useGetListedRommate = () => {
   const fetchListedRoommates = async () => {
     try {
       const userEmail = localStorage.getItem("email");
-      const response = await fetch(`${BASE_URL}/get-roommie/${userEmail}`);
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${BASE_URL}/get-roommie/${userEmail}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const json = await response.json();
       setListedRoommates(json);
     } catch (e) {

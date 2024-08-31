@@ -114,9 +114,10 @@ export const updateRoomData = async (room, roomID) => {
 };
 
 export const getRoomById = async (roomID) => {
+  console.log(roomID);
   const token = localStorage.getItem("token");
   try {
-    const response = await fetch(`${BASE_URL}/get-room/${Number(roomID)}`, {
+    const response = await fetch(`${BASE_URL}/get-room/${roomID}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

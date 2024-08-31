@@ -33,7 +33,7 @@ function App() {
       children: [
         { path: "/", element: <Body /> },
         {
-          path: "/room/:roomId",
+          path: "/room/:id",
           element: <RoomInformation handleLogin={handleShowLogin} />,
         },
         { path: "/watchlist", element: <WatchList /> },

@@ -6,6 +6,8 @@ import SideBar from "./Sidebar";
 import toast from "react-hot-toast";
 import { isAuthUser } from "../api/validate";
 import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
+import { Link } from 'react-scroll';
+
 
 const Header = ({ handleLogin }) => {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const Header = ({ handleLogin }) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (
       location.pathname === "/profile" ||
       location.pathname === "/listed-rooms" ||
@@ -69,18 +72,22 @@ const Header = ({ handleLogin }) => {
         <div className="flex gap-6 items-center">
           {location.pathname === "/" && (
             <div className="flex text-white space-x-6">
-              {["About us", "Available Rooms", "Roommates", "Contacts"].map(
-                (item, index) => (
-                  <div
-                    key={index}
-                    className="relative cursor-pointer text-lg font-medium hover:text-gray-400 transition-colors duration-300"
-                  >
-                    {item}
-                    <div className="absolute left-0 bottom-[-2px] w-full h-[2px] bg-transparent hover:bg-white transition-all duration-300 transform hover:scale-x-100 scale-x-0 origin-left"></div>
-                  </div>
-                )
-              )}
-            </div>
+            {["About us", "Available Rooms", "Roommates", "Contacts"].map(
+              (item, index) => (
+                <Link
+                  key={index}
+                  to={item.toLowerCase().replace(" ", "-")}
+                  smooth={true}
+                  duration={500}
+                  className="relative cursor-pointer text-lg font-medium hover:text-gray-400 transition-colors duration-300"
+                >
+                  {item}
+                  <div className="absolute left-0 bottom-[-2px] w-full h-[2px] bg-transparent hover:bg-white transition-all duration-300 transform hover:scale-x-100 scale-x-0 origin-left"></div>
+                </Link>
+              )
+            )}
+          </div>
+          
           )}
 
           {!userLoginStatus ? (

@@ -21,15 +21,22 @@ const RoomContainer = () => {
   useEffect(() => {
     if (isLoggedIn) {
       const getData = async () => {
-        const userDetails = localStorage.getItem("email");
-        console.log(userDetails);
-        const response = getWatchList(userDetails);
-        if (response.ok) {
-          console.log("printed");
-          const json = await response.json();
-          setWatchList(json);
+        try {
+          const userDetails = localStorage.getItem("email");
+
+          const response = await getWatchList(userDetails);
+
+          if (response.ok) {
+            const json = await response.json();
+            setWatchList(json);
+          } else {
+            console.error("Failed to fetch watchlist:", response.status);
+          }
+        } catch (error) {
+          console.error("Error fetching watchlist:", error);
         }
       };
+
       getData();
     }
   }, [isLoggedIn]);
@@ -76,7 +83,10 @@ const RoomContainer = () => {
   };
 
   return (
-    <div className="px-4 md:px-10 py-4 md:py-10 bg-[#f4f4f4]">
+    <div
+      className="px-4 md:px-10 py-4 md:py-10 bg-[#f4f4f4]"
+      id="available-rooms"
+    >
       <div className="flex flex-col mb-5">
         <div className="flex flex-col md:flex-row items-center justify-between mb-4 gap-4">
           <h2 className="font-montserrat font-semibold text-lg md:text-xl flex-grow underline decoration-[#f4511e]">

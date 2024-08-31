@@ -26,7 +26,12 @@ const RoommateDetails = ({ user }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/get-roommate/${roommateID}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${BASE_URL}/get-roommate/${roommateID}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const result = await response.json();
         setRoommateData(result);
       } catch (error) {
@@ -53,7 +58,11 @@ const RoommateDetails = ({ user }) => {
           />
         </div>
         <div className="h-48 aspect-w-4 aspect-h-3">
-          <video controls className="w-full h-full object-cover" preload="metadata">
+          <video
+            controls
+            className="w-full h-full object-cover"
+            preload="metadata"
+          >
             <source src={roommateData.roomVideoUrl}></source>
           </video>
         </div>

@@ -20,7 +20,7 @@ const RoommateContainer = () => {
   };
 
   return (
-    <div className="px-3 md:px-8 py-3 md:py-6">
+    <div className="px-3 md:px-8 py-3 md:py-6" id="roommates">
       <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-3 md:mb-6 px-2">
         Available Roommates
       </h2>

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { getUser, updateUser } from "../api/user";
+import { useNavigate } from "react-router-dom";
 
 const ViewProfile = () => {
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     userEmail: "",
@@ -12,15 +14,16 @@ const ViewProfile = () => {
   });
 
   const userDetails = localStorage.getItem("email");
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const data = await getUser(userDetails);
         setUserData(data);
         setFormData({
-          name: data.name,
-          userEmail: data.userEmail,
-          userPhoneNumber: data.userPhoneNumber,
+          name: data?.name || "",
+          userEmail: data?.userEmail || "",
+          userPhoneNumber: data?.userPhoneNumber || "",
         });
       } catch (e) {
         console.error(e.message);
@@ -42,6 +45,12 @@ const ViewProfile = () => {
     }));
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    navigate("/");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,13 +68,7 @@ const ViewProfile = () => {
 
     try {
       const response = await updateUser(userData.userEmail, updates);
-      setUserData(response);
-      setFormData({
-        name: response.name,
-        userEmail: response.userEmail,
-        userPhoneNumber: response.userPhoneNumber,
-      });
-      setIsEditing(false);
+      if (response.ok) setIsEditing(false);
       toast.success("Profile updated successfully!");
     } catch (error) {
       toast.error("Failed to update profile.");
@@ -82,7 +85,7 @@ const ViewProfile = () => {
       <aside className="w-1/4 bg-white p-4 shadow-md">
         <nav className="flex flex-col space-y-4">
           <div className="text-blue-600">Profile</div>
-          <div>Logout</div>
+          <div className="cursor-pointer" onClick={handleLogout}>Logout</div>
         </nav>
       </aside>
       <main className="w-3/4 p-8">

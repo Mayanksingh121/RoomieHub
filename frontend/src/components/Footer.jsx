@@ -10,7 +10,7 @@ const handleSubmit = () => {
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12 px-10">
+    <footer className="bg-gray-900 text-gray-300 py-12 px-10" id="contacts">
       <div className="container max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div className="space-y-4">
           <h4 className="text-lg font-semibold text-white font-roboto-slab">
@@ -25,7 +25,7 @@ export default function Footer() {
               placeholder="Enter your email"
               className="flex-1 px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <Button variant="contained">Send</Button>
+            <Button onClick={handleSubmit} variant="contained">Send</Button>
           </div>
         </div>
         <div className="space-y-4 px-12">

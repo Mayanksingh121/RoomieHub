@@ -71,8 +71,13 @@ export const updateUser = async (userEmail, userData) => {
     formData.append("userPhoneNumber", userData.userPhoneNumber);
   }
 
+  const token = localStorage.getItem("token");
+
   const response = await fetch(`${BASE_URL}/update-user/${userEmail}`, {
     method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     body: formData,
   });
 
@@ -80,7 +85,7 @@ export const updateUser = async (userEmail, userData) => {
     throw new Error("Failed to update user");
   }
 
-  return response.json();
+  return response;
 };
 
 export const updateUserProfile = async (userEmail, userProfile) => {

@@ -12,14 +12,15 @@ import { getRoomById } from "../../api/room";
 
 const RoomInformation = ({ handleLogin }) => {
   const userDetails = localStorage.getItem("email");
-  const { roomId } = useParams();
+  const { id } = useParams();
   const [reqRoom, setReqRoom] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const loginStatus = useSelector((store) => store.user.isLoggedIn);
 
+  console.log(reqRoom);
   useEffect(() => {
     const getRoomData = async () => {
-      const response = getRoomById(roomId);
+      const response = getRoomById(id);
       if (response && response.ok) {
         const json = await response.json();
         setReqRoom(json);

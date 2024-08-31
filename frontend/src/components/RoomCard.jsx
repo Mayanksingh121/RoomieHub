@@ -7,7 +7,7 @@ import { toggleWatchList } from "../api/watchList";
 import { motion } from "framer-motion";
 
 const RoomCard = ({ room, watchList }) => {
-  const { isLoggedIn, userDetails } = useSelector((store) => store.user);
+  const { isLoggedIn } = useSelector((store) => store.user);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
@@ -23,13 +23,14 @@ const RoomCard = ({ room, watchList }) => {
       return;
     }
     try {
+      const userDetails = localStorage.getItem("email");
       const response = await toggleWatchList(userDetails, room.roomId);
-      const textMessage = await response.text();
+      const json = await response.json();
       if (response.ok) {
         setIsBookmarked(!isBookmarked);
-        toast.success(`${textMessage}`);
+        toast.success(`${json.message}`);
       } else {
-        toast.error(`${textMessage}`);
+        toast.error(`${json.message}`);
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
@@ -65,7 +66,9 @@ const RoomCard = ({ room, watchList }) => {
         </div>
         <div className="flex flex-col justify-between mt-2 font-roboto-condensed">
           <p className="text-xs">Rent</p>
-          <h2 className="text-lg text-[#f4511e] font-bold -mt-2">₹{room.rent}/month</h2>
+          <h2 className="text-lg text-[#f4511e] font-bold -mt-2">
+            ₹{room.rent}/month
+          </h2>
         </div>
       </div>
       <div className="px-3 py-2 flex justify-between">

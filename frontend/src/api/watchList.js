@@ -35,8 +35,7 @@ export const getWatchList = async (userEmail) => {
       throw new Error(`Failed to fetch watchlist: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error fetching watchlist:", error);
     return null;
