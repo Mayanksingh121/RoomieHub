@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+<<<<<<< HEAD
     // @Bean
     // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     //     return http
@@ -58,6 +59,25 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
 }
+=======
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(customizer -> customizer.disable())
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/", "/get-otp", "/get-all-roommates", "/get-all-rooms", "/add-user",
+                                "/send-otp", "/api/auth/validate","/get-room/*","/get-roommie/*")
+                        .permitAll() // permit all
+                        // requests to the
+                        // root URL and login/register
+                        // endpoints
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+>>>>>>> origin
 
     // @Bean
     // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
