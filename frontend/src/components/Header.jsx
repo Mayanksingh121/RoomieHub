@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoMenu } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 import SideBar from "./Sidebar";
+import toast from "react-hot-toast";
+import { isAuthUser } from "../api/validate";
+import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
+import { Link } from 'react-scroll';
+
 
 const Header = ({ handleLogin }) => {
+  const dispatch = useDispatch();
   const [showNavBar, setShowNavBar] = useState(false);
   const userLoginStatus = useSelector((store) => store.user.isLoggedIn);
   const location = useLocation();
@@ -13,7 +19,15 @@ const Header = ({ handleLogin }) => {
     setShowNavBar(!showNavBar);
   };
 
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    dispatch(setIsLoggedIn(false));
+    toast.success("Successfully signed out");
+  };
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (
       location.pathname === "/profile" ||
       location.pathname === "/listed-rooms" ||
@@ -22,7 +36,22 @@ const Header = ({ handleLogin }) => {
     ) {
       setShowNavBar(false);
     }
-  }, [location.pathname]);
+
+    const checkIfAuthUser = async () => {
+      try {
+        const response = await isAuthUser();
+        if (response && response.ok) {
+          dispatch(setIsLoggedIn(true));
+        } else {
+          dispatch(setIsLoggedIn(false));
+        }
+      } catch (e) {
+        toast.error("Please sign in again");
+        dispatch(setIsLoggedIn(false));
+      }
+    };
+    checkIfAuthUser();
+  }, [location.pathname, userLoginStatus]);
 
   return (
     <>
@@ -43,28 +72,40 @@ const Header = ({ handleLogin }) => {
         <div className="flex gap-6 items-center">
           {location.pathname === "/" && (
             <div className="flex text-white space-x-6">
-              {["About us", "Available Rooms", "Roommates", "Contacts"].map(
-                (item, index) => (
-                  <div
-                    key={index}
-                    className="relative cursor-pointer text-lg font-medium hover:text-gray-400 transition-colors duration-300"
-                  >
-                    {item}
-                    <div className="absolute left-0 bottom-[-2px] w-full h-[2px] bg-transparent hover:bg-white transition-all duration-300 transform hover:scale-x-100 scale-x-0 origin-left"></div>
-                  </div>
-                )
-              )}
-            </div>
+            {["About us", "Available Rooms", "Roommates", "Contacts"].map(
+              (item, index) => (
+                <Link
+                  key={index}
+                  to={item.toLowerCase().replace(" ", "-")}
+                  smooth={true}
+                  duration={500}
+                  className="relative cursor-pointer text-lg font-medium hover:text-gray-400 transition-colors duration-300"
+                >
+                  {item}
+                  <div className="absolute left-0 bottom-[-2px] w-full h-[2px] bg-transparent hover:bg-white transition-all duration-300 transform hover:scale-x-100 scale-x-0 origin-left"></div>
+                </Link>
+              )
+            )}
+          </div>
+          
           )}
 
-          {!userLoginStatus && (
+          {!userLoginStatus ? (
             <button
               onClick={handleLogin}
               className="bg-white text-gray-900 text-sm font-semibold px-5 py-2 rounded-full shadow-md hover:bg-gray-100 transition-all duration-300"
             >
               Sign in
             </button>
+          ) : (
+            <button
+              onClick={handleSignOut}
+              className="bg-white text-gray-900 text-sm font-semibold px-5 py-2 rounded-full shadow-md hover:bg-gray-100 transition-all duration-300"
+            >
+              Sign out
+            </button>
           )}
+
           {location.pathname !== "/profile" && (
             <div
               onClick={handleNavBar}

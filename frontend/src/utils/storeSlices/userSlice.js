@@ -8,8 +8,8 @@ const userSlice = createSlice({
   },
 
   reducers: {
-    setIsLoggedIn: (state) => {
-      state.isLoggedIn = !state.isLoggedIn;
+    setIsLoggedIn: (state,action) => {
+      state.isLoggedIn = action.payload;
     },
     setWatchList: (state, action) => {
       state.watchList = action.payload;

@@ -5,19 +5,30 @@ import { FaBath, FaBuilding } from "react-icons/fa";
 import { GiSofa } from "react-icons/gi";
 import { MdBalcony } from "react-icons/md";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserModal from "./UserModal";
 import { BASE_URL } from "../../constant/constant";
+import { getRoomById } from "../../api/room";
 
 const RoomInformation = ({ handleLogin }) => {
   const userDetails = localStorage.getItem("email");
-  const { roomId } = useParams();
-  const data = useSelector((store) => store.room?.availableRooms);
-  const reqRoom = data?.find((room) => room.roomId === Number(roomId));
+  const { id } = useParams();
+  const [reqRoom, setReqRoom] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
   const loginStatus = useSelector((store) => store.user.isLoggedIn);
-  const { name, userPhoneNumber, userProfileUrl, userEmail } = reqRoom.user;
+
+  console.log(reqRoom);
+  useEffect(() => {
+    const getRoomData = async () => {
+      const response = getRoomById(id);
+      if (response && response.ok) {
+        const json = await response.json();
+        setReqRoom(json);
+      }
+    };
+
+    getRoomData();
+  }, [reqRoom]);
 
   const handleGetPhoneNo = () => {
     if (loginStatus) {
@@ -58,30 +69,35 @@ const RoomInformation = ({ handleLogin }) => {
       console.log(e);
     }
   };
-  if (reqRoom === undefined) {
+
+  if (reqRoom) {
+    const {
+      rent,
+      state,
+      city,
+      address,
+      roomImageUrl,
+      numberOfBalconies,
+      bathRooms,
+      floorNumber,
+      furnishedStatus,
+      description,
+      roomVideoUrl,
+      securityDeposit,
+      roomArea,
+      garden,
+      gym,
+      reservedParking,
+      security,
+      wifi,
+    } = reqRoom;
+  }
+
+  if (reqRoom === null) {
     return null;
   }
 
-  const {
-    rent,
-    state,
-    city,
-    address,
-    roomImageUrl,
-    numberOfBalconies,
-    bathRooms,
-    floorNumber,
-    furnishedStatus,
-    description,
-    roomVideoUrl,
-    securityDeposit,
-    roomArea,
-    garden,
-    gym,
-    reservedParking,
-    security,
-    wifi,
-  } = reqRoom;
+  const { name, userPhoneNumber, userProfileUrl, userEmail } = reqRoom?.user;
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">

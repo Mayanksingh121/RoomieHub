@@ -9,9 +9,12 @@ import { LiaRegistered } from "react-icons/lia";
 import { AiOutlineTeam } from "react-icons/ai";
 import { LiaSignOutAltSolid } from "react-icons/lia";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
 
 const SideBar = ({ handleNavBar }) => {
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const userDetails = localStorage.getItem("email");
 
@@ -34,6 +37,14 @@ const SideBar = ({ handleNavBar }) => {
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
+  };
+
+  const handleSignOut = () => {
+    handleNavBar();
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    dispatch(setIsLoggedIn(false));
+    toast.success("Successfully signed out");
   };
 
   const handleUploadPhoto = async () => {
@@ -120,7 +131,10 @@ const SideBar = ({ handleNavBar }) => {
                 <p>Roomie Registry</p>
               </div>
             </Link>
-            <div className="flex  gap-3 items-center px-3 py-2 rounded-lg hover:bg-[#007aff] hover:text-white">
+            <div
+              onClick={handleSignOut}
+              className="flex  gap-3 items-center px-3 py-2 rounded-lg hover:bg-[#007aff] hover:text-white"
+            >
               <LiaSignOutAltSolid className="text-2xl" />
               <p>Sign Out</p>
             </div>

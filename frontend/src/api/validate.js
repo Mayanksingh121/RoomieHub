@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { BASE_URL } from "../constant/constant";
 
 export const checkValidData = (email, password) => {
@@ -49,6 +50,24 @@ export const signInWithEmailAndPassword = async (email, password) => {
     return response;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const isAuthUser = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${BASE_URL}/api/auth/validate-token`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (e) {
+    toast.error(e.message || "Something went wrong. Please try again.");
+    return null;
   }
 };
 

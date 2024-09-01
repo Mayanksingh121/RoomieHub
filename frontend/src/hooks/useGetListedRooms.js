@@ -11,14 +11,19 @@ const useGetListedRooms = () => {
   const fetchData = async () => {
     try {
       const userEmail = localStorage.getItem("email");
-      const response = await fetch(`${BASE_URL}/get-room-id/${userEmail}`);
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${BASE_URL}/get-room-id/${userEmail}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const json = await response.json();
       setListedRooms(json);
     } catch (e) {
       console.log(e);
     }
   };
-  
+
   return { listedRooms, setListedRooms };
 };
 

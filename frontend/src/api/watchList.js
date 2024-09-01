@@ -5,7 +5,11 @@ export const toggleWatchList = async (userEmail, roomId) => {
     const formData = new FormData();
     formData.append("userEmail", userEmail);
     formData.append("roomId", roomId);
+    const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/toggle-watchlist`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: "POST",
       body: formData,
     });
@@ -31,8 +35,7 @@ export const getWatchList = async (userEmail) => {
       throw new Error(`Failed to fetch watchlist: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error fetching watchlist:", error);
     return null;
