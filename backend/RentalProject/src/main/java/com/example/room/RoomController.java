@@ -76,9 +76,9 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @GetMapping("/get-room/{roomid}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
-        Room room = roomService.getRoomById(id);
+    @GetMapping("/get-room/{roomId}")
+    public ResponseEntity<Room> getRoomById(@PathVariable Long roomId) {
+        Room room = roomService.getRoomById(roomId);
         return new ResponseEntity<>(room, HttpStatus.OK);
     }
 
