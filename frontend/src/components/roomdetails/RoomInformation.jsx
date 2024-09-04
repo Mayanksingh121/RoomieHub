@@ -20,7 +20,7 @@ const RoomInformation = ({ handleLogin }) => {
   console.log(reqRoom);
   useEffect(() => {
     const getRoomData = async () => {
-      const response = getRoomById(id);
+      const response =await getRoomById(id);
       if (response && response.ok) {
         const json = await response.json();
         setReqRoom(json);
@@ -70,29 +70,30 @@ const RoomInformation = ({ handleLogin }) => {
     }
   };
 
-  if (reqRoom) {
-    const {
-      rent,
-      state,
-      city,
-      address,
-      roomImageUrl,
-      numberOfBalconies,
-      bathRooms,
-      floorNumber,
-      furnishedStatus,
-      description,
-      roomVideoUrl,
-      securityDeposit,
-      roomArea,
-      garden,
-      gym,
-      reservedParking,
-      security,
-      wifi,
-    } = reqRoom;
-  }
-
+   // Destructure reqRoom outside the if block
+  const {
+    rent,
+    state,
+    city,
+    address,
+    roomImageUrl,
+    roomVideoUrl,  // This variable is now available in the entire component
+    numberOfBalconies,
+    bathRooms,
+    floorNumber,
+    furnishedStatus,
+    description,
+    securityDeposit,
+    roomArea,
+    garden,
+    gym,
+    reservedParking,
+    security,
+    wifi,
+    user,  // Destructuring user object as well
+  } = reqRoom || {};
+  
+  console.log(reqRoom);
   if (reqRoom === null) {
     return null;
   }

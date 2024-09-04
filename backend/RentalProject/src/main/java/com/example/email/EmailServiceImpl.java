@@ -70,7 +70,7 @@ public class EmailServiceImpl implements EmailService {
                     "</body>" +
                     "</html>";
 
-            helper.setText(htmlContent, true); // Set the HTML content and specify it as HTML
+            helper.setText(htmlContent, true);
             mailSender.send(mimeMessage);
             return "OTP has been sent to your email";
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public class EmailServiceImpl implements EmailService {
             "<p>If you're interested in scheduling a viewing, please reply to this email or give us a call at [Phone Number].</p></div>"
             +
             "<div class='footer'><p>Best,</p><p>[Your Name]</p></div></div></body></html>";
-            helper.setText(htmlContent, true); // Set the HTML content and specify it as HTML
+            helper.setText(htmlContent, true);
             mailSender.send(mimeMessage);
             return "message has been sent to the user";
         } catch (Exception e) {

@@ -22,16 +22,15 @@ import com.example.user.User;
 import com.example.user.UserService;
 
 @RestController
-// @RequestMapping("/api/roommates")
 @CrossOrigin("*")
 public class RoommateController {
-	@Autowired
-	private RoommateService roommateService;
+    @Autowired
+    private RoommateService roommateService;
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	 @PostMapping("/add-roommate")
+    @PostMapping("/add-roommate")
     public ResponseEntity<Map<String, Object>> createRoommate(
             @RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
             @RequestParam(name = "bathRooms") Integer bathRooms,
@@ -55,11 +54,7 @@ public class RoommateController {
                 preference, roomImage, roomVideo, budget, description, landmark, state, city, address, availableFrom,
                 user);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", msg);
-        // response.put("statusCode", HttpStatus.CREATED.value());
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("message", msg), HttpStatus.CREATED);
     }
 
     @GetMapping("/get-roommie/{userEmail}")
@@ -102,93 +97,14 @@ public class RoommateController {
         String msg = this.roommateService.updateRoommate(id, numberOfBalconies, bathRooms, floorNumber, age, occupation,
                 preference, roomImage, roomVideo, budget, description, landmark, state, city, address, availableFrom);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", msg);
-        // response.put("statusCode", HttpStatus.OK.value());
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", msg), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-roommate/{id}")
     public ResponseEntity<Map<String, Object>> deleteRoommate(@PathVariable Long id) {
-        roommateService.deleteRoommate(id);
+        String msg = roommateService.deleteRoommate(id);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Deleted Successfully");
-        // response.put("statusCode", HttpStatus.OK.value());
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", msg), HttpStatus.OK);
     }
-
-	// @PostMapping("/add-roommate")
-	// public ResponseEntity<String> createRoommate(
-	// 		@RequestParam(name = "numberOfBalconies") Integer numberOfBalconies,
-	// 		@RequestParam(name = "bathRooms") Integer bathRooms,
-	// 		@RequestParam(name = "floorNumber") String floorNumber,
-	// 		@RequestParam(name = "age") Integer age,
-	// 		@RequestParam(name = "roomImage") MultipartFile roomImage,
-	// 		@RequestParam(name = "roomVideo") MultipartFile roomVideo,
-	// 		@RequestParam(name = "budget") Double budget, @RequestParam(name = "occupation") String occupation,
-	// 		@RequestParam(name = "description") String description, @RequestParam(name = "landmark") String landmark,
-	// 		@RequestParam(name = "state") String state, @RequestParam(name = "city") String city,
-	// 		@RequestParam(name = "address") String address,
-	// 		@RequestParam(name = "availableFrom") LocalDate availableFrom,
-	// 		@RequestParam(name = "userEmail") String userEmail,
-	// 		@RequestParam(name = "preference", required = false) String preference) {
-	// 	User user = this.userService.getUserByUserEmail(userEmail);
-	// 	String msg = roommateService.createRoomMate(numberOfBalconies, bathRooms, floorNumber, age, occupation,
-	// 			preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark, state, city,
-	// 			address, availableFrom, user);
-	// 	return new ResponseEntity<>(msg, HttpStatus.CREATED);
-	// }
-
-	// @GetMapping("/get-all-roommates")
-	// public ResponseEntity<List<RoomMate>> getAllRoommates() {
-	// 	List<RoomMate> roommates = this.roommateService.getAllRoommates();
-	// 	return new ResponseEntity<>(roommates, HttpStatus.OK);
-	// }
-
-	// // @GetMapping("/room/{roomId}")
-	// // public ResponseEntity<List<RoomMate>> getRoommatesByRoomId(@PathVariable Long
-	// // roomId) {
-	// // List<RoomMate> roommates = roommateService.getRoommatesByRoomId(roomId);
-	// // return new ResponseEntity<>(roommates, HttpStatus.OK);
-	// // }
-
-	// @GetMapping("/get-roommate/{id}")
-	// public ResponseEntity<RoomMate> getRoommateById(@PathVariable Long id) {
-	// 	RoomMate roommate = roommateService.getRoommateById(id);
-	// 	return new ResponseEntity<>(roommate, HttpStatus.OK);
-	// }
-
-	// @PutMapping("/update-roommate/{id}")
-	// public ResponseEntity<String> updateRoommate(@PathVariable Long id,
-	// 		@RequestParam(name = "numberOfBalconies", required = false) Integer numberOfBalconies,
-	// 		@RequestParam(name = "bathRooms", required = false) Integer bathRooms,
-	// 		@RequestParam(name = "floorNumber", required = false) String floorNumber,
-	// 		@RequestParam(name = "age", required = false) Integer age,
-	// 		@RequestParam(name = "roomImage", required = false) MultipartFile roomImage,
-	// 		@RequestParam(name = "roomVideo", required = false) MultipartFile roomVideo,
-	// 		@RequestParam(name = "budget", required = false) Double budget,
-	// 		@RequestParam(name = "occupation", required = false) String occupation,
-	// 		@RequestParam(name = "description", required = false) String description,
-	// 		@RequestParam(name = "landmark", required = false) String landmark,
-	// 		@RequestParam(name = "state", required = false) String state,
-	// 		@RequestParam(name = "city", required = false) String city,
-	// 		@RequestParam(name = "address", required = false) String address,
-	// 		@RequestParam(name = "availableFrom", required = false) LocalDate availableFrom,
-	// 		@RequestParam(name = "userEmail", required = false) String userEmail,
-	// 		@RequestParam(name = "preference", required = false) String preference) {
-	// 	String msg = this.roommateService.updateRoommate(id, numberOfBalconies, bathRooms, floorNumber,
-	// 			age, occupation, preference, roomImage, userEmail, roomVideo, preference, budget, description, landmark,
-	// 			state, city, address, availableFrom);
-	// 	return new ResponseEntity<>(msg, HttpStatus.OK);
-	// }
-
-	// @DeleteMapping("/delete-roommate/{id}")
-	// public ResponseEntity<String> deleteRoommate(@PathVariable Long id) {
-	// 	roommateService.deleteRoommate(id);
-	// 	return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
-	// }
 
 }

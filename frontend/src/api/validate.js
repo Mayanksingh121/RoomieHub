@@ -102,3 +102,14 @@ export const signInStatus = async () => {
     console.log(error);
   }
 };
+
+
+export const logout = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/logout`);
+    const data=response.json();
+    return data;
+  } catch (error) {
+
+  }
+}

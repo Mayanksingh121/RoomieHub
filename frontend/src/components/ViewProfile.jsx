@@ -69,7 +69,7 @@ const ViewProfile = () => {
     try {
       const response = await updateUser(userData.userEmail, updates);
       if (response.ok) setIsEditing(false);
-      toast.success("Profile updated successfully!");
+      toast.success(response.message);
     } catch (error) {
       toast.error("Failed to update profile.");
     }

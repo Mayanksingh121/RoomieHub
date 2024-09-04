@@ -11,6 +11,7 @@ import { LiaSignOutAltSolid } from "react-icons/lia";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
+import { logout } from "../api/validate";
 
 const SideBar = ({ handleNavBar }) => {
   const [user, setUser] = useState(null);
@@ -39,39 +40,49 @@ const SideBar = ({ handleNavBar }) => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     handleNavBar();
+    await logout();
     localStorage.removeItem("token");
     localStorage.removeItem("email");
     dispatch(setIsLoggedIn(false));
     toast.success("Successfully signed out");
   };
 
-  const handleUploadPhoto = async () => {
-    if (selectedFile === null) {
-      alert("Please select a file first.");
-      return;
-    }
+ const handleUploadPhoto = async () => {
+  if (selectedFile === null) {
+    alert("Please select a file first.");
+    return;
+  }
 
-    try {
-      toast
-        .promise(updateUserProfile(userDetails, selectedFile), {
-          loading: "Uploading...",
-          success: "File uploaded!",
-          error: "Could not upload.",
-        })
-        .then(() => {
-          handleNavBar();
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("Failed to upload photo.");
-        });
-    } catch (error) {
-      console.error(error);
-      alert("Failed to upload photo.");
-    }
-  };
+  try {
+    // Use toast.promise to handle the async operation with notifications
+    await toast.promise(
+      updateUserProfile(userDetails, selectedFile).then((response) => {
+        // Success: Return the message from the API response
+        return response.message;
+      }),
+      {
+        loading: "Uploading...",
+        success: (message) => message,
+        error: (error) => {
+          // Check if the error object contains a response with a message
+          if (error.response && error.response.message) {
+            return `Error: ${error.response.message}`;
+          }
+          return `Error: ${error.message || "Failed to upload photo."}`;
+        },
+      }
+    );
+
+    // Proceed with further actions after successful upload
+    handleNavBar();
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    alert("Failed to upload photo.");
+  }
+};
+
 
   return (
     <motion.div
