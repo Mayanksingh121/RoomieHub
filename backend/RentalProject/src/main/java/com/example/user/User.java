@@ -3,6 +3,7 @@ package com.example.user;
 import java.util.List;
 
 import com.example.room.Room;
+import com.example.roommate.RoomMate;
 import com.example.watchlist.Watchlist;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,6 +50,11 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Watchlist> watchlist;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<RoomMate> roommates;
+
 
     public User(String name, String userEmail, String userPassword, Long userPhoneNumber) {
         this.name = name;

@@ -53,7 +53,7 @@ public class WatchListServiceImpl implements WatchListService {
 
         User user = userRepository.findByUserEmail(userEmail);
         if (user == null) {
-            log.warn("User not found for email: {}", userEmail);
+            log.warn("User not found for email: ", userEmail);
             throw new UserNotFoundException("User not found for given email: " );
         }
 

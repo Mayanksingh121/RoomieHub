@@ -1,14 +1,11 @@
 package com.example.user;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.example.cloudinary.CloudinaryService;
 import com.example.exception.ResourceNotFoundException;
 import com.example.exception.UserAlreadyExistsException;
@@ -96,31 +93,7 @@ public class UserServiceImpl implements UserService {
         return isUpdated ? "Profile Updated Successfully" : "Profile Uploaded Successfully";
     }
 
-    // @Transactional
-    // @Override
-    // public String uploadOrUpdateProfile(MultipartFile userProfile, String userEmail) {
-    //     User user = this.userRepository.findByUserEmail(userEmail);
-    //     if (user == null) {
-    //         log.error("User not found with email: " + userEmail);
-    //         throw new UserNotFoundException("User not found with email: " + userEmail);
-    //     }
 
-    //     boolean isUpdate = false;
-    //     if (user.getUserProfileUrl() != null && user.getUserProfilePublicId() != null) {
-    //         this.cloudinaryService.deleteMedia(user.getUserProfilePublicId(), "image");
-    //         isUpdate = true;
-    //     }
-
-    //     Map<String, Object> mediaObject = this.cloudinaryService.uploadMedia(userProfile);
-    //     String userProfileUrl = (String) mediaObject.get("secure_url");
-    //     String userProfilePublicId = (String) mediaObject.get("public_id");
-
-    //     user.setUserProfilePublicId(userProfilePublicId);
-    //     user.setUserProfileUrl(userProfileUrl);
-    //     this.userRepository.save(user);
-
-    //     return isUpdate ? "Profile Updated Successfully" : "Profile Uploaded Successfully";
-    // }
 
     @Override
     public User getUserByUserEmail(String userEmail) {
