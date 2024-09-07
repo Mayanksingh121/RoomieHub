@@ -17,7 +17,6 @@ const Login = ({ handleLogin }) => {
     name: "",
     userEmail: "",
     userPassword: "",
-    userProfile: null,
     userPhoneNumber: "",
   });
 
@@ -26,30 +25,31 @@ const Login = ({ handleLogin }) => {
   };
 
   const handleChange = (event) => {
-    const { name, value, files } = event.target;
-    if (name === "userProfile") {
-      setUser((prevUser) => ({
-        ...prevUser,
-        userProfile: files[0],
-      }));
-    } else {
-      setUser((prevUser) => ({ ...prevUser, [name]: value }));
-    }
+    const { name, value } = event.target;
+
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
   const handleUserLogin = async (event) => {
     event.preventDefault();
 
     if (!alreadyUser) {
-      setOtpStep(true);
-      const response = await sendOTP(user.userEmail);
-      if (response.ok) {
-        const text = await response.text();
-        toast.success(`${text}`);
-      } else {
-        const text = await response.text();
-        toast.error(`${text}`);
-      }
+      await toast.promise(
+        sendOTP(user.userEmail).then((response) => {
+          setOtpStep(true);
+          return response.message;
+        }),
+        {
+          loading: "Verifying...",
+          success: "OTP sent to your email",
+          error: (error) => {
+            if (error.response && error.response.message) {
+              return `Error: ${error.response.message}`;
+            }
+            return `Error: ${error.message || "Failed to upload photo."}`;
+          },
+        }
+      );
     } else {
       const response = await signInWithEmailAndPassword(
         user.userEmail,
@@ -57,7 +57,6 @@ const Login = ({ handleLogin }) => {
       );
       if (response.ok) {
         const json = await response.json();
-        console.log(json);
         toast.success(`${json.message}`);
         dispatch(setIsLoggedIn());
         localStorage.setItem("email", user.userEmail);
@@ -75,15 +74,15 @@ const Login = ({ handleLogin }) => {
     event.preventDefault();
     const response = await getOTP();
     // otp verify
-    if (response == otp) {
-      toast.success(`Done`);
+    if (response.otp == otp) {
       const finalResponse = await addUser(user);
-      console.log(finalResponse);
+      const json = await finalResponse.json();
+      console.log(json);
       if (finalResponse.ok) {
-        dispatch(setIsLoggedIn());
+        toast.success("Account created! Please login to your account");
         handleLogin();
       } else {
-        console.log("not registerd");
+        toast.error(json.message);
       }
     } else {
       console.log("otp are not same");
@@ -158,14 +157,6 @@ const Login = ({ handleLogin }) => {
               autoComplete="off"
             />
 
-            {!alreadyUser && (
-              <input
-                name="userProfile"
-                onChange={handleChange}
-                type="file"
-                className="border w-3/4 my-2 px-2 py-2 rounded-lg focus:outline-1"
-              />
-            )}
             <p className="text-red-500">{errorMessage}</p>
             <button
               onClick={handleUserLogin}

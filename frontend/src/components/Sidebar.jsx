@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaXmark } from "react-icons/fa6";
+import { FaXmark, FaPlus } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getUser, updateUserProfile } from "../api/user";
@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
 import { logout } from "../api/validate";
+import AVATAR from "../assets/Avatar.png";
 
 const SideBar = ({ handleNavBar }) => {
   const [user, setUser] = useState(null);
@@ -49,40 +50,34 @@ const SideBar = ({ handleNavBar }) => {
     toast.success("Successfully signed out");
   };
 
- const handleUploadPhoto = async () => {
-  if (selectedFile === null) {
-    alert("Please select a file first.");
-    return;
-  }
+  const handleUploadPhoto = async () => {
+    if (selectedFile === null) {
+      alert("Please select a file first.");
+      return;
+    }
 
-  try {
-    // Use toast.promise to handle the async operation with notifications
-    await toast.promise(
-      updateUserProfile(userDetails, selectedFile).then((response) => {
-        // Success: Return the message from the API response
-        return response.message;
-      }),
-      {
-        loading: "Uploading...",
-        success: (message) => message,
-        error: (error) => {
-          // Check if the error object contains a response with a message
-          if (error.response && error.response.message) {
-            return `Error: ${error.response.message}`;
-          }
-          return `Error: ${error.message || "Failed to upload photo."}`;
-        },
-      }
-    );
-
-    // Proceed with further actions after successful upload
-    handleNavBar();
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    alert("Failed to upload photo.");
-  }
-};
-
+    try {
+      await toast.promise(
+        updateUserProfile(userDetails, selectedFile).then((response) => {
+          return response.message;
+        }),
+        {
+          loading: "Uploading...",
+          success: (message) => message,
+          error: (error) => {
+            if (error.response && error.response.message) {
+              return `Error: ${error.response.message}`;
+            }
+            return `Error: ${error.message || "Failed to upload photo."}`;
+          },
+        }
+      );
+      handleNavBar();
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      alert("Failed to upload photo.");
+    }
+  };
 
   return (
     <motion.div
@@ -100,12 +95,28 @@ const SideBar = ({ handleNavBar }) => {
         <div className="flex flex-col gap-4 px-4 py-4 overflow-y-scroll hide-scrollbar">
           <div className="flex items-center justify-between mb-4">
             <div className="flex gap-3">
-              <img
-                src={user.userProfileUrl}
-                alt="User Avatar"
-                className="w-12 h-12 rounded-full border border-orange-600"
-                loading="lazy"
-              />
+              <div className="relative">
+                <img
+                  src={user.userProfileUrl || AVATAR}
+                  alt="User Avatar"
+                  className="w-12 h-12 rounded-full border border-orange-600"
+                  loading="lazy"
+                />
+                <label
+                  htmlFor="upload-photo"
+                  className="absolute bottom-0 text-xs p-1 border-white text-white  border cursor-pointer -right-1 bg-blue-500 rounded-full"
+                >
+                  <FaPlus />
+                </label>
+                <input
+                  type="file"
+                  name="selectedFile"
+                  id="upload-photo"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </div>
+
               <div>
                 <h3 className="text-lg font-semibold">{user.name}</h3>
                 <p className="text-sm font-semibold -mt-2">{userDetails}</p>
@@ -150,25 +161,12 @@ const SideBar = ({ handleNavBar }) => {
               <p>Sign Out</p>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="upload-photo"
-                className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-center"
-              >
-                {selectedFile ? "File Selected" : "Choose a file"}
-              </label>
-              <input
-                type="file"
-                name="selectedFile"
-                id="upload-photo"
-                onChange={handleFileChange}
-                className="hidden"
-              />
+            <div className="flex w-full">
               {selectedFile && (
                 <button
                   onClick={handleUploadPhoto}
                   type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full"
                 >
                   Upload Photo
                 </button>

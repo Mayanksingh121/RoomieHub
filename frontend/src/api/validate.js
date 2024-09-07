@@ -89,19 +89,14 @@ export const getOTP = async () => {
   try {
     const response = await fetch(`${BASE_URL}/get-otp`);
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const signInStatus = async () => {
-  try {
-    const response = await fetch("");
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 
 
 export const logout = async () => {

@@ -20,7 +20,7 @@ const RoomInformation = ({ handleLogin }) => {
   console.log(reqRoom);
   useEffect(() => {
     const getRoomData = async () => {
-      const response =await getRoomById(id);
+      const response = await getRoomById(id);
       if (response && response.ok) {
         const json = await response.json();
         setReqRoom(json);
@@ -28,7 +28,7 @@ const RoomInformation = ({ handleLogin }) => {
     };
 
     getRoomData();
-  }, [reqRoom]);
+  }, []);
 
   const handleGetPhoneNo = () => {
     if (loginStatus) {
@@ -49,14 +49,17 @@ const RoomInformation = ({ handleLogin }) => {
         formData.append("userEmail", userDetails);
         const response = await fetch(`${BASE_URL}/send-message`, {
           method: "POST",
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
           body: formData,
         });
         if (response.ok) {
-          const textMessage = await response.text();
-          toast.success(`${textMessage}`);
+          const json = await response.json();
+          toast.success(`${json.message}`);
         } else {
-          const textMessage = await response.text();
-          toast.error(`${textMessage}`);
+          const json = await response.json();
+          toast.error(`${json.message}`);
         }
       } else {
         toast("To get owner's contact details login is required.", {
@@ -70,14 +73,14 @@ const RoomInformation = ({ handleLogin }) => {
     }
   };
 
-   // Destructure reqRoom outside the if block
+  // Destructure reqRoom outside the if block
   const {
     rent,
     state,
     city,
     address,
     roomImageUrl,
-    roomVideoUrl,  // This variable is now available in the entire component
+    roomVideoUrl, // This variable is now available in the entire component
     numberOfBalconies,
     bathRooms,
     floorNumber,
@@ -90,9 +93,9 @@ const RoomInformation = ({ handleLogin }) => {
     reservedParking,
     security,
     wifi,
-    user,  // Destructuring user object as well
+    user, // Destructuring user object as well
   } = reqRoom || {};
-  
+
   console.log(reqRoom);
   if (reqRoom === null) {
     return null;

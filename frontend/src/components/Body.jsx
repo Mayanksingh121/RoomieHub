@@ -14,7 +14,6 @@ const Body = () => {
       <Banner />
       <About />
       <OurOfferings />
-
       <RoomContainer />
       <RoommateContainer />
       <CustomerReviews />

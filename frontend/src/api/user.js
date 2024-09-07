@@ -6,34 +6,20 @@ export const addUser = async (user) => {
     formData.append("userEmail", user.userEmail);
     formData.append("userPassword", user.userPassword);
     formData.append("userPhoneNumber", parseInt(user.userPhoneNumber));
-    if (user.userProfile) {
-      formData.append("userProfile", user.userProfile);
-    }
 
     const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/add-user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       method: "POST",
       body: formData,
     });
 
     if (!response.ok) {
-      // Handle non-2xx HTTP status codes from the server
       const errorData = await response.json();
       throw new Error();
-      //Network response was not ok: ${response.statusText} - ${errorData.message || 'Unknown error'}
     }
     return response;
   } catch (error) {
     console.error("Error adding user:", error.message);
-    // Optionally, display an error message to the user
-    // You can use a state variable to manage error state and display in the UI
-    // setError(error.message);
-
-    // Optionally, re-throw the error to handle it further up the chain
-    // throw error;
   }
 };
 
