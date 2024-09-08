@@ -1,28 +1,42 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMenu } from "react-icons/io5";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SideBar from "./Sidebar";
 import toast from "react-hot-toast";
 import { isAuthUser } from "../api/validate";
 import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
 import { Link } from "react-scroll";
+import { logout } from "../api/validate";
 
 const Header = ({ handleLogin }) => {
   const dispatch = useDispatch();
   const [showNavBar, setShowNavBar] = useState(false);
   const userLoginStatus = useSelector((store) => store.user.isLoggedIn);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleNavBar = () => {
     setShowNavBar(!showNavBar);
   };
 
-  const handleSignOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
-    dispatch(setIsLoggedIn(false));
-    toast.success("Successfully signed out");
+  const handleSignOut = async () => {
+    try {
+      const response = await logout();
+
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+        navigate("/");
+        dispatch(setIsLoggedIn(false));
+        toast.success("Signed out");
+      } else {
+        toast.error("Can't signed out at the moment");
+      }
+    } catch (e) {
+      console.error("Error during sign out:", e);
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
   };
 
   useEffect(() => {

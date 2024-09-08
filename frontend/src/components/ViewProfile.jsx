@@ -7,6 +7,7 @@ import { BASE_URL } from "../constant/constant";
 import AVATAR from "../assets/Avatar.png";
 import { useDispatch } from "react-redux";
 import { setIsLoggedIn } from "../utils/storeSlices/userSlice";
+import { logout } from "../api/validate";
 
 const ViewProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -69,9 +70,9 @@ const ViewProfile = () => {
         if (response.ok) {
           localStorage.removeItem("token");
           localStorage.removeItem("email");
-          dispatch(setIsLoggedIn(false));
           toast.success(json.message);
           navigate("/");
+          dispatch(setIsLoggedIn(false));        
         } else {
           toast.error(json.message);
         }
@@ -82,11 +83,22 @@ const ViewProfile = () => {
     deleteAccount();
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
-      dispatch(setIsLoggedIn(false));
-    navigate("/");
+  const handleSignOut = async () => {
+    try {
+      const response = await logout();
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+        dispatch(setIsLoggedIn(false));
+        toast.success("Signed out");
+        navigate("/");
+      } else {
+        toast.error("Can't signed out at the moment");
+      }
+    } catch (e) {
+      console.error("Error during sign out:", e);
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -154,7 +166,7 @@ const ViewProfile = () => {
       <aside className="w-1/4 bg-white p-4 shadow-md">
         <nav className="flex flex-col space-y-4 font-roboto font-semibold">
           <div className="text-blue-600">Profile</div>
-          <div className="cursor-pointer" onClick={handleLogout}>
+          <div className="cursor-pointer" onClick={handleSignOut}>
             Logout
           </div>
           <div

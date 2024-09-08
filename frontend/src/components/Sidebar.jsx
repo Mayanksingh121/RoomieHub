@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaXmark, FaPlus } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getUser, updateUserProfile } from "../api/user";
 import { RxAvatar } from "react-icons/rx";
 import { GoChecklist } from "react-icons/go";
@@ -17,6 +17,7 @@ import AVATAR from "../assets/Avatar.png";
 const SideBar = ({ handleNavBar }) => {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const userDetails = localStorage.getItem("email");
 
@@ -42,12 +43,24 @@ const SideBar = ({ handleNavBar }) => {
   };
 
   const handleSignOut = async () => {
-    handleNavBar();
-    await logout();
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
-    dispatch(setIsLoggedIn(false));
-    toast.success("Successfully signed out");
+    try {
+      handleNavBar();
+
+      const response = await logout();
+
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+        dispatch(setIsLoggedIn(false));
+        navigate("/");
+        toast.success("Signed out");
+      } else {
+        toast.error("Can't signed out at the moment");
+      }
+    } catch (e) {
+      console.error("Error during sign out:", e);
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
   };
 
   const handleUploadPhoto = async () => {
@@ -155,7 +168,7 @@ const SideBar = ({ handleNavBar }) => {
             </Link>
             <div
               onClick={handleSignOut}
-              className="flex  gap-3 items-center px-3 py-2 rounded-lg hover:bg-[#007aff] hover:text-white"
+              className="flex cursor-pointer  gap-3 items-center px-3 py-2 rounded-lg hover:bg-[#007aff] hover:text-white"
             >
               <LiaSignOutAltSolid className="text-2xl" />
               <p>Sign Out</p>

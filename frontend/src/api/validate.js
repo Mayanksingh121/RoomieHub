@@ -96,15 +96,12 @@ export const getOTP = async () => {
   }
 };
 
-
-
-
 export const logout = async () => {
   try {
     const response = await fetch(`${BASE_URL}/logout`);
-    const data=response.json();
-    return data;
+    return response;
   } catch (error) {
-
+    console.error("Error during logout:", error);
+    throw error;
   }
-}
+};
